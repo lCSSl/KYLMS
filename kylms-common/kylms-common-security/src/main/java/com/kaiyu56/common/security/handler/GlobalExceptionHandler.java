@@ -15,8 +15,8 @@ import com.kaiyu56.common.core.web.domain.AjaxResult;
 
 /**
  * 全局异常处理器
- * 
- * @author ruoyi
+ *
+ * @author css
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler
@@ -73,7 +73,7 @@ public class GlobalExceptionHandler
         String message = e.getBindingResult().getFieldError().getDefaultMessage();
         return AjaxResult.error(message);
     }
-    
+
     /**
      * 权限异常
      */
@@ -82,7 +82,7 @@ public class GlobalExceptionHandler
     {
         return AjaxResult.error("没有权限，请联系管理员授权");
     }
-    
+
     /**
      * 演示模式异常
      */

@@ -11,7 +11,7 @@ import com.kaiyu56.gateway.handler.SentinelFallbackHandler;
 /**
  * 网关限流配置
  *
- * @author ruoyi
+ * @author css
  */
 @Configuration
 public class GatewayConfig {

@@ -2,8 +2,8 @@ package com.kaiyu56.common.core.exception;
 
 /**
  * 自定义异常
- * 
- * @author ruoyi
+ *
+ * @author css
  */
 public class CustomException extends RuntimeException
 {

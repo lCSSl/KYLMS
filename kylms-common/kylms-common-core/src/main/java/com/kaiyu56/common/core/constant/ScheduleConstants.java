@@ -2,8 +2,8 @@ package com.kaiyu56.common.core.constant;
 
 /**
  * 任务调度通用常量
- * 
- * @author ruoyi
+ *
+ * @author css
  */
 public class ScheduleConstants
 {

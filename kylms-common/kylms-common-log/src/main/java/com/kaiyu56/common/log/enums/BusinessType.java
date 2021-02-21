@@ -2,8 +2,8 @@ package com.kaiyu56.common.log.enums;
 
 /**
  * 业务操作类型
- * 
- * @author ruoyi
+ *
+ * @author css
  */
 public enum BusinessType
 {

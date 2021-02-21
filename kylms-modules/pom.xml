@@ -9,10 +9,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <modules>
-        <module>kylms-system</module>
-        <module>kylms-gen</module>
-        <module>kylms-job</module>
-        <module>kylms-file</module>
+        <module>kylms-modules-system</module>
+        <module>kylms-modules-gen</module>
+        <module>kylms-modules-job</module>
+        <module>kylms-modules-file</module>
     </modules>
 
     <artifactId>kylms-modules</artifactId>

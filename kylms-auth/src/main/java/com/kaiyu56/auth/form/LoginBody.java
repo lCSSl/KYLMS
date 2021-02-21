@@ -3,7 +3,7 @@ package com.kaiyu56.auth.form;
 /**
  * 用户登录对象
  * 
- * @author ruoyi
+ * @author css
  */
 public class LoginBody
 {

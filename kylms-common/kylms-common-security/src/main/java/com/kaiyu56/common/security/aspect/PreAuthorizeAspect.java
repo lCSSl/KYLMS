@@ -20,7 +20,7 @@ import com.kaiyu56.system.api.model.LoginUser;
 /**
  * 自定义权限实现
  * 
- * @author ruoyi
+ * @author css
  */
 @Aspect
 @Component

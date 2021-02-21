@@ -2,8 +2,8 @@ package com.kaiyu56.common.core.enums;
 
 /**
  * 用户状态
- * 
- * @author ruoyi
+ *
+ * @author css
  */
 public enum UserStatus
 {

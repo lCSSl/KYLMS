@@ -4,8 +4,8 @@ import com.kaiyu56.common.core.utils.StringUtils;
 
 /**
  * 分页数据
- * 
- * @author ruoyi
+ *
+ * @author css
  */
 public class PageDomain
 {

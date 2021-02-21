@@ -17,7 +17,7 @@ import com.kaiyu56.common.core.web.domain.BaseEntity;
 /**
  * 用户对象 sys_user
  * 
- * @author ruoyi
+ * @author css
  */
 public class SysUser extends BaseEntity
 {

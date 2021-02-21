@@ -15,7 +15,7 @@ import reactor.core.publisher.Mono;
 /**
  * 黑名单过滤器
  *
- * @author ruoyi
+ * @author css
  */
 @Component
 public class BlackListUrlFilter extends AbstractGatewayFilterFactory<BlackListUrlFilter.Config> {

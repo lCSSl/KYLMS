@@ -21,7 +21,7 @@ import com.kaiyu56.gateway.service.ValidateCodeService;
 /**
  * 验证码实现处理
  *
- * @author ruoyi
+ * @author css
  */
 @Service
 public class ValidateCodeServiceImpl implements ValidateCodeService

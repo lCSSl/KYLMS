@@ -3,7 +3,7 @@ package com.kaiyu56.common.core.constant;
 /**
  * 服务名称
  * 
- * @author ruoyi
+ * @author css
  */
 public class ServiceNameConstants
 {

@@ -10,8 +10,8 @@ import feign.hystrix.FallbackFactory;
 
 /**
  * 日志服务降级处理
- * 
- * @author ruoyi
+ *
+ * @author css
  */
 @Component
 public class RemoteLogFallbackFactory implements FallbackFactory<RemoteLogService>

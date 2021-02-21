@@ -2,8 +2,8 @@ package com.kaiyu56.common.log.enums;
 
 /**
  * 操作人类别
- * 
- * @author ruoyi
+ *
+ * @author css
  */
 public enum OperatorType
 {

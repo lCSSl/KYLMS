@@ -4,8 +4,8 @@ import com.kaiyu56.common.core.exception.BaseException;
 
 /**
  * 文件信息异常类
- * 
- * @author ruoyi
+ *
+ * @author css
  */
 public class FileException extends BaseException
 {

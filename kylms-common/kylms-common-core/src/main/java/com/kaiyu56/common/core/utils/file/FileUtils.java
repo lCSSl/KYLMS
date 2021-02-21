@@ -16,7 +16,7 @@ import com.kaiyu56.common.core.utils.StringUtils;
 /**
  * 文件处理工具类
  * 
- * @author ruoyi
+ * @author css
  */
 public class FileUtils extends org.apache.commons.io.FileUtils
 {
