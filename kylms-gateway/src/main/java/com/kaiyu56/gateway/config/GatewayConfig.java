@@ -10,23 +10,20 @@ import com.kaiyu56.gateway.handler.SentinelFallbackHandler;
 
 /**
  * 网关限流配置
- * 
+ *
  * @author ruoyi
  */
 @Configuration
-public class GatewayConfig
-{
+public class GatewayConfig {
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
-    public SentinelFallbackHandler sentinelGatewayExceptionHandler()
-    {
+    public SentinelFallbackHandler sentinelGatewayExceptionHandler() {
         return new SentinelFallbackHandler();
     }
 
     @Bean
     @Order(-1)
-    public GlobalFilter sentinelGatewayFilter()
-    {
+    public GlobalFilter sentinelGatewayFilter() {
         return new SentinelGatewayFilter();
     }
 }
