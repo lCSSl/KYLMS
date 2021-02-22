@@ -13,6 +13,7 @@
         <module>kylms-modules-gen</module>
         <module>kylms-modules-job</module>
         <module>kylms-modules-file</module>
+        <module>kylms-modules-test</module>
     </modules>
 
     <artifactId>kylms-modules</artifactId>
