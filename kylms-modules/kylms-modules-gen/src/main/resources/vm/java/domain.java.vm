@@ -57,8 +57,9 @@ private static final long serialVersionUID=1L;
             #else
             @TableField(value = "${columnName}")
             #end
-        if($column.javaType =='Long')
-        @JsonSerialize(using = ToStringSerializer.class)
+            #if($column.javaType == 'Long')
+            @JsonSerialize(using = ToStringSerializer.class)
+            #end
         #end
     #end
 private $column.javaType $column.javaField;
