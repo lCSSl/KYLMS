@@ -37,7 +37,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 #set($AttrName=$column.javaField.substring(0,1).toUpperCase() + ${column.javaField.substring(1)})
 #if($column.query)
 #if($column.queryType == "EQ")
-            <if test="$javaField != null #if($javaType == 'String' ) and $javaField.trim() != ''#end"> and $columnName = #{$javaField}</if>
+    #if($columnName == 'del_flag')
+        and $columnName = 0
+    #else
+        <if test="$javaField != null #if($javaType == 'String' ) and $javaField.trim() != ''#end"> and $columnName = #{$javaField}</if>
+    #end
+
 #elseif($queryType == "NE")
             <if test="$javaField != null #if($javaType == 'String' ) and $javaField.trim() != ''#end"> and $columnName != #{$javaField}</if>
 #elseif($queryType == "GT")
@@ -55,6 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 #end
 #end
 #end
+
         </where>
     </select>
 

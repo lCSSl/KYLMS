@@ -29,8 +29,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
  */
 @Service
 public class ${ClassName}ServiceImpl extends ServiceImpl<${ClassName}Mapper, ${ClassName}> implements I${ClassName}Service {
-    @Autowired
-    private ${ClassName}Mapper ${className}Mapper;
 
     /**
      * 查询${functionName}
@@ -40,7 +38,7 @@ public class ${ClassName}ServiceImpl extends ServiceImpl<${ClassName}Mapper, ${C
      */
     @Override
     public ${ClassName} select${ClassName}ById(${pkColumn.javaType} ${pkColumn.javaField}) {
-        return ${className}Mapper.select${ClassName}ById(${pkColumn.javaField});
+        return baseMapper.select${ClassName}ById(${pkColumn.javaField});
     }
 
     /**
@@ -51,7 +49,7 @@ public class ${ClassName}ServiceImpl extends ServiceImpl<${ClassName}Mapper, ${C
      */
     @Override
     public List<${ClassName}> select${ClassName}List(${ClassName} ${className}) {
-        return ${className}Mapper.select${ClassName}List(${className});
+        return baseMapper.select${ClassName}List(${className});
     }
 
     #if($table.sub)

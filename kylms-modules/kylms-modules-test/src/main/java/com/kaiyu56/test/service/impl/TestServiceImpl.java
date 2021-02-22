@@ -18,6 +18,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
  */
 @Service
 public class TestServiceImpl extends ServiceImpl<TestMapper, Test> implements ITestService {
+
     /**
      * 查询测试
      *
@@ -39,4 +40,5 @@ public class TestServiceImpl extends ServiceImpl<TestMapper, Test> implements IT
     public List<Test> selectTestList(Test test) {
         return baseMapper.selectTestList(test);
     }
+
 }

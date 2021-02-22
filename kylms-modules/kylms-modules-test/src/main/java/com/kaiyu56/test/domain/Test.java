@@ -1,14 +1,15 @@
 package com.kaiyu56.test.domain;
 
-import com.baomidou.mybatisplus.annotation.*;
 import com.kaiyu56.common.core.annotation.Excel;
 import com.kaiyu56.common.core.web.domain.BaseEntity;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.baomidou.mybatisplus.annotation.*;
 
 /**
  * 测试对象 test
@@ -23,7 +24,6 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 public class Test extends BaseEntity {
     private static final long serialVersionUID = 1L;
-
     /**
      * ID
      */
