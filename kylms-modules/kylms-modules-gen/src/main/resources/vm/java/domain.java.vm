@@ -11,6 +11,9 @@ import ${basePackage}.common.core.annotation.Excel;
     #end
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 /**
  * ${functionName}对象 ${tableName}
  *
@@ -48,21 +51,21 @@ private static final long serialVersionUID=1L;
             #else
             @Excel(name = "${comment}")
             #end
-            ## 判断是否是主键
-            #if($column.isPk == 1)
-            @TableId(value = "${columnName}", type = IdType.AUTO)
-            #elseif($columnName == $deleteFlag)
-            @TableLogic
-            @TableField(value = "${columnName}")
-            #else
-            @TableField(value = "${columnName}")
-            #end
-            #if($column.javaType == 'Long')
-            @JsonSerialize(using = ToStringSerializer.class)
-            #end
         #end
+        ## 判断是否是主键
+        #if($column.isPk == 1)
+        @TableId(value = "${columnName}", type = IdType.AUTO)
+        #elseif($columnName == $deleteFlag)
+        @TableLogic
+        @TableField(value = "${columnName}")
+        #else
+        @TableField(value = "${columnName}")
+        #end
+        #if($column.javaType == 'Long')
+        @JsonSerialize(using = ToStringSerializer.class)
+        #end
+    private $column.javaType $column.javaField;
     #end
-private $column.javaType $column.javaField;
 #end
 #if($table.sub)
 /** $table.subTable.functionName信息 */
