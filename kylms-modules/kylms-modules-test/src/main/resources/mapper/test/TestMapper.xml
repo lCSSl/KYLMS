@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kaiyu56.test.mapper.TestMapper">
-    
+
     <resultMap type="Test" id="TestResult">
         <result property="id"    column="id"    />
         <result property="title"    column="title"    />
@@ -22,7 +22,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectTestList" parameterType="Test" resultMap="TestResult">
         <include refid="selectTestVo"/>
-        <where>  
+        <where>
             <if test="title != null  and title != ''"> and title like concat('%', #{title}, '%')</if>
             <if test="parentId != null "> and parent_id = #{parentId}</if>
             <if test="delFlag != null  and delFlag != ''"> and del_flag = #{delFlag}</if>
@@ -32,59 +32,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="params.beginUpdateTime != null and params.beginUpdateTime != '' and params.endUpdateTime != null and params.endUpdateTime != ''"> and update_time between #{params.beginUpdateTime} and #{params.endUpdateTime}</if>
         </where>
     </select>
-    
+
     <select id="selectTestById" parameterType="Long" resultMap="TestResult">
         <include refid="selectTestVo"/>
         where id = #{id}
     </select>
-        
-    <insert id="insertTest" parameterType="Test" useGeneratedKeys="true" keyProperty="id">
-        insert into test
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="title != null and title != ''">title,</if>
-            <if test="parentId != null">parent_id,</if>
-            <if test="delFlag != null">del_flag,</if>
-            <if test="createBy != null">create_by,</if>
-            <if test="createTime != null">create_time,</if>
-            <if test="updateBy != null">update_by,</if>
-            <if test="updateTime != null">update_time,</if>
-            <if test="remark != null">remark,</if>
-         </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="title != null and title != ''">#{title},</if>
-            <if test="parentId != null">#{parentId},</if>
-            <if test="delFlag != null">#{delFlag},</if>
-            <if test="createBy != null">#{createBy},</if>
-            <if test="createTime != null">#{createTime},</if>
-            <if test="updateBy != null">#{updateBy},</if>
-            <if test="updateTime != null">#{updateTime},</if>
-            <if test="remark != null">#{remark},</if>
-         </trim>
-    </insert>
 
-    <update id="updateTest" parameterType="Test">
-        update test
-        <trim prefix="SET" suffixOverrides=",">
-            <if test="title != null and title != ''">title = #{title},</if>
-            <if test="parentId != null">parent_id = #{parentId},</if>
-            <if test="delFlag != null">del_flag = #{delFlag},</if>
-            <if test="createBy != null">create_by = #{createBy},</if>
-            <if test="createTime != null">create_time = #{createTime},</if>
-            <if test="updateBy != null">update_by = #{updateBy},</if>
-            <if test="updateTime != null">update_time = #{updateTime},</if>
-            <if test="remark != null">remark = #{remark},</if>
-        </trim>
-        where id = #{id}
-    </update>
-
-    <delete id="deleteTestById" parameterType="Long">
-        delete from test where id = #{id}
-    </delete>
-
-    <delete id="deleteTestByIds" parameterType="String">
-        delete from test where id in 
-        <foreach item="id" collection="array" open="(" separator="," close=")">
-            #{id}
-        </foreach>
-    </delete>
 </mapper>

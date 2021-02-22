@@ -12,19 +12,19 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @date ${datetime}
  */
 public interface I${ClassName}Service extends IService<${ClassName}> {
-/**
- * 查询${functionName}
- *
- * @param ${pkColumn.javaField} ${functionName}ID
- * @return ${functionName}
- */
-public ${ClassName} select${ClassName}ById(${pkColumn.javaType} ${pkColumn.javaField});
+    /**
+     * 查询${functionName}
+     *
+     * @param ${pkColumn.javaField} ${functionName}ID
+     * @return ${functionName}
+     */
+    public ${ClassName} select${ClassName}ById(${pkColumn.javaType} ${pkColumn.javaField});
 
-/**
- * 查询${functionName}列表
- *
- * @param ${className} ${functionName}
- * @return ${functionName}集合
- */
-public List<${ClassName}> select${ClassName}List(${ClassName} ${className});
+    /**
+     * 查询${functionName}列表
+     *
+     * @param ${className} ${functionName}
+     * @return ${functionName}集合
+     */
+    public List<${ClassName}> select${ClassName}List(${ClassName} ${className});
 }

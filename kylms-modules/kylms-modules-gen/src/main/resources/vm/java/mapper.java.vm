@@ -34,29 +34,29 @@ public interface ${ClassName}Mapper extends BaseMapper<${ClassName}> {
 
     #if($table.sub)
 
-        /**
-         * 批量删除${subTable.functionName}
-         *
-         * @param customerIds 需要删除的数据ID
-         * @return 结果
-         */
-        public int delete${subClassName}By${subTableFkClassName}s(${pkColumn.javaType}[] ${pkColumn.javaField}s);
+    /**
+     * 批量删除${subTable.functionName}
+     *
+     * @param customerIds 需要删除的数据ID
+     * @return 结果
+     */
+    public int delete${subClassName}By${subTableFkClassName}s(${pkColumn.javaType}[] ${pkColumn.javaField}s);
 
-        /**
-         * 批量新增${subTable.functionName}
-         *
-         * @param ${subclassName}List ${subTable.functionName}列表
-         * @return 结果
-         */
-        public int batch${subClassName}(List<${subClassName}> ${subclassName}List);
+    /**
+     * 批量新增${subTable.functionName}
+     *
+     * @param ${subclassName}List ${subTable.functionName}列表
+     * @return 结果
+     */
+    public int batch${subClassName}(List<${subClassName}> ${subclassName}List);
 
 
-        /**
-         * 通过${functionName}ID删除${subTable.functionName}信息
-         *
-         * @param roleId 角色ID
-         * @return 结果
-         */
-        public int delete${subClassName}By${subTableFkClassName}(${pkColumn.javaType} ${pkColumn.javaField});
+    /**
+     * 通过${functionName}ID删除${subTable.functionName}信息
+     *
+     * @param roleId 角色ID
+     * @return 结果
+     */
+    public int delete${subClassName}By${subTableFkClassName}(${pkColumn.javaType} ${pkColumn.javaField});
     #end
 }

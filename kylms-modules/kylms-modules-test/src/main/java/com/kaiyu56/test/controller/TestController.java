@@ -4,8 +4,6 @@ import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,11 +13,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.kaiyu56.test.domain.Test;
+import com.kaiyu56.test.service.ITestService;
 import com.kaiyu56.common.log.annotation.Log;
 import com.kaiyu56.common.log.enums.BusinessType;
 import com.kaiyu56.common.security.annotation.PreAuthorize;
-import com.kaiyu56.test.domain.Test;
-import com.kaiyu56.test.service.ITestService;
 import com.kaiyu56.common.core.web.controller.BaseController;
 import com.kaiyu56.common.core.web.domain.AjaxResult;
 import com.kaiyu56.common.core.utils.poi.ExcelUtil;
@@ -44,10 +42,7 @@ public class TestController extends BaseController {
     @GetMapping("/list")
     public TableDataInfo list(Test test) {
         startPage();
-        List<Test> list = testService.list(
-                new LambdaQueryWrapper<Test>()
-                        .like(StringUtils.checkValNotNull(test.getTitle()), Test::getTitle, test.getTitle())
-        );
+        List<Test> list = testService.selectTestList(test);
         return getDataTable(list);
     }
 
@@ -79,7 +74,7 @@ public class TestController extends BaseController {
     @Log(title = "测试", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody Test test) {
-        return toAjax(testService.save(test)?1:0);
+        return toAjax(testService.save(test) ? 1 : 0);
     }
 
     /**
@@ -89,7 +84,7 @@ public class TestController extends BaseController {
     @Log(title = "测试", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody Test test) {
-        return toAjax(testService.saveOrUpdate(test)?1:0);
+        return toAjax(testService.saveOrUpdate(test) ? 1 : 0);
     }
 
     /**
@@ -98,7 +93,7 @@ public class TestController extends BaseController {
     @PreAuthorize(hasPermi = "test:test:remove")
     @Log(title = "测试", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable("ids") List<Long> ids) {
-        return toAjax(testService.removeByIds(ids)?1:0);
+    public AjaxResult remove(@PathVariable List<Long> ids) {
+        return toAjax(testService.removeByIds(ids) ? 1 : 0);
     }
 }

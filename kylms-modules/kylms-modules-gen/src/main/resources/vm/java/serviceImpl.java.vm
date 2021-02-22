@@ -56,25 +56,25 @@ public class ${ClassName}ServiceImpl extends ServiceImpl<${ClassName}Mapper, ${C
 
     #if($table.sub)
 
-        /**
-         * 新增${subTable.functionName}信息
-         *
-         * @param ${className} ${functionName}对象
-         */
-        public void insert${subClassName}(${ClassName} ${className}) {
-            List<${subClassName}> ${subclassName}List = ${className}.get${subClassName}List();
-            Long ${pkColumn.javaField} = ${className}.get${pkColumn.capJavaField}();
-            if (StringUtils.isNotNull(${subclassName}List)) {
-                List<${subClassName}> list = new ArrayList<${subClassName}>();
-                for (${subClassName} ${subclassName} :${subclassName}List)
-                {
-                    ${subclassName}.set${subTableFkClassName}(${pkColumn.javaField});
-                    list.add(${subclassName});
-                }
-                if (list.size() > 0) {
-                        ${className}Mapper.batch${subClassName}(list);
-                }
+    /**
+     * 新增${subTable.functionName}信息
+     *
+     * @param ${className} ${functionName}对象
+     */
+    public void insert${subClassName}(${ClassName} ${className}) {
+        List<${subClassName}> ${subclassName}List = ${className}.get${subClassName}List();
+        Long ${pkColumn.javaField} = ${className}.get${pkColumn.capJavaField}();
+        if (StringUtils.isNotNull(${subclassName}List)) {
+            List<${subClassName}> list = new ArrayList<${subClassName}>();
+            for (${subClassName} ${subclassName} :${subclassName}List)
+            {
+                ${subclassName}.set${subTableFkClassName}(${pkColumn.javaField});
+                list.add(${subclassName});
+            }
+            if (list.size() > 0) {
+                    ${className}Mapper.batch${subClassName}(list);
             }
         }
+    }
     #end
 }

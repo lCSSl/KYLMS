@@ -41,8 +41,8 @@ public class ${ClassName}Controller extends BaseController {
 /**
  * 查询${functionName}列表
  */
-@PreAuthorize(hasPermi = "${permissionPrefix}:list")
-@GetMapping("/list")
+    @PreAuthorize(hasPermi = "${permissionPrefix}:list")
+    @GetMapping("/list")
     #if($table.crud || $table.sub)
     public TableDataInfo list(${ClassName} ${className}) {
         startPage();
@@ -50,10 +50,10 @@ public class ${ClassName}Controller extends BaseController {
         return getDataTable(list);
     }
     #elseif($table.tree)
-        public AjaxResult list(${ClassName} ${className}) {
-            List<${ClassName}> list = ${className}Service.select${ClassName}List(${className});
-            return AjaxResult.success(list);
-        }
+    public AjaxResult list(${ClassName} ${className}) {
+        List<${ClassName}> list = ${className}Service.select${ClassName}List(${className});
+        return AjaxResult.success(list);
+    }
     #end
 
     /**

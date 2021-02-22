@@ -1,15 +1,10 @@
 package com.kaiyu56.test.domain;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+import com.kaiyu56.common.core.annotation.Excel;
+import com.kaiyu56.common.core.web.domain.BaseEntity;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.kaiyu56.common.core.annotation.Excel;
-import com.kaiyu56.common.core.annotation.Excel.ColumnType;
-import com.kaiyu56.common.core.annotation.Excel.Type;
-import com.kaiyu56.common.core.web.domain.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -33,27 +28,25 @@ public class Test extends BaseEntity {
      * ID
      */
     @TableId(value = "id", type = IdType.AUTO)
-    @Excel(name = "用户序号", cellType = ColumnType.NUMERIC, prompt = "用户编号")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
-
     /**
      * 标题
      */
     @Excel(name = "标题")
     @TableField(value = "title")
     private String title;
-
     /**
      * 父级ID
      */
     @Excel(name = "父级ID")
+    @TableField(value = "parent_id")
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long parentId;
-
     /**
      * 删除标志（0代表存在 2代表删除）
      */
+    @TableLogic
+    @TableField(value = "del_flag")
     private String delFlag;
-
 }
-
