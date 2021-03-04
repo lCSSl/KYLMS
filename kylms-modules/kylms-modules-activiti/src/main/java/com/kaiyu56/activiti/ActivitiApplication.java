@@ -16,9 +16,9 @@ import org.springframework.cloud.client.SpringCloudApplication;
 @EnableCustomSwagger2
 @EnableRyFeignClients
 @SpringCloudApplication
-public class ActivityApplication {
+public class ActivitiApplication {
     public static void main(String[] args) {
-        SpringApplication app = new SpringApplication(ActivityApplication.class);
+        SpringApplication app = new SpringApplication(ActivitiApplication.class);
         app.setBannerMode(Banner.Mode.CONSOLE);
         app.run(args);
     }

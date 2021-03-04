@@ -2,11 +2,10 @@ package com.kaiyu56.common.core.constant;
 
 /**
  * 通用常量信息
- * 
+ *
  * @author css
  */
-public class Constants
-{
+public class Constants {
     /**
      * UTF-8 字符集
      */

@@ -16,8 +16,7 @@ import com.kaiyu56.system.api.factory.RemoteFileFallbackFactory;
  * @author css
  */
 @FeignClient(contextId = "remoteFileService", value = ServiceNameConstants.FILE_SERVICE, fallbackFactory = RemoteFileFallbackFactory.class)
-public interface RemoteFileService
-{
+public interface RemoteFileService {
     /**
      * 上传文件
      *

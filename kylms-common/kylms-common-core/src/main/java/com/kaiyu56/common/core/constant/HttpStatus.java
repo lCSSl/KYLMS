@@ -5,8 +5,7 @@ package com.kaiyu56.common.core.constant;
  *
  * @author css
  */
-public class HttpStatus
-{
+public class HttpStatus {
     /**
      * 操作成功
      */

@@ -5,8 +5,7 @@ package com.kaiyu56.common.core.constant;
  *
  * @author css
  */
-public class CacheConstants
-{
+public class CacheConstants {
     /**
      * 令牌自定义标识
      */

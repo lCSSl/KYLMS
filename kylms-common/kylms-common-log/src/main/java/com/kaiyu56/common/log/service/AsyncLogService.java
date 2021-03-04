@@ -12,8 +12,7 @@ import com.kaiyu56.system.api.domain.SysOperLog;
  * @author css
  */
 @Service
-public class AsyncLogService
-{
+public class AsyncLogService {
     @Autowired
     private RemoteLogService remoteLogService;
 
@@ -21,8 +20,7 @@ public class AsyncLogService
      * 保存系统日志记录
      */
     @Async
-    public void saveSysLog(SysOperLog sysOperLog)
-    {
+    public void saveSysLog(SysOperLog sysOperLog) {
         remoteLogService.saveLog(sysOperLog);
     }
 }

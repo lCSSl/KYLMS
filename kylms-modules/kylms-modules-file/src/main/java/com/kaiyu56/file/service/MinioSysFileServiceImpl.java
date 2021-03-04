@@ -14,8 +14,7 @@ import io.minio.PutObjectArgs;
  * @author css
  */
 @Service
-public class MinioSysFileServiceImpl implements ISysFileService
-{
+public class MinioSysFileServiceImpl implements ISysFileService {
     @Autowired
     private MinioConfig minioConfig;
 
@@ -29,8 +28,7 @@ public class MinioSysFileServiceImpl implements ISysFileService
      * @return 访问地址
      * @throws Exception
      */
-    public String uploadFile(MultipartFile file) throws Exception
-    {
+    public String uploadFile(MultipartFile file) throws Exception {
         String fileName = FileUploadUtils.extractFilename(file);
         PutObjectArgs args = PutObjectArgs.builder()
                 .bucket(minioConfig.getBucketName())

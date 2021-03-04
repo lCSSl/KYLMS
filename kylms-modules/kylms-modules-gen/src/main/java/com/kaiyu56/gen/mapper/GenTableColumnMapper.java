@@ -1,6 +1,7 @@
 package com.kaiyu56.gen.mapper;
 
 import java.util.List;
+
 import com.kaiyu56.gen.domain.GenTableColumn;
 
 /**
@@ -8,8 +9,7 @@ import com.kaiyu56.gen.domain.GenTableColumn;
  *
  * @author css
  */
-public interface GenTableColumnMapper
-{
+public interface GenTableColumnMapper {
     /**
      * 根据表名称查询列信息
      *

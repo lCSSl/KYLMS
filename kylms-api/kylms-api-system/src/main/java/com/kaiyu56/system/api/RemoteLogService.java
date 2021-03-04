@@ -15,8 +15,7 @@ import com.kaiyu56.system.api.factory.RemoteLogFallbackFactory;
  * @author css
  */
 @FeignClient(contextId = "remoteLogService", value = ServiceNameConstants.SYSTEM_SERVICE, fallbackFactory = RemoteLogFallbackFactory.class)
-public interface RemoteLogService
-{
+public interface RemoteLogService {
     /**
      * 保存系统日志
      *
@@ -30,11 +29,11 @@ public interface RemoteLogService
      * 保存访问记录
      *
      * @param username 用户名称
-     * @param status 状态
-     * @param message 消息
+     * @param status   状态
+     * @param message  消息
      * @return 结果
      */
     @PostMapping("/logininfor")
     R<Boolean> saveLogininfor(@RequestParam("username") String username, @RequestParam("status") String status,
-            @RequestParam("message") String message);
+                              @RequestParam("message") String message);
 }

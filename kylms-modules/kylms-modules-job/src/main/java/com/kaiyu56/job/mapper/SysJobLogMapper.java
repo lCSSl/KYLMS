@@ -1,6 +1,7 @@
 package com.kaiyu56.job.mapper;
 
 import java.util.List;
+
 import com.kaiyu56.job.domain.SysJobLog;
 
 /**
@@ -8,8 +9,7 @@ import com.kaiyu56.job.domain.SysJobLog;
  *
  * @author css
  */
-public interface SysJobLogMapper
-{
+public interface SysJobLogMapper {
     /**
      * 获取quartz调度器日志的计划任务
      *

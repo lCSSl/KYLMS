@@ -5,11 +5,8 @@ package com.kaiyu56.common.core.exception;
  *
  * @author css
  */
-public class PreAuthorizeException extends RuntimeException
-{
+public class PreAuthorizeException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
-    public PreAuthorizeException()
-    {
-    }
+    public PreAuthorizeException() { }
 }

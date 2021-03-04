@@ -2,6 +2,7 @@ package com.kaiyu56.gen.service;
 
 import java.util.List;
 import java.util.Map;
+
 import com.kaiyu56.gen.domain.GenTable;
 
 /**
@@ -9,8 +10,7 @@ import com.kaiyu56.gen.domain.GenTable;
  *
  * @author css
  */
-public interface IGenTableService
-{
+public interface IGenTableService {
     /**
      * 查询业务列表
      *

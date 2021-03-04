@@ -12,10 +12,8 @@ import com.kaiyu56.common.security.annotation.EnableRyFeignClients;
  */
 @EnableRyFeignClients
 @SpringCloudApplication
-public class AuthApplication
-{
-    public static void main(String[] args)
-    {
+public class AuthApplication {
+    public static void main(String[] args) {
         SpringApplication app = new SpringApplication(AuthApplication.class);
         app.setBannerMode(Banner.Mode.CONSOLE);
         app.run(args);

@@ -15,10 +15,8 @@ import com.kaiyu56.common.swagger.annotation.EnableCustomSwagger2;
 @EnableCustomSwagger2
 @EnableRyFeignClients
 @SpringCloudApplication
-public class JobApplication
-{
-    public static void main(String[] args)
-    {
+public class JobApplication {
+    public static void main(String[] args) {
         SpringApplication.run(JobApplication.class, args);
     }
 }

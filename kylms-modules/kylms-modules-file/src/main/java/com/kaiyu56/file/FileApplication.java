@@ -13,11 +13,9 @@ import com.kaiyu56.common.swagger.annotation.EnableCustomSwagger2;
  */
 @EnableCustomSwagger2
 @EnableDiscoveryClient
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
-public class FileApplication
-{
-    public static void main(String[] args)
-    {
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+public class FileApplication {
+    public static void main(String[] args) {
         SpringApplication.run(FileApplication.class, args);
     }
 }

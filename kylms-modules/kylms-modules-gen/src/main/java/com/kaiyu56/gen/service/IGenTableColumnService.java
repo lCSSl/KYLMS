@@ -1,6 +1,7 @@
 package com.kaiyu56.gen.service;
 
 import java.util.List;
+
 import com.kaiyu56.gen.domain.GenTableColumn;
 
 /**
@@ -8,8 +9,7 @@ import com.kaiyu56.gen.domain.GenTableColumn;
  *
  * @author css
  */
-public interface IGenTableColumnService
-{
+public interface IGenTableColumnService {
     /**
      * 查询业务字段列表
      *
