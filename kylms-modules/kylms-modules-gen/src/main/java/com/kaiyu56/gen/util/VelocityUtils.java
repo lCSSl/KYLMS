@@ -3,6 +3,8 @@ package com.kaiyu56.gen.util;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
+
 import org.apache.velocity.VelocityContext;
 import com.alibaba.fastjson.JSONObject;
 import com.kaiyu56.common.core.constant.GenConstants;
@@ -39,6 +41,7 @@ public class VelocityUtils
         String packageName = genTable.getPackageName();
         String tplCategory = genTable.getTplCategory();
         String functionName = genTable.getFunctionName();
+        int randomServerPort = new Random().nextInt(65500 - 1024 + 1) + 1024;
 
         VelocityContext velocityContext = new VelocityContext();
         velocityContext.put("tplCategory", genTable.getTplCategory());
@@ -58,6 +61,8 @@ public class VelocityUtils
         velocityContext.put("permissionPrefix", getPermissionPrefix(moduleName, businessName));
         velocityContext.put("columns", genTable.getColumns());
         velocityContext.put("table", genTable);
+        velocityContext.put("randomServerPort", randomServerPort);
+
         setMenuVelocityContext(velocityContext, genTable);
         if (GenConstants.TPL_TREE.equals(tplCategory))
         {
@@ -127,12 +132,17 @@ public class VelocityUtils
     {
         List<String> templates = new ArrayList<String>();
         templates.add("vm/docker/Dockerfile.vm");
+        templates.add("vm/txt/banner.txt.vm");
+        templates.add("vm/yml/bootstrap.yml.vm");
+        templates.add("vm/yml/application.yml.vm");
+        templates.add("vm/java/application.java.vm");
         templates.add("vm/java/domain.java.vm");
         templates.add("vm/java/mapper.java.vm");
         templates.add("vm/java/service.java.vm");
         templates.add("vm/java/serviceImpl.java.vm");
         templates.add("vm/java/controller.java.vm");
         templates.add("vm/xml/mapper.xml.vm");
+        templates.add("vm/xml/pom.xml.vm");
         templates.add("vm/sql/sql.vm");
         templates.add("vm/js/api.js.vm");
         if (GenConstants.TPL_CRUD.equals(tplCategory))
@@ -172,7 +182,27 @@ public class VelocityUtils
         String vuePath = "vue";
         if (template.contains("Dockerfile.vm"))
         {
-            fileName = "docker/Dockerfile";
+            fileName = "main/docker/Dockerfile";
+        }
+        if (template.contains("banner.txt.vm"))
+        {
+            fileName = "main/resources/banner.txt";
+        }
+        if (template.contains("pom.xml.vm"))
+        {
+            fileName = "/pom.xml";
+        }
+        if (template.contains("bootstrap.yml.vm"))
+        {
+            fileName = "main/resources/bootstrap.yml";
+        }
+        if (template.contains("application.yml.vm"))
+        {
+            fileName = "main/resources/application.yml";
+        }
+        if (template.contains("application.java.vm"))
+        {
+            fileName = StringUtils.format("{}/{}Application.java", javaPath, className);
         }
         if (template.contains("domain.java.vm"))
         {

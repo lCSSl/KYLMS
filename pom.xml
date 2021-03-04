@@ -29,6 +29,7 @@
         <kaptcha.version>2.3.2</kaptcha.version>
         <pagehelper.boot.version>1.3.0</pagehelper.boot.version>
         <druid.version>1.2.4</druid.version>
+        <activiti.version>7.0.0.GA</activiti.version>
         <!--mybatis-plus持久层-->
         <mybatis-plus.version>3.4.2</mybatis-plus.version>
         <lombok.version>1.18.16</lombok.version>
@@ -40,7 +41,9 @@
         <minio.version>8.0.3</minio.version>
         <poi.version>4.1.2</poi.version>
         <common-pool.version>2.6.2</common-pool.version>
-        <docker-plugin.version>1.2.0</docker-plugin.version>
+        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
+        <docker-maven-plugin.version>1.2.2</docker-maven-plugin.version>
     </properties>
 
     <!-- 依赖声明 -->
@@ -235,6 +238,12 @@
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
             </dependency>
+            <!-- Workflow -->
+            <dependency>
+                <groupId>org.activiti</groupId>
+                <artifactId>activiti-spring-boot-starter</artifactId>
+                <version>${activiti.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -256,6 +265,11 @@
         <pluginManagement>
             <plugins>
                 <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                </plugin>
+                <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
                     <version>${spring-boot.version}</version>
@@ -271,15 +285,13 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <configuration>
-                        <skipTests>true</skipTests>
-                    </configuration>
+                    <version>${maven-surefire-plugin.version}</version>
                 </plugin>
                 <!--打包生成镜像上传服务器-->
                 <plugin>
                     <groupId>com.spotify</groupId>
                     <artifactId>docker-maven-plugin</artifactId>
-                    <version>${docker-plugin.version}</version>
+                    <version>${docker-maven-plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>

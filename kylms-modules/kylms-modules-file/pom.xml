@@ -16,63 +16,63 @@
     </description>
 
     <dependencies>
-    	
+
     	<!-- SpringCloud Ailibaba Nacos -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
-        
+
         <!-- SpringCloud Ailibaba Nacos Config -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
-        
+
         <!-- SpringCloud Ailibaba Sentinel -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
         </dependency>
-        
+
         <!-- SpringBoot Actuator -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-		
+
         <!-- Swagger -->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${swagger.fox.version}</version>
         </dependency>
-        
+
         <!-- FastDFS -->
         <dependency>
             <groupId>com.github.tobato</groupId>
             <artifactId>fastdfs-client</artifactId>
         </dependency>
-        
+
         <!-- Minio -->
         <dependency>
             <groupId>io.minio</groupId>
             <artifactId>minio</artifactId>
             <version>${minio.version}</version>
         </dependency>
-        
-        <!-- RuoYi Api System -->
+
+        <!--  Api System -->
         <dependency>
             <groupId>com.kaiyu56</groupId>
             <artifactId>kylms-api-system</artifactId>
         </dependency>
-        
-        <!-- RuoYi Common Swagger -->
+
+        <!--  Common Swagger -->
         <dependency>
             <groupId>com.kaiyu56</groupId>
             <artifactId>kylms-common-swagger</artifactId>
         </dependency>
-        
+
     </dependencies>
 
     <build>
@@ -91,5 +91,5 @@
             </plugin>
         </plugins>
     </build>
-   
+
 </project>

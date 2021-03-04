@@ -20,18 +20,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select id, title, parent_id, del_flag, create_by, create_time, update_by, update_time, remark from test
     </sql>
 
-    <select id="selectTestList" parameterType="Test" resultMap="TestResult">
+    <select id="selectTestList" parameterType="com.kaiyu56.test.domain.Test" resultMap="TestResult">
         <include refid="selectTestVo"/>
         <where>
             <if test="title != null  and title != ''"> and title like concat('%', #{title}, '%')</if>
             <if test="parentId != null "> and parent_id = #{parentId}</if>
-
+    
             and del_flag = 0
-
+    
             <if test="createBy != null  and createBy != ''"> and create_by like concat('%', #{createBy}, '%')</if>
             <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
             <if test="updateBy != null  and updateBy != ''"> and update_by = #{updateBy}</if>
-
+    
             <if test="params.beginUpdateTime != null and params.beginUpdateTime != '' and params.endUpdateTime != null and params.endUpdateTime != ''"> and update_time between #{params.beginUpdateTime} and #{params.endUpdateTime}</if>
 
         </where>

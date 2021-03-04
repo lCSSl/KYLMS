@@ -8,7 +8,7 @@
         <version>2.5.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    
+
     <artifactId>kylms-api-system</artifactId>
 
     <description>
@@ -16,13 +16,13 @@
     </description>
 
     <dependencies>
-		
-        <!-- RuoYi Common Core-->
+
+        <!--  Common Core-->
         <dependency>
             <groupId>com.kaiyu56</groupId>
             <artifactId>kylms-common-core</artifactId>
         </dependency>
-        
+
     </dependencies>
 
 </project>

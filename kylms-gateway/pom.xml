@@ -64,7 +64,7 @@
             <artifactId>kaptcha</artifactId>
         </dependency>
 
-        <!-- RuoYi Common Redis-->
+        <!--  Common Redis-->
         <dependency>
             <groupId>com.kaiyu56</groupId>
             <artifactId>kylms-common-redis</artifactId>
@@ -111,10 +111,9 @@
             <plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
-                <version>1.2.0</version>
                 <configuration>
                     <!-- Docker宿主机地址 -->
-                    <dockerHost>http://localhost:2376</dockerHost>
+                    <dockerHost>http://localhost:2375</dockerHost>
                     <!-- 镜像名字:版本号 -->
                     <imageName>${project.artifactId}:${project.version}</imageName>
                     <!-- true 会覆盖构建相同标签的镜像 -->

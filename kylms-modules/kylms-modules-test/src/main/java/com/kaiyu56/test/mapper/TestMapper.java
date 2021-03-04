@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * 测试Mapper接口
  *
  * @author css
- * @date 2021-02-22
+ * @date 2021-02-25
  */
 public interface TestMapper extends BaseMapper<Test> {
 

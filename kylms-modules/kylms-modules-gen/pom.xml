@@ -16,57 +16,57 @@
     </description>
 
     <dependencies>
-    	
+
     	<!-- SpringCloud Ailibaba Nacos -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
-        
+
         <!-- SpringCloud Ailibaba Nacos Config -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
-        
+
         <!-- SpringCloud Ailibaba Sentinel -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
         </dependency>
-        
+
         <!-- SpringBoot Actuator -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-		
+
         <!-- Swagger -->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${swagger.fox.version}</version>
         </dependency>
-        
+
         <!-- Apache Velocity -->
         <dependency>
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity</artifactId>
         </dependency>
-        
+
         <!-- Mysql Connector -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
-        
-        <!-- RuoYi Common Log -->
+
+        <!--  Common Log -->
         <dependency>
             <groupId>com.kaiyu56</groupId>
             <artifactId>kylms-common-log</artifactId>
         </dependency>
-        
-        <!-- RuoYi Common Swagger -->
+
+        <!--  Common Swagger -->
         <dependency>
             <groupId>com.kaiyu56</groupId>
             <artifactId>kylms-common-swagger</artifactId>
@@ -88,7 +88,40 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- 打包跳过单元测试 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+            <!--打包生成镜像上传服务器-->
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <configuration>
+                    <!-- Docker宿主机地址 -->
+                    <dockerHost>http://localhost:2375</dockerHost>
+                    <!-- 镜像名字:版本号 -->
+                    <imageName>${project.artifactId}:${project.version}</imageName>
+                    <!-- true 会覆盖构建相同标签的镜像 -->
+                    <forceTags>true</forceTags>
+                    <!--指定 Dockerfile 位置-->
+                    <dockerDirectory>src/main/docker</dockerDirectory>
+                    <!-- 将jar文件从target目录复制到镜像的根目录 -->
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <!--指定需要复制的根目录，下面表示target目录-->
+                            <directory>${project.build.directory}</directory>
+                            <!--指定需要复制的文件，下面指的是打包后的jar包文件-->
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-   
+
 </project>
