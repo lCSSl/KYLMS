@@ -191,7 +191,6 @@
                 <artifactId>kylms-common-swagger</artifactId>
                 <version>${kylms.version}</version>
             </dependency>
-
             <!-- 安全模块 -->
             <dependency>
                 <groupId>com.kaiyu56</groupId>
@@ -212,7 +211,12 @@
                 <artifactId>kylms-common-datasource</artifactId>
                 <version>${kylms.version}</version>
             </dependency>
-
+            <!-- sharding-jdbc 数据配置 -->
+            <dependency>
+                <groupId>com.kaiyu56</groupId>
+                <artifactId>kylms-common-sharding-jdbc</artifactId>
+                <version>${kylms.version}</version>
+            </dependency>
             <!-- 日志记录 -->
             <dependency>
                 <groupId>com.kaiyu56</groupId>
@@ -254,6 +258,8 @@
         <module>kylms-modules</module>
         <module>kylms-api</module>
         <module>kylms-common</module>
+        <module>kylms-modules/kylms-modules-dev</module>
+      <module>kylms-common/kylms-common-sharding-jdbc</module>
     </modules>
     <packaging>pom</packaging>
 

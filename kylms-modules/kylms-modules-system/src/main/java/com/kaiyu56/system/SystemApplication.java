@@ -4,7 +4,7 @@ import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
 import com.kaiyu56.common.security.annotation.EnableCustomConfig;
-import com.kaiyu56.common.security.annotation.EnableRyFeignClients;
+import com.kaiyu56.common.security.annotation.EnableBaseFeignClients;
 import com.kaiyu56.common.swagger.annotation.EnableCustomSwagger2;
 
 /**
@@ -14,7 +14,7 @@ import com.kaiyu56.common.swagger.annotation.EnableCustomSwagger2;
  */
 @EnableCustomConfig
 @EnableCustomSwagger2
-@EnableRyFeignClients
+@EnableBaseFeignClients
 @SpringCloudApplication
 public class SystemApplication
 {

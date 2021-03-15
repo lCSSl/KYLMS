@@ -75,9 +75,16 @@
             <groupId>com.kaiyu56</groupId>
             <artifactId>kylms-common-swagger</artifactId>
         </dependency>
-
+        <dependency>
+        <groupId>org.apache.shardingsphere</groupId>
+        <artifactId>sharding-jdbc-spring-boot-starter</artifactId>
+        <version>4.1.1</version>
+    </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
     </dependencies>
-
     <build>
         <finalName>${project.artifactId}</finalName>
         <plugins>
@@ -106,7 +113,7 @@
                 <artifactId>docker-maven-plugin</artifactId>
                 <configuration>
                     <!-- Docker宿主机地址 -->
-                    <dockerHost>http://localhost:2375</dockerHost>
+                    <dockerHost>http://server.kaiyu.work:2375</dockerHost>
                     <!-- 镜像名字:版本号 -->
                     <imageName>${project.artifactId}:${project.version}</imageName>
                     <!-- true 会覆盖构建相同标签的镜像 -->

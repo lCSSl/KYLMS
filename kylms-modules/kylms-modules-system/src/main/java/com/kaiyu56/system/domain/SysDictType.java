@@ -2,6 +2,8 @@ package com.kaiyu56.system.domain;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+
+import lombok.experimental.Accessors;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.kaiyu56.common.core.annotation.Excel;
@@ -13,6 +15,7 @@ import com.kaiyu56.common.core.web.domain.BaseEntity;
  *
  * @author css
  */
+@Accessors(chain = true)
 public class SysDictType extends BaseEntity
 {
     private static final long serialVersionUID = 1L;

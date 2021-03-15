@@ -13,12 +13,16 @@ spring:
     nacos:
       discovery:
         # 服务注册地址
-        server-addr: wsl.kaiyu.work:8848
+        #server-addr: wsl.kaiyu.work:8848
+        server-addr: server.kaiyu.work:8848
       config:
         # 配置中心地址
-        server-addr: wsl.kaiyu.work:8848
+        #server-addr: wsl.kaiyu.work:8848
+        server-addr: server.kaiyu.work:8848
         # 配置文件格式
         file-extension: yml
         # 共享配置
         shared-configs:
           - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+          - application-sharing-jdbc-${spring.profiles.active}.properties
+          - application-sharing-jdbc-${spring.application.name}-${spring.profiles.active}.properties
