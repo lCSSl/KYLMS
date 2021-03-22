@@ -15,7 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <collection property="${subclassName}List" notNullColumn="${subTable.pkColumn.columnName}" javaType="java.util.List" resultMap="${subClassName}Result" />
     </resultMap>
 
-    <resultMap type="${packageName}.domain.${subClassName}" id="${subClassName}Result">
+    <resultMap type="${subClassName}" id="${subClassName}Result">
 #foreach ($column in $subTable.columns)
         <result property="${column.javaField}"    column="${column.columnName}"    />
 #end
@@ -28,7 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="select${ClassName}List" parameterType="${packageName}.domain.${ClassName}" resultMap="${ClassName}Result">
         <include refid="select${ClassName}Vo"/>
-        <where>
+        <where>  
 #foreach($column in $columns)
 #set($queryType=$column.queryType)
 #set($javaField=$column.javaField)
@@ -60,10 +60,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 #end
 #end
 #end
-
         </where>
     </select>
-
+    
     <select id="select${ClassName}ById" parameterType="${pkColumn.javaType}" resultMap="#if($table.sub)${ClassName}${subClassName}Result#else${ClassName}Result#end">
 #if($table.crud || $table.tree)
         <include refid="select${ClassName}Vo"/>
@@ -77,11 +76,51 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where a.${pkColumn.columnName} = #{${pkColumn.javaField}}
 #end
     </select>
+        
+    <insert id="insert${ClassName}" parameterType="${ClassName}"#if($pkColumn.increment) useGeneratedKeys="true" keyProperty="$pkColumn.javaField"#end>
+        insert into ${tableName}
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+#foreach($column in $columns)
+#if($column.columnName != $pkColumn.columnName || !$pkColumn.increment)
+            <if test="$column.javaField != null#if($column.javaType == 'String' && $column.required) and $column.javaField != ''#end">$column.columnName,</if>
+#end
+#end
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+#foreach($column in $columns)
+#if($column.columnName != $pkColumn.columnName || !$pkColumn.increment)
+            <if test="$column.javaField != null#if($column.javaType == 'String' && $column.required) and $column.javaField != ''#end">#{$column.javaField},</if>
+#end
+#end
+         </trim>
+    </insert>
 
+    <update id="update${ClassName}" parameterType="${ClassName}">
+        update ${tableName}
+        <trim prefix="SET" suffixOverrides=",">
+#foreach($column in $columns)
+#if($column.columnName != $pkColumn.columnName)
+            <if test="$column.javaField != null#if($column.javaType == 'String' && $column.required) and $column.javaField != ''#end">$column.columnName = #{$column.javaField},</if>
+#end
+#end
+        </trim>
+        where ${pkColumn.columnName} = #{${pkColumn.javaField}}
+    </update>
+
+    <delete id="delete${ClassName}ById" parameterType="${pkColumn.javaType}">
+        delete from ${tableName} where ${pkColumn.columnName} = #{${pkColumn.javaField}}
+    </delete>
+
+    <delete id="delete${ClassName}ByIds" parameterType="String">
+        delete from ${tableName} where ${pkColumn.columnName} in 
+        <foreach item="${pkColumn.javaField}" collection="array" open="(" separator="," close=")">
+            #{${pkColumn.javaField}}
+        </foreach>
+    </delete>
 #if($table.sub)
-
+    
     <delete id="delete${subClassName}By${subTableFkClassName}s" parameterType="String">
-        delete from ${subTableName} where ${subTableFkName} in
+        delete from ${subTableName} where ${subTableFkName} in 
         <foreach item="${subTableFkclassName}" collection="array" open="(" separator="," close=")">
             #{${subTableFkclassName}}
         </foreach>

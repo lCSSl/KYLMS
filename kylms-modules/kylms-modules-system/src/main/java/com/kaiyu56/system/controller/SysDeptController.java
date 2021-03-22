@@ -77,7 +77,15 @@ public class SysDeptController extends BaseController
     {
         return AjaxResult.success(deptService.selectDeptById(deptId));
     }
-
+    /**
+     * 根据部门编号获取详细信息
+     */
+    @PreAuthorize(hasPermi = "system:dept:query")
+    @GetMapping(value = "/getName/{deptId}")
+    public AjaxResult getDeptName(@PathVariable Long deptId)
+    {
+        return AjaxResult.success(deptService.selectDeptById(deptId));
+    }
     /**
      * 获取部门下拉树列表
      */

@@ -1,6 +1,7 @@
 package com.kaiyu56.system.service;
 
 import java.util.List;
+import java.util.Set;
 
 import com.kaiyu56.system.api.domain.SysUser;
 
@@ -18,7 +19,13 @@ public interface ISysUserService
      * @return 用户信息集合信息
      */
     public List<SysUser> selectUserList(SysUser user);
-
+    /**
+     * 根据IDS查询用户列表
+     *
+     * @param userIds 用户IDS列表
+     * @return 用户信息集合信息
+     */
+    public List<SysUser> selectByIds(Long[] userIds);
     /**
      * 通过用户名查询用户
      *

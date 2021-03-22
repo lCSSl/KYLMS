@@ -1,9 +1,21 @@
 # spring配置
 spring:
   redis:
-    host: wsl.kaiyu.work
-    port: 6379
-    password:
+    cluster:
+      nodes:
+        - server.kaiyu.work:6371
+        - server.kaiyu.work:6372
+        - server.kaiyu.work:6373
+        - server.kaiyu.work:6374
+        - server.kaiyu.work:6375
+        - server.kaiyu.work:6376
+    password: redis295796
+    lettuce:
+      pool:
+        max-idle: 30
+        max-active: 8
+        min-idle: 10
+        max-wait: 10000
   datasource:
     druid:
       stat-view-servlet:
@@ -30,7 +42,7 @@ spring:
         # 主库数据源
         master:
           driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://wsl.kaiyu.work:3306/LMS?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+          url: jdbc:mysql://server.kaiyu.work:3366/LMS_1?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
           username: root
           password: password
           # 从库数据源
@@ -59,14 +71,14 @@ seata:
   config:
     type: nacos
     nacos:
-      serverAddr: wsl.kaiyu.work:8848
+      serverAddr: server.kaiyu.work:8848
       group: SEATA_GROUP
       namespace:
   registry:
     type: nacos
     nacos:
       application: seata-server
-              #server-addr: wsl.kaiyu.work:8848
+              #server-addr: server.kaiyu.work:8848
         server-addr: server.kaiyu.work:8848
       namespace:
 

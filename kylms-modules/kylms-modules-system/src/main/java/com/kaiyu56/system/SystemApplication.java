@@ -16,10 +16,8 @@ import com.kaiyu56.common.swagger.annotation.EnableCustomSwagger2;
 @EnableCustomSwagger2
 @EnableBaseFeignClients
 @SpringCloudApplication
-public class SystemApplication
-{
-    public static void main(String[] args)
-    {
+public class SystemApplication {
+    public static void main(String[] args) {
         SpringApplication app = new SpringApplication(SystemApplication.class);
         app.setBannerMode(Banner.Mode.CONSOLE);
         app.run(args);

@@ -1,7 +1,9 @@
 package com.kaiyu56.system.mapper;
 
 import java.util.List;
+import java.util.Set;
 
+import com.kaiyu56.common.datasource.annotation.Slave;
 import org.apache.ibatis.annotations.Param;
 
 import com.kaiyu56.system.api.domain.SysUser;
@@ -11,8 +13,7 @@ import com.kaiyu56.system.api.domain.SysUser;
  *
  * @author css
  */
-public interface SysUserMapper
-{
+public interface SysUserMapper {
     /**
      * 根据条件分页查询用户列表
      *
@@ -20,6 +21,13 @@ public interface SysUserMapper
      * @return 用户信息集合信息
      */
     public List<SysUser> selectUserList(SysUser sysUser);
+    /**
+     * 根据IDS查询用户列表
+     *
+     * @param userIds 用户IDS列表
+     * @return 用户信息集合信息
+     */
+    public List<SysUser> selectByIds(Long[] userIds);
 
     /**
      * 通过用户名查询用户
@@ -57,7 +65,7 @@ public interface SysUserMapper
      * 修改用户头像
      *
      * @param userName 用户名
-     * @param avatar 头像地址
+     * @param avatar   头像地址
      * @return 结果
      */
     public int updateUserAvatar(@Param("userName") String userName, @Param("avatar") String avatar);

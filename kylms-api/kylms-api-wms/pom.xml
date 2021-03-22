@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>kylms-api</artifactId>
+    <groupId>com.kaiyu56</groupId>
+    <version>2.5.0</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>kylms-api-wms</artifactId>
+  <description>
+    kylms-api-wms接口模块
+  </description>
+
+  <dependencies>
+
+    <!--  Common Core-->
+    <dependency>
+      <groupId>com.kaiyu56</groupId>
+      <artifactId>kylms-common-core</artifactId>
+    </dependency>
+
+  </dependencies>
+
+</project>

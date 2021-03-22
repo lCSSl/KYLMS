@@ -71,10 +71,10 @@
             <groupId>com.kaiyu56</groupId>
             <artifactId>kylms-common-swagger</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.kaiyu56</groupId>
-            <artifactId>kylms-common-sharding-jdbc</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.kaiyu56</groupId>-->
+<!--            <artifactId>kylms-common-sharding-jdbc</artifactId>-->
+<!--        </dependency>-->
     </dependencies>
 
     <build>

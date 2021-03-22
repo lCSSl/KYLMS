@@ -41,6 +41,7 @@ public interface SysConfigMapper
      * @param config 参数配置信息
      * @return 结果
      */
+
     public int insertConfig(SysConfig config);
 
     /**

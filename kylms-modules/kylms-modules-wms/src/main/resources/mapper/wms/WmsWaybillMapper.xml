@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kaiyu56.wms.mapper.WmsWaybillMapper">
+
+    <resultMap type="com.kaiyu56.wms.api.domain.WmsWaybill" id="WmsWaybillResult">
+        <result property="waybillId"    column="waybill_id"    />
+        <result property="waybillCode"    column="waybill_code"    />
+        <result property="destination"    column="destination"    />
+        <result property="departure"    column="departure"    />
+        <result property="transitPlace"    column="transit_place"    />
+        <result property="csrId"    column="csr_id"    />
+        <result property="csrCode"    column="csr_code"    />
+        <result property="csrOrderNumber"    column="csr_order_number"    />
+        <result property="consignorMobile"    column="consignor_mobile"    />
+        <result property="consignorTelephone"    column="consignor_telephone"    />
+        <result property="consignorName"    column="consignor_name"    />
+        <result property="deliverCoName"    column="deliver_co_name"    />
+        <result property="consigneeMobile"    column="consignee_mobile"    />
+        <result property="consigneeTelephone"    column="consignee_telephone"    />
+        <result property="consigneeName"    column="consignee_name"    />
+        <result property="receivingCoName"    column="receiving_co_name"    />
+        <result property="receivingProvince"    column="receiving_province"    />
+        <result property="receivingCity"    column="receiving_city"    />
+        <result property="receivingDistrict"    column="receiving_district"    />
+        <result property="receivingStreet"    column="receiving_street"    />
+        <result property="receivingAddress"    column="receiving_address"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="stowageId"    column="stowage_id"    />
+        <result property="destinationNode"    column="destination_node"    />
+        <result property="handoverMode"    column="handover_mode"    />
+        <result property="transportMode"    column="transport_mode"    />
+        <result property="payMethod"    column="pay_method"    />
+        <result property="receiptStatus"    column="receipt_status"    />
+        <result property="rebateReturned"    column="rebate_returned"    />
+        <result property="writeInvoice"    column="write_invoice"    />
+        <result property="basicFreight"    column="basic_freight"    />
+        <result property="realFreight"    column="real_freight"    />
+        <result property="totalFreight"    column="total_freight"    />
+        <result property="deliveryVehicleId"    column="delivery_vehicle_id"    />
+        <result property="deliveryVehicleCode"    column="delivery_vehicle_code"    />
+        <result property="deliveryDriverId"    column="delivery_driver_id"    />
+        <result property="deliveryDriverName"    column="delivery_driver_name"    />
+        <result property="deliveryTime"    column="delivery_time"    />
+        <result property="drawerId"    column="drawer_id"    />
+        <result property="drawerName"    column="drawer_name"    />
+        <result property="equipmentSource"    column="equipment_source"    />
+        <result property="creationSource"    column="creation_source"    />
+        <result property="waybillStatus"    column="waybill_status"    />
+        <result property="status"    column="status"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectWmsWaybillVo">
+        select waybill_id, waybill_code, destination, departure, transit_place, csr_id, csr_code, csr_order_number, consignor_mobile, consignor_telephone, consignor_name, deliver_co_name, consignee_mobile, consignee_telephone, consignee_name, receiving_co_name, receiving_province, receiving_city, receiving_district, receiving_street, receiving_address, dept_id, stowage_id, destination_node, handover_mode, transport_mode, pay_method, receipt_status, rebate_returned, write_invoice, basic_freight, real_freight, total_freight, delivery_vehicle_id, delivery_vehicle_code, delivery_driver_id, delivery_driver_name, delivery_time, drawer_id, drawer_name, equipment_source, creation_source, waybill_status, status, del_flag, create_by, create_time, update_by, update_time, remark from wms_waybill
+    </sql>
+
+    <select id="selectWmsWaybillList" parameterType="com.kaiyu56.wms.api.domain.WmsWaybill" resultMap="WmsWaybillResult">
+        <include refid="selectWmsWaybillVo"/>
+        <where>
+            <if test="waybillCode != null  and waybillCode != ''"> and waybill_code like concat('%', #{waybillCode}, '%')</if>
+            <if test="destination != null "> and destination &gt;= #{destination}</if>
+            <if test="departure != null "> and departure &gt;= #{departure}</if>
+            <if test="transitPlace != null  and transitPlace != ''"> and transit_place like concat('%', #{transitPlace}, '%')</if>
+            <if test="csrId != null "> and csr_id = #{csrId}</if>
+    
+            <if test="csrCode != null  and csrCode != ''"> and csr_code = #{csrCode}</if>
+    
+            <if test="csrOrderNumber != null  and csrOrderNumber != ''"> and csr_order_number = #{csrOrderNumber}</if>
+    
+            <if test="consignorMobile != null  and consignorMobile != ''"> and consignor_mobile = #{consignorMobile}</if>
+    
+            <if test="consignorTelephone != null  and consignorTelephone != ''"> and consignor_telephone = #{consignorTelephone}</if>
+    
+            <if test="consignorName != null  and consignorName != ''"> and consignor_name like concat('%', #{consignorName}, '%')</if>
+            <if test="deliverCoName != null  and deliverCoName != ''"> and deliver_co_name like concat('%', #{deliverCoName}, '%')</if>
+            <if test="consigneeMobile != null  and consigneeMobile != ''"> and consignee_mobile = #{consigneeMobile}</if>
+    
+            <if test="consigneeTelephone != null  and consigneeTelephone != ''"> and consignee_telephone = #{consigneeTelephone}</if>
+    
+            <if test="consigneeName != null  and consigneeName != ''"> and consignee_name like concat('%', #{consigneeName}, '%')</if>
+            <if test="receivingCoName != null  and receivingCoName != ''"> and receiving_co_name like concat('%', #{receivingCoName}, '%')</if>
+            <if test="receivingProvince != null "> and receiving_province = #{receivingProvince}</if>
+    
+            <if test="receivingCity != null "> and receiving_city = #{receivingCity}</if>
+    
+            <if test="receivingDistrict != null "> and receiving_district = #{receivingDistrict}</if>
+    
+            <if test="receivingStreet != null "> and receiving_street = #{receivingStreet}</if>
+    
+            <if test="receivingAddress != null  and receivingAddress != ''"> and receiving_address = #{receivingAddress}</if>
+    
+            <if test="deptId != null "> and dept_id = #{deptId}</if>
+    
+            <if test="stowageId != null "> and stowage_id = #{stowageId}</if>
+    
+            <if test="destinationNode != null "> and destination_node = #{destinationNode}</if>
+    
+            <if test="handoverMode != null  and handoverMode != ''"> and handover_mode = #{handoverMode}</if>
+    
+            <if test="transportMode != null  and transportMode != ''"> and transport_mode = #{transportMode}</if>
+    
+            <if test="payMethod != null  and payMethod != ''"> and pay_method = #{payMethod}</if>
+    
+            <if test="receiptStatus != null  and receiptStatus != ''"> and receipt_status = #{receiptStatus}</if>
+    
+            <if test="rebateReturned != null  and rebateReturned != ''"> and rebate_returned = #{rebateReturned}</if>
+    
+            <if test="writeInvoice != null  and writeInvoice != ''"> and write_invoice = #{writeInvoice}</if>
+    
+            <if test="basicFreight != null "> and basic_freight = #{basicFreight}</if>
+    
+            <if test="realFreight != null "> and real_freight = #{realFreight}</if>
+    
+            <if test="totalFreight != null "> and total_freight = #{totalFreight}</if>
+    
+            <if test="deliveryVehicleId != null "> and delivery_vehicle_id = #{deliveryVehicleId}</if>
+    
+            <if test="deliveryVehicleCode != null  and deliveryVehicleCode != ''"> and delivery_vehicle_code = #{deliveryVehicleCode}</if>
+    
+            <if test="deliveryDriverId != null "> and delivery_driver_id = #{deliveryDriverId}</if>
+    
+            <if test="deliveryDriverName != null  and deliveryDriverName != ''"> and delivery_driver_name like concat('%', #{deliveryDriverName}, '%')</if>
+            <if test="deliveryTime != null "> and delivery_time = #{deliveryTime}</if>
+    
+            <if test="drawerId != null "> and drawer_id = #{drawerId}</if>
+    
+            <if test="drawerName != null  and drawerName != ''"> and drawer_name like concat('%', #{drawerName}, '%')</if>
+            <if test="equipmentSource != null  and equipmentSource != ''"> and equipment_source = #{equipmentSource}</if>
+    
+            <if test="creationSource != null  and creationSource != ''"> and creation_source = #{creationSource}</if>
+    
+            <if test="waybillStatus != null  and waybillStatus != ''"> and waybill_status = #{waybillStatus}</if>
+    
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+    
+            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
+
+        </where>
+    </select>
+
+    <select id="selectWmsWaybillById" parameterType="Long" resultMap="WmsWaybillResult">
+        <include refid="selectWmsWaybillVo"/>
+        where waybill_id = #{waybillId}
+    </select>
+
+</mapper>

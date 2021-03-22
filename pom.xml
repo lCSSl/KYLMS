@@ -238,6 +238,11 @@
                 <version>${kylms.version}</version>
             </dependency>
             <dependency>
+                <groupId>com.kaiyu56</groupId>
+                <artifactId>kylms-api-wms</artifactId>
+                <version>${kylms.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
@@ -260,6 +265,7 @@
         <module>kylms-common</module>
         <module>kylms-modules/kylms-modules-dev</module>
       <module>kylms-common/kylms-common-sharding-jdbc</module>
+      <module>kylms-modules/kylms-modules-wms</module>
     </modules>
     <packaging>pom</packaging>
 

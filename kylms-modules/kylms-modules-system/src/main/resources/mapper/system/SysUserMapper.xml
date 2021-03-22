@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kaiyu56.system.mapper.SysUserMapper">
 
-	<resultMap type="SysUser" id="SysUserResult">
+	<resultMap type="com.kaiyu56.system.api.domain.SysUser" id="SysUserResult">
 		<id     property="userId"       column="user_id"      />
 		<result property="deptId"       column="dept_id"      />
 		<result property="userName"     column="user_name"    />
@@ -27,7 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<collection  property="roles"   javaType="java.util.List"        resultMap="RoleResult" />
 	</resultMap>
 	
-	<resultMap id="deptResult" type="SysDept">
+	<resultMap id="deptResult" type="com.kaiyu56.system.api.domain.SysDept">
 		<id     property="deptId"   column="dept_id"     />
 		<result property="parentId" column="parent_id"   />
 		<result property="deptName" column="dept_name"   />
@@ -36,7 +36,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="status"   column="dept_status" />
 	</resultMap>
 	
-	<resultMap id="RoleResult" type="SysRole">
+	<resultMap id="RoleResult" type="com.kaiyu56.system.api.domain.SysRole">
 		<id     property="roleId"       column="role_id"        />
 		<result property="roleName"     column="role_name"      />
 		<result property="roleKey"      column="role_key"       />
@@ -107,7 +107,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select user_id, email from sys_user where email = #{email} limit 1
 	</select>
 	
-	<insert id="insertUser" parameterType="SysUser" useGeneratedKeys="true" keyProperty="userId">
+	<insert id="insertUser" parameterType="com.kaiyu56.system.api.domain.SysUser" useGeneratedKeys="true" keyProperty="userId">
  		insert into sys_user(
  			<if test="userId != null and userId != 0">user_id,</if>
  			<if test="deptId != null and deptId != 0">dept_id,</if>
@@ -139,7 +139,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  		)
 	</insert>
 	
-	<update id="updateUser" parameterType="SysUser">
+	<update id="updateUser" parameterType="com.kaiyu56.system.api.domain.SysUser">
  		update sys_user
  		<set>
  			<if test="deptId != null and deptId != 0">dept_id = #{deptId},</if>
@@ -160,15 +160,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  		where user_id = #{userId}
 	</update>
 	
-	<update id="updateUserStatus" parameterType="SysUser">
+	<update id="updateUserStatus" parameterType="com.kaiyu56.system.api.domain.SysUser">
  		update sys_user set status = #{status} where user_id = #{userId}
 	</update>
 	
-	<update id="updateUserAvatar" parameterType="SysUser">
+	<update id="updateUserAvatar" parameterType="com.kaiyu56.system.api.domain.SysUser">
  		update sys_user set avatar = #{avatar} where user_name = #{userName}
 	</update>
 	
-	<update id="resetUserPwd" parameterType="SysUser">
+	<update id="resetUserPwd" parameterType="com.kaiyu56.system.api.domain.SysUser">
  		update sys_user set password = #{password} where user_name = #{userName}
 	</update>
 	
@@ -182,5 +182,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			#{userId}
         </foreach> 
  	</delete>
-	
+
+	<select id="selectByIds" resultMap="SysUserResult">
+		<include refid="selectUserVo"/>
+		where u.user_id in
+		<foreach collection="array" item="userId" open="(" separator="," close=")">
+			#{userId}
+		</foreach>
+	</select>
+
 </mapper> 

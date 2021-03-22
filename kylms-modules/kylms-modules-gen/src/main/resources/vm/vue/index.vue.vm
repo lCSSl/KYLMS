@@ -1,6 +1,23 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
+    <el-card :body-style="{padding:'15px'}">
+      <div slot="header" class="clearfix hidden-sm-and-down">
+        <el-button style="float: right;" type="text">
+          <span v-if="toggleSearchFormValue===0" @click="()=>toggleSearchForm(1)">
+            展开
+          </span>
+          <span v-else-if="toggleSearchFormValue===1" @click="()=>toggleSearchForm(2)">
+            更多
+          </span>
+          <span v-if="toggleSearchFormValue!==0" @click="()=>toggleSearchForm(0)">
+            收起
+          </span>
+        </el-button>
+      </div>
+      <template v-if="toggleSearchFormValue>=1"></template>
+      <template v-if="toggleSearchFormValue>=2"></template>
+    <el-form :model="queryParams" ref="queryForm" v-show="showSearch" label-position="left" label-width="100px" >
+      <el-row :gutter="24">
 #foreach($column in $columns)
 #if($column.query)
 #set($dictType=$column.dictType)
@@ -12,6 +29,7 @@
 #set($comment=$column.columnComment)
 #end
 #if($column.htmlType == "input")
+    <ICol>
       <el-form-item label="${comment}" prop="${column.javaField}">
         <el-input
           v-model="queryParams.${column.javaField}"
@@ -21,7 +39,9 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
+    </ICol>
 #elseif(($column.htmlType == "select" || $column.htmlType == "radio") && "" != $dictType)
+  <ICol>
       <el-form-item label="${comment}" prop="${column.javaField}">
         <el-select v-model="queryParams.${column.javaField}" placeholder="请选择${comment}" clearable size="small">
           <el-option
@@ -32,13 +52,17 @@
           />
         </el-select>
       </el-form-item>
+    </ICol>
 #elseif(($column.htmlType == "select" || $column.htmlType == "radio") && $dictType)
+  <ICol>
       <el-form-item label="${comment}" prop="${column.javaField}">
         <el-select v-model="queryParams.${column.javaField}" placeholder="请选择${comment}" clearable size="small">
           <el-option label="请选择字典生成" value="" />
         </el-select>
       </el-form-item>
+    </ICol>
 #elseif($column.htmlType == "datetime" && $column.queryType != "BETWEEN")
+     <ICol>
       <el-form-item label="${comment}" prop="${column.javaField}">
         <el-date-picker clearable size="small"
           v-model="queryParams.${column.javaField}"
@@ -47,7 +71,9 @@
           placeholder="选择${comment}">
         </el-date-picker>
       </el-form-item>
+    </ICol>
 #elseif($column.htmlType == "datetime" && $column.queryType == "BETWEEN")
+  <ICol>
       <el-form-item label="${comment}">
         <el-date-picker
           v-model="daterange${AttrName}"
@@ -60,15 +86,22 @@
           end-placeholder="结束日期"
         ></el-date-picker>
       </el-form-item>
+    </ICol>
 #end
 #end
 #end
-      <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-      </el-form-item>
+      </el-row>
+      <el-row>
+          <ICol type="search">
+            <el-form-item>
+              <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+              <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+            </el-form-item>
+          </ICol>
+      </el-row>
     </el-form>
-
+    </el-card>
+    <el-card :body-style="{padding:'15px'}">
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button
@@ -114,7 +147,8 @@
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
-
+    </el-card>
+    <el-card :body-style="{padding:'15px'}">
     <el-table v-loading="loading" :data="${businessName}List" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
 #foreach($column in $columns)
@@ -126,7 +160,11 @@
 #set($comment=$column.columnComment)
 #end
 #if($column.pk)
-      <el-table-column label="${comment}" align="center" prop="${javaField}" />
+      <el-table-column label="${comment}" align="center" prop="${javaField}" >
+        <template slot-scope="{row}">
+          {{row.${javaField}}}
+        </template>
+      </el-table-column>
 #elseif($column.list && $column.htmlType == "datetime")
       <el-table-column label="${comment}" align="center" prop="${javaField}" width="180">
         <template slot-scope="scope">
@@ -136,10 +174,14 @@
 #elseif($column.list && "" != $column.dictType)
       <el-table-column label="${comment}" align="center" prop="${javaField}" :formatter="${javaField}Format" />
 #elseif($column.list && "" != $javaField)
-      <el-table-column label="${comment}" align="center" prop="${javaField}" />
+      <el-table-column label="${comment}" align="center" prop="${javaField}" >
+        <template slot-scope="{row}">
+          {{row.${javaField}}}
+        </template>
+      </el-table-column>
 #end
 #end
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" width="200" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -158,7 +200,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -166,10 +208,11 @@
       :limit.sync="queryParams.pageSize"
       @pagination="getList"
     />
-
+    </el-card>
     <!-- 添加或修改${functionName}对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+    <el-dialog :title="title" fullscreen :visible.sync="open" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+        <el-row :gutter="24">
 #foreach($column in $columns)
 #set($field=$column.javaField)
 #if($column.insert && !$column.pk)
@@ -182,22 +225,31 @@
 #end
 #set($dictType=$column.dictType)
 #if($column.htmlType == "input")
+      <ICol>
         <el-form-item label="${comment}" prop="${field}">
           <el-input v-model="form.${field}" placeholder="请输入${comment}" />
         </el-form-item>
+      </ICol>
 #elseif($column.htmlType == "imageUpload")
+    <ICol>
         <el-form-item label="${comment}">
           <imageUpload v-model="form.${field}"/>
         </el-form-item>
+    </ICol>
 #elseif($column.htmlType == "fileUpload")
+<ICol>
         <el-form-item label="${comment}">
           <fileUpload v-model="form.${field}"/>
         </el-form-item>
+</ICol>
 #elseif($column.htmlType == "editor")
+<ICol>
         <el-form-item label="${comment}">
           <editor v-model="form.${field}" :min-height="192"/>
         </el-form-item>
+</ICol>
 #elseif($column.htmlType == "select" && "" != $dictType)
+<ICol>
         <el-form-item label="${comment}" prop="${field}">
           <el-select v-model="form.${field}" placeholder="请选择${comment}">
             <el-option
@@ -209,13 +261,17 @@
             ></el-option>
           </el-select>
         </el-form-item>
+</ICol>
 #elseif($column.htmlType == "select" && $dictType)
+<ICol>
         <el-form-item label="${comment}" prop="${field}">
           <el-select v-model="form.${field}" placeholder="请选择${comment}">
             <el-option label="请选择字典生成" value="" />
           </el-select>
         </el-form-item>
+</ICol>
 #elseif($column.htmlType == "checkbox" && "" != $dictType)
+<ICol>
         <el-form-item label="${comment}">
           <el-checkbox-group v-model="form.${field}">
             <el-checkbox
@@ -226,13 +282,17 @@
             </el-checkbox>
           </el-checkbox-group>
         </el-form-item>
+</ICol>
 #elseif($column.htmlType == "checkbox" && $dictType)
+<ICol>
         <el-form-item label="${comment}">
           <el-checkbox-group v-model="form.${field}">
             <el-checkbox>请选择字典生成</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
+</ICol>
 #elseif($column.htmlType == "radio" && "" != $dictType)
+<ICol>
         <el-form-item label="${comment}">
           <el-radio-group v-model="form.${field}">
             <el-radio
@@ -243,13 +303,17 @@
             >{{dict.dictLabel}}</el-radio>
           </el-radio-group>
         </el-form-item>
+</ICol>
 #elseif($column.htmlType == "radio" && $dictType)
+<ICol>
         <el-form-item label="${comment}">
           <el-radio-group v-model="form.${field}">
             <el-radio label="1">请选择字典生成</el-radio>
           </el-radio-group>
         </el-form-item>
+</ICol>
 #elseif($column.htmlType == "datetime")
+<ICol>
         <el-form-item label="${comment}" prop="${field}">
           <el-date-picker clearable size="small"
             v-model="form.${field}"
@@ -258,10 +322,13 @@
             placeholder="选择${comment}">
           </el-date-picker>
         </el-form-item>
+</ICol>
 #elseif($column.htmlType == "textarea")
+<ICol>
         <el-form-item label="${comment}" prop="${field}">
           <el-input v-model="form.${field}" type="textarea" placeholder="请输入内容" />
         </el-form-item>
+</ICol>
 #end
 #end
 #end
@@ -298,6 +365,7 @@
 #end
         </el-table>
 #end
+        </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -327,10 +395,11 @@ import Editor from '@/components/Editor';
 #break
 #end
 #end
-
+import ICol from "@/components/ICol";
 export default {
   name: "${BusinessName}",
   components: {
+    ICol,
 #foreach($column in $columns)
 #if($column.insert && !$column.superColumn && !$column.pk && $column.htmlType == "imageUpload")
     ImageUpload,
@@ -352,6 +421,14 @@ export default {
   },
   data() {
     return {
+      grid: {
+        gutter:24,
+        xs: 24,
+        sm: 24,
+        md: 12,
+        lg: 6,
+        xl: 6
+      },
       // 遮罩层
       loading: true,
       // 选中数组
@@ -423,7 +500,8 @@ export default {
 
 #end
 #end
-      }
+      },
+    toggleSearchFormValue:0,
     };
   },
   created() {
@@ -628,7 +706,12 @@ export default {
       this.download('${moduleName}/${businessName}/export', {
         ...this.queryParams
       }, `${moduleName}_${businessName}.xlsx`)
-    }
+    },
+    toggleSearchForm(toggle) {
+      if (toggle >= 0) {
+        this.toggleSearchFormValue = toggle;
+      }
+    },
   }
 };
 </script>

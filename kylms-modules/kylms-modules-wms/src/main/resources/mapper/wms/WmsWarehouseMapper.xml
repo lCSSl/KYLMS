@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kaiyu56.wms.mapper.WmsWarehouseMapper">
+  <resultMap type="com.kaiyu56.wms.api.domain.WmsWarehouse" id="WmsWarehouseResult">
+    <result property="warehouseId" column="warehouse_id"/>
+    <result property="warehouseCode" column="warehouse_code"/>
+    <result property="warehouseName" column="warehouse_name"/>
+    <result property="warehouseInCharge" column="warehouse_in_charge"/>
+    <result property="warehouseType" column="warehouse_type"/>
+    <result property="warehouseArea" column="warehouse_area"/>
+    <result property="warehouseAreaX" column="warehouse_area_x"/>
+    <result property="warehouseAreaY" column="warehouse_area_y"/>
+    <result property="warehouseAddress" column="warehouse_address"/>
+    <result property="provinceCityDistrictStreet" column="province_city_district_street"/>
+    <result property="provinceCode" column="province_code"/>
+    <result property="cityCode" column="city_code"/>
+    <result property="districtCode" column="district_code"/>
+    <result property="streetCode" column="street_code"/>
+    <result property="deptId" column="dept_id"/>
+    <result property="status" column="status"/>
+    <result property="delFlag" column="del_flag"/>
+    <result property="createBy" column="create_by"/>
+    <result property="createTime" column="create_time"/>
+    <result property="updateBy" column="update_by"/>
+    <result property="updateTime" column="update_time"/>
+    <result property="remark" column="remark"/>
+  </resultMap>
+  <resultMap type="com.kaiyu56.wms.api.domain.vo.WmsWarehouseVO" id="WmsWarehouseVOResult">
+    <result property="warehouseId" column="warehouse_id"/>
+    <result property="warehouseCode" column="warehouse_code"/>
+    <result property="warehouseName" column="warehouse_name"/>
+    <result property="warehouseInCharge" column="warehouse_in_charge"/>
+    <result property="warehouseType" column="warehouse_type"/>
+    <result property="warehouseArea" column="warehouse_area"/>
+    <result property="warehouseAreaX" column="warehouse_area_x"/>
+    <result property="warehouseAreaY" column="warehouse_area_y"/>
+    <result property="warehouseAddress" column="warehouse_address"/>
+    <result property="provinceCityDistrictStreet" column="province_city_district_street"/>
+    <result property="provinceCode" column="province_code"/>
+    <result property="cityCode" column="city_code"/>
+    <result property="districtCode" column="district_code"/>
+    <result property="streetCode" column="street_code"/>
+    <result property="deptId" column="dept_id"/>
+    <result property="deptName" column="dept_name"/>
+    <result property="warehouseInChargeName" column="warehouse_in_charge_name"/>
+    <result property="status" column="status"/>
+    <result property="delFlag" column="del_flag"/>
+    <result property="createBy" column="create_by"/>
+    <result property="createTime" column="create_time"/>
+    <result property="updateBy" column="update_by"/>
+    <result property="updateTime" column="update_time"/>
+    <result property="remark" column="remark"/>
+  </resultMap>
+
+  <sql id="selectBaseWmsWarehouse">
+    select warehouse_id,
+           warehouse_code,
+           warehouse_name,
+           warehouse_in_charge,
+           warehouse_type,
+           warehouse_area,
+           warehouse_area_x,
+           warehouse_area_y,
+           warehouse_address,
+           province_city_district_street,
+           province_code,
+           city_code,
+           district_code,
+           street_code,
+           dept_id,
+           status,
+           del_flag,
+           create_by,
+           create_time,
+           update_by,
+           update_time,
+           remark
+    from wms_warehouse
+  </sql>
+  <sql id="selectWmsWarehouseVO">
+  </sql>
+
+  <select id="selectWmsWarehouseList" parameterType="com.kaiyu56.wms.api.domain.WmsWarehouse"
+          resultMap="WmsWarehouseResult">
+    <include refid="selectBaseWmsWarehouse"/>
+    <where>
+      <if test="warehouseCode != null  and warehouseCode != ''">
+        and warehouse_code like concat('%', #{warehouseCode}, '%')
+      </if>
+      <if test="warehouseName != null  and warehouseName != ''">
+        and warehouse_name like concat('%', #{warehouseName}, '%')
+      </if>
+      <if test="warehouseInCharge != null">
+        and warehouse_in_charge = #{warehouseInCharge}
+      </if>
+
+      <if test="warehouseType != null  and warehouseType != ''">
+        and warehouse_type = #{warehouseType}
+      </if>
+
+      <if test="warehouseArea != null">
+        and warehouse_area &gt;= #{warehouseArea}
+      </if>
+      <if test="warehouseAreaX != null">
+        and warehouse_area_x &gt;= #{warehouseAreaX}
+      </if>
+      <if test="warehouseAreaY != null">
+        and warehouse_area_y &gt;= #{warehouseAreaY}
+      </if>
+      <if test="warehouseAddress != null  and warehouseAddress != ''">
+        and warehouse_address like concat('%', #{warehouseAddress}, '%')
+      </if>
+      <if test="provinceCityDistrictStreet != null  and provinceCityDistrictStreet != ''">
+        and province_city_district_street = #{provinceCityDistrictStreet}
+      </if>
+
+      <if test="provinceCode != null">
+        and province_code = #{provinceCode}
+      </if>
+
+      <if test="cityCode != null">
+        and city_code = #{cityCode}
+      </if>
+
+      <if test="districtCode != null">
+        and district_code = #{districtCode}
+      </if>
+
+      <if test="streetCode != null">
+        and street_code = #{streetCode}
+      </if>
+
+      <if test="deptId != null">
+        and dept_id = #{deptId}
+      </if>
+
+      <if test="status != null  and status != ''">
+        and status = #{status}
+      </if>
+    </where>
+  </select>
+  <select id="selectWmsWarehouseVOList" parameterType="com.kaiyu56.wms.api.domain.WmsWarehouse"
+          resultMap="WmsWarehouseVOResult">
+    select wms_wh.warehouse_id,
+           wms_wh.warehouse_code,
+           wms_wh.warehouse_name,
+           wms_wh.warehouse_in_charge,
+           su.nick_name as warehouse_in_charge_name,
+           wms_wh.warehouse_type,
+           wms_wh.warehouse_area,
+           wms_wh.warehouse_area_x,
+           wms_wh.warehouse_area_y,
+           wms_wh.warehouse_address,
+           wms_wh.province_city_district_street,
+           wms_wh.province_code,
+           wms_wh.city_code,
+           wms_wh.district_code,
+           wms_wh.street_code,
+           wms_wh.dept_id,
+           sd.dept_name as dept_name,
+           wms_wh.status,
+           wms_wh.del_flag,
+           wms_wh.create_by,
+           wms_wh.create_time,
+           wms_wh.update_by,
+           wms_wh.update_time,
+           wms_wh.remark
+    from wms_warehouse wms_wh
+    left join sys_dept sd on wms_wh.dept_id =sd.dept_id
+    left join sys_user su on wms_wh.warehouse_in_charge = su.user_id
+    <where>
+      <if test="warehouseCode != null  and warehouseCode != ''">
+        and warehouse_code like concat('%', #{warehouseCode}, '%')
+      </if>
+      <if test="warehouseName != null  and warehouseName != ''">
+        and warehouse_name like concat('%', #{warehouseName}, '%')
+      </if>
+      <if test="warehouseInCharge != null">
+        and warehouse_in_charge = #{warehouseInCharge}
+      </if>
+
+      <if test="warehouseType != null  and warehouseType != ''">
+        and warehouse_type = #{warehouseType}
+      </if>
+
+      <if test="warehouseArea != null">
+        and warehouse_area &gt;= #{warehouseArea}
+      </if>
+      <if test="warehouseAreaX != null">
+        and warehouse_area_x &gt;= #{warehouseAreaX}
+      </if>
+      <if test="warehouseAreaY != null">
+        and warehouse_area_y &gt;= #{warehouseAreaY}
+      </if>
+      <if test="warehouseAddress != null  and warehouseAddress != ''">
+        and warehouse_address like concat('%', #{warehouseAddress}, '%')
+      </if>
+      <if test="provinceCityDistrictStreet != null  and provinceCityDistrictStreet != ''">
+        and province_city_district_street = #{provinceCityDistrictStreet}
+      </if>
+
+      <if test="provinceCode != null">
+        and province_code = #{provinceCode}
+      </if>
+
+      <if test="cityCode != null">
+        and city_code = #{cityCode}
+      </if>
+
+      <if test="districtCode != null">
+        and district_code = #{districtCode}
+      </if>
+
+      <if test="streetCode != null">
+        and street_code = #{streetCode}
+      </if>
+
+      <if test="deptId != null">
+        and dept_id = #{deptId}
+      </if>
+
+      <if test="status != null  and status != ''">
+        and status = #{status}
+      </if>
+    </where>
+  </select>
+  <select id="selectAllWmsWarehouseInChargeIdList" resultType="long">
+    select distinct warehouse_in_charge
+    from wms_warehouse;
+  </select>
+
+  <select id="selectWmsWarehouseById" parameterType="Long" resultMap="WmsWarehouseResult">
+    <include refid="selectBaseWmsWarehouse"/>
+    where warehouse_id = #{warehouseId}
+  </select>
+
+  <insert id="insertWmsWarehouse" parameterType="WmsWarehouse" useGeneratedKeys="true" keyProperty="warehouseId">
+    insert into wms_warehouse
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="warehouseCode != null and warehouseCode != ''">
+        warehouse_code,
+      </if>
+      <if test="warehouseName != null and warehouseName != ''">
+        warehouse_name,
+      </if>
+      <if test="warehouseInCharge != null">
+        warehouse_in_charge,
+      </if>
+      <if test="warehouseType != null and warehouseType != ''">
+        warehouse_type,
+      </if>
+      <if test="warehouseArea != null">
+        warehouse_area,
+      </if>
+      <if test="warehouseAreaX != null">
+        warehouse_area_x,
+      </if>
+      <if test="warehouseAreaY != null">
+        warehouse_area_y,
+      </if>
+      <if test="warehouseAddress != null">
+        warehouse_address,
+      </if>
+      <if test="provinceCityDistrictStreet != null">
+        province_city_district_street,
+      </if>
+      <if test="provinceCode != null">
+        province_code,
+      </if>
+      <if test="cityCode != null">
+        city_code,
+      </if>
+      <if test="districtCode != null">
+        district_code,
+      </if>
+      <if test="streetCode != null">
+        street_code,
+      </if>
+      <if test="deptId != null">
+        dept_id,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="warehouseCode != null and warehouseCode != ''">
+        #{warehouseCode},
+      </if>
+      <if test="warehouseName != null and warehouseName != ''">
+        #{warehouseName},
+      </if>
+      <if test="warehouseInCharge != null">
+        #{warehouseInCharge},
+      </if>
+      <if test="warehouseType != null and warehouseType != ''">
+        #{warehouseType},
+      </if>
+      <if test="warehouseArea != null">
+        #{warehouseArea},
+      </if>
+      <if test="warehouseAreaX != null">
+        #{warehouseAreaX},
+      </if>
+      <if test="warehouseAreaY != null">
+        #{warehouseAreaY},
+      </if>
+      <if test="warehouseAddress != null">
+        #{warehouseAddress},
+      </if>
+      <if test="provinceCityDistrictStreet != null">
+        #{provinceCityDistrictStreet},
+      </if>
+      <if test="provinceCode != null">
+        #{provinceCode},
+      </if>
+      <if test="cityCode != null">
+        #{cityCode},
+      </if>
+      <if test="districtCode != null">
+        #{districtCode},
+      </if>
+      <if test="streetCode != null">
+        #{streetCode},
+      </if>
+      <if test="deptId != null">
+        #{deptId},
+      </if>
+      <if test="status != null">
+        #{status},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag},
+      </if>
+      <if test="createBy != null">
+        #{createBy},
+      </if>
+      <if test="createTime != null">
+        #{createTime},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime},
+      </if>
+      <if test="remark != null">
+        #{remark},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateWmsWarehouse" parameterType="WmsWarehouse">
+    update wms_warehouse
+    <trim prefix="SET" suffixOverrides=",">
+      <if test="warehouseCode != null and warehouseCode != ''">
+        warehouse_code = #{warehouseCode},
+      </if>
+      <if test="warehouseName != null and warehouseName != ''">
+        warehouse_name = #{warehouseName},
+      </if>
+      <if test="warehouseInCharge != null">
+        warehouse_in_charge = #{warehouseInCharge},
+      </if>
+      <if test="warehouseType != null and warehouseType != ''">
+        warehouse_type = #{warehouseType},
+      </if>
+      <if test="warehouseArea != null">
+        warehouse_area = #{warehouseArea},
+      </if>
+      <if test="warehouseAreaX != null">
+        warehouse_area_x = #{warehouseAreaX},
+      </if>
+      <if test="warehouseAreaY != null">
+        warehouse_area_y = #{warehouseAreaY},
+      </if>
+      <if test="warehouseAddress != null">
+        warehouse_address = #{warehouseAddress},
+      </if>
+      <if test="provinceCityDistrictStreet != null">
+        province_city_district_street = #{provinceCityDistrictStreet},
+      </if>
+      <if test="provinceCode != null">
+        province_code = #{provinceCode},
+      </if>
+      <if test="cityCode != null">
+        city_code = #{cityCode},
+      </if>
+      <if test="districtCode != null">
+        district_code = #{districtCode},
+      </if>
+      <if test="streetCode != null">
+        street_code = #{streetCode},
+      </if>
+      <if test="deptId != null">
+        dept_id = #{deptId},
+      </if>
+      <if test="status != null">
+        status = #{status},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+      <if test="remark != null">
+        remark = #{remark},
+      </if>
+    </trim>
+    where warehouse_id = #{warehouseId}
+  </update>
+
+  <delete id="deleteWmsWarehouseById" parameterType="Long">
+    delete
+    from wms_warehouse
+    where warehouse_id = #{warehouseId}
+  </delete>
+
+  <delete id="deleteWmsWarehouseByIds" parameterType="String">
+    delete
+    from wms_warehouse where warehouse_id in
+    <foreach item="warehouseId" collection="array" open="(" separator="," close=")">
+      #{warehouseId}
+    </foreach>
+  </delete>
+</mapper>
