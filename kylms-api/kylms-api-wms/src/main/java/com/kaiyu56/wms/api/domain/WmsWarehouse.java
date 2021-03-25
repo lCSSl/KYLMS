@@ -5,6 +5,8 @@ import com.kaiyu56.common.core.web.domain.BaseEntity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import java.math.BigDecimal;
+
 /**
  * 站点(仓库)信息对象 wms_warehouse
  *
@@ -47,20 +49,30 @@ public class WmsWarehouse extends BaseEntity {
      * 站点面积
      */
     @Excel(name = "站点面积")
-    private Long warehouseArea;
+    private BigDecimal warehouseArea;
 
     /**
      * 站点面积长
      */
     @Excel(name = "站点面积长")
-    private Long warehouseAreaX;
+    private BigDecimal warehouseAreaX;
 
     /**
      * 站点面积宽
      */
     @Excel(name = "站点面积宽")
-    private Long warehouseAreaY;
+    private BigDecimal warehouseAreaY;
+    /**
+     * 站点方格最大X坐标
+     */
+    @Excel(name = "最大X坐标")
+    private int warehouseMaxX;
 
+    /**
+     * 站点方格最大Y坐标
+     */
+    @Excel(name = "最大Y坐标")
+    private int warehouseMaxY;
     /**
      * 站点详细地址
      */
@@ -154,27 +166,27 @@ public class WmsWarehouse extends BaseEntity {
         return warehouseType;
     }
 
-    public void setWarehouseArea(Long warehouseArea) {
+    public void setWarehouseArea(BigDecimal warehouseArea) {
         this.warehouseArea = warehouseArea;
     }
 
-    public Long getWarehouseArea() {
+    public BigDecimal getWarehouseArea() {
         return warehouseArea;
     }
 
-    public void setWarehouseAreaX(Long warehouseAreaX) {
+    public void setWarehouseAreaX(BigDecimal warehouseAreaX) {
         this.warehouseAreaX = warehouseAreaX;
     }
 
-    public Long getWarehouseAreaX() {
+    public BigDecimal getWarehouseAreaX() {
         return warehouseAreaX;
     }
 
-    public void setWarehouseAreaY(Long warehouseAreaY) {
+    public void setWarehouseAreaY(BigDecimal warehouseAreaY) {
         this.warehouseAreaY = warehouseAreaY;
     }
 
-    public Long getWarehouseAreaY() {
+    public BigDecimal getWarehouseAreaY() {
         return warehouseAreaY;
     }
 
@@ -250,6 +262,22 @@ public class WmsWarehouse extends BaseEntity {
         return delFlag;
     }
 
+    public int getWarehouseMaxX() {
+        return warehouseMaxX;
+    }
+
+    public void setWarehouseMaxX(int warehouseMaxX) {
+        this.warehouseMaxX = warehouseMaxX;
+    }
+
+    public int getWarehouseMaxY() {
+        return warehouseMaxY;
+    }
+
+    public void setWarehouseMaxY(int warehouseMaxY) {
+        this.warehouseMaxY = warehouseMaxY;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
@@ -261,6 +289,8 @@ public class WmsWarehouse extends BaseEntity {
                 .append("warehouseArea", getWarehouseArea())
                 .append("warehouseAreaX", getWarehouseAreaX())
                 .append("warehouseAreaY", getWarehouseAreaY())
+                .append("warehouseMaxX", getWarehouseMaxX())
+                .append("warehouseMaxY", getWarehouseMaxY())
                 .append("warehouseAddress", getWarehouseAddress())
                 .append("provinceCityDistrictStreet", getProvinceCityDistrictStreet())
                 .append("provinceCode", getProvinceCode())

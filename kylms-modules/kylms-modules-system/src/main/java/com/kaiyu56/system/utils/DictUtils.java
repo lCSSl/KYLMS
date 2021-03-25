@@ -6,7 +6,7 @@ import com.kaiyu56.common.core.constant.Constants;
 import com.kaiyu56.common.core.utils.SpringUtils;
 import com.kaiyu56.common.core.utils.StringUtils;
 import com.kaiyu56.common.redis.service.RedisService;
-import com.kaiyu56.system.domain.SysDictData;
+import com.kaiyu56.system.api.domain.SysDictData;
 
 /**
  * 字典工具类

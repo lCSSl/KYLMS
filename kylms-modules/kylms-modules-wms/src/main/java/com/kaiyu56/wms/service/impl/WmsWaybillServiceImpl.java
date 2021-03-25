@@ -2,8 +2,9 @@ package com.kaiyu56.wms.service.impl;
 
 import java.util.List;
 
+import com.kaiyu56.wms.api.domain.vo.WmsWaybillVO;
 import org.springframework.stereotype.Service;
-    import com.kaiyu56.wms.mapper.WmsWaybillMapper;
+import com.kaiyu56.wms.mapper.WmsWaybillMapper;
 import com.kaiyu56.wms.api.domain.WmsWaybill;
 import com.kaiyu56.wms.service.IWmsWaybillService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -39,4 +40,9 @@ public class WmsWaybillServiceImpl extends ServiceImpl<WmsWaybillMapper, WmsWayb
         return baseMapper.selectWmsWaybillList(wmsWaybill);
     }
 
+    @Override
+    public List<WmsWaybillVO> selectWmsWaybillVOList(WmsWaybill wmsWaybill) {
+        return baseMapper.selectWmsWaybillVOList(wmsWaybill);
     }
+
+}

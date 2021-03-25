@@ -1,5 +1,6 @@
 package com.kaiyu56.wms.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.kaiyu56.wms.api.domain.WmsWarehouse;
 import com.kaiyu56.wms.api.domain.vo.WmsWarehouseVO;
 
@@ -11,7 +12,7 @@ import java.util.List;
  * @author css
  * @date 2021-03-22
  */
-public interface WmsWarehouseMapper {
+public interface WmsWarehouseMapper extends BaseMapper<WmsWarehouse> {
     /**
      * 查询站点(仓库)信息
      *

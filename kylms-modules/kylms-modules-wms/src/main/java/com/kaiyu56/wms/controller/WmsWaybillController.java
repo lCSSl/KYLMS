@@ -1,27 +1,22 @@
 package com.kaiyu56.wms.controller;
 
-import java.util.List;
-import java.io.IOException;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import com.kaiyu56.wms.api.domain.WmsWaybill;
-import com.kaiyu56.wms.service.IWmsWaybillService;
+import com.baomidou.mybatisplus.core.toolkit.IdWorker;
+import com.kaiyu56.common.core.utils.poi.ExcelUtil;
+import com.kaiyu56.common.core.web.controller.BaseController;
+import com.kaiyu56.common.core.web.domain.AjaxResult;
+import com.kaiyu56.common.core.web.page.TableDataInfo;
 import com.kaiyu56.common.log.annotation.Log;
 import com.kaiyu56.common.log.enums.BusinessType;
 import com.kaiyu56.common.security.annotation.PreAuthorize;
-import com.kaiyu56.common.core.web.controller.BaseController;
-import com.kaiyu56.common.core.web.domain.AjaxResult;
-import com.kaiyu56.common.core.utils.poi.ExcelUtil;
-import com.kaiyu56.common.core.web.page.TableDataInfo;
+import com.kaiyu56.wms.api.domain.WmsWaybill;
+import com.kaiyu56.wms.api.domain.vo.WmsWaybillVO;
+import com.kaiyu56.wms.service.IWmsWaybillService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * 运单信息主Controller
@@ -35,17 +30,28 @@ public class WmsWaybillController extends BaseController {
     @Autowired
     private IWmsWaybillService wmsWaybillService;
 
-/**
- * 查询运单信息主列表
- */
+    /**
+     * 查询运单信息主列表
+     */
     @PreAuthorize(hasPermi = "wms:waybill:list")
     @GetMapping("/list")
-        public TableDataInfo list(WmsWaybill wmsWaybill) {
+    public TableDataInfo list(WmsWaybill wmsWaybill) {
         startPage();
         List<WmsWaybill> list = wmsWaybillService.selectWmsWaybillList(wmsWaybill);
         return getDataTable(list);
     }
-    
+
+    /**
+     * 查询运单信息主列表
+     */
+    @PreAuthorize(hasPermi = "wms:waybill:list")
+    @GetMapping("/list/vo")
+    public TableDataInfo voList(WmsWaybill wmsWaybill) {
+        startPage();
+        List<WmsWaybillVO> list = wmsWaybillService.selectWmsWaybillVOList(wmsWaybill);
+        return getDataTable(list);
+    }
+
     /**
      * 导出运单信息主列表
      */
@@ -53,8 +59,8 @@ public class WmsWaybillController extends BaseController {
     @Log(title = "运单信息主", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, WmsWaybill wmsWaybill) throws IOException {
-        List<WmsWaybill> list = wmsWaybillService.selectWmsWaybillList(wmsWaybill);
-        ExcelUtil<WmsWaybill> util = new ExcelUtil<WmsWaybill>(WmsWaybill. class);
+        List<WmsWaybillVO> list = wmsWaybillService.selectWmsWaybillVOList(wmsWaybill);
+        ExcelUtil<WmsWaybillVO> util = new ExcelUtil<>(WmsWaybillVO.class);
         util.exportExcel(response, list, "waybill");
     }
 
@@ -74,6 +80,7 @@ public class WmsWaybillController extends BaseController {
     @Log(title = "运单信息主", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody WmsWaybill wmsWaybill) {
+        wmsWaybill.setWaybillCode("KY-WB-" + IdWorker.get32UUID().toUpperCase());
         return toAjax(wmsWaybillService.save(wmsWaybill) ? 1 : 0);
     }
 

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kaiyu56.wms.mapper.WmsWaybillMdWarehouseExtItemMapper">
+
+    <resultMap type="com.kaiyu56.wms.domain.WmsWaybillMdWarehouseExtItem" id="WmsWaybillMdWarehouseExtItemResult">
+        <result property="id"    column="id"    />
+        <result property="itemId"    column="item_id"    />
+        <result property="waybillId"    column="waybill_id"    />
+    </resultMap>
+
+    <sql id="selectWmsWaybillMdWarehouseExtItemVo">
+        select id, item_id, waybill_id from wms_waybill_md_warehouse_ext_item
+    </sql>
+
+    <select id="selectWmsWaybillMdWarehouseExtItemList" parameterType="com.kaiyu56.wms.domain.WmsWaybillMdWarehouseExtItem" resultMap="WmsWaybillMdWarehouseExtItemResult">
+        <include refid="selectWmsWaybillMdWarehouseExtItemVo"/>
+        <where>  
+            <if test="itemId != null "> and item_id = #{itemId}</if>
+    
+            <if test="waybillId != null "> and waybill_id = #{waybillId}</if>
+    
+        </where>
+    </select>
+    
+    <select id="selectWmsWaybillMdWarehouseExtItemById" parameterType="Long" resultMap="WmsWaybillMdWarehouseExtItemResult">
+        <include refid="selectWmsWaybillMdWarehouseExtItemVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertWmsWaybillMdWarehouseExtItem" parameterType="WmsWaybillMdWarehouseExtItem" useGeneratedKeys="true" keyProperty="id">
+        insert into wms_waybill_md_warehouse_ext_item
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="itemId != null">item_id,</if>
+            <if test="waybillId != null">waybill_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="itemId != null">#{itemId},</if>
+            <if test="waybillId != null">#{waybillId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateWmsWaybillMdWarehouseExtItem" parameterType="WmsWaybillMdWarehouseExtItem">
+        update wms_waybill_md_warehouse_ext_item
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="itemId != null">item_id = #{itemId},</if>
+            <if test="waybillId != null">waybill_id = #{waybillId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteWmsWaybillMdWarehouseExtItemById" parameterType="Long">
+        delete from wms_waybill_md_warehouse_ext_item where id = #{id}
+    </delete>
+
+    <delete id="deleteWmsWaybillMdWarehouseExtItemByIds" parameterType="String">
+        delete from wms_waybill_md_warehouse_ext_item where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

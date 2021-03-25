@@ -3,7 +3,7 @@ package com.kaiyu56.system.service.impl;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.kaiyu56.system.domain.SysDictData;
+import com.kaiyu56.system.api.domain.SysDictData;
 import com.kaiyu56.system.mapper.SysDictDataMapper;
 import com.kaiyu56.system.service.ISysDictDataService;
 import com.kaiyu56.system.utils.DictUtils;

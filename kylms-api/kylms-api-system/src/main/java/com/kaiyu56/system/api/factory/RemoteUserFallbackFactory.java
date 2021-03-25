@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * 用户服务降级处理
  *
@@ -28,7 +30,7 @@ public class RemoteUserFallbackFactory implements FallbackFactory<RemoteUserServ
             }
 
             @Override
-            public R<SysUser> selectByIds(Long[] userIds) {
+            public R<List<SysUser>> selectByIds(Long[] userIds) {
                 return R.fail("获取用户列表失败:" + throwable.getMessage());
             }
         };

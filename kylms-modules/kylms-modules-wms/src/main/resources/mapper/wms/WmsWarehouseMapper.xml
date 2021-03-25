@@ -12,6 +12,8 @@
     <result property="warehouseArea" column="warehouse_area"/>
     <result property="warehouseAreaX" column="warehouse_area_x"/>
     <result property="warehouseAreaY" column="warehouse_area_y"/>
+    <result property="warehouseMaxX" column="warehouse_max_x"/>
+    <result property="warehouseMaxY" column="warehouse_max_y"/>
     <result property="warehouseAddress" column="warehouse_address"/>
     <result property="provinceCityDistrictStreet" column="province_city_district_street"/>
     <result property="provinceCode" column="province_code"/>
@@ -36,6 +38,8 @@
     <result property="warehouseArea" column="warehouse_area"/>
     <result property="warehouseAreaX" column="warehouse_area_x"/>
     <result property="warehouseAreaY" column="warehouse_area_y"/>
+    <result property="warehouseMaxX" column="warehouse_max_x"/>
+    <result property="warehouseMaxY" column="warehouse_max_y"/>
     <result property="warehouseAddress" column="warehouse_address"/>
     <result property="provinceCityDistrictStreet" column="province_city_district_street"/>
     <result property="provinceCode" column="province_code"/>
@@ -63,6 +67,8 @@
            warehouse_area,
            warehouse_area_x,
            warehouse_area_y,
+           warehouse_max_x,
+           warehouse_max_y,
            warehouse_address,
            province_city_district_street,
            province_code,
@@ -82,8 +88,7 @@
   <sql id="selectWmsWarehouseVO">
   </sql>
 
-  <select id="selectWmsWarehouseList" parameterType="com.kaiyu56.wms.api.domain.WmsWarehouse"
-          resultMap="WmsWarehouseResult">
+  <select id="selectWmsWarehouseList" parameterType="com.kaiyu56.wms.api.domain.WmsWarehouse" resultMap="WmsWarehouseResult">
     <include refid="selectBaseWmsWarehouse"/>
     <where>
       <if test="warehouseCode != null  and warehouseCode != ''">
@@ -141,35 +146,37 @@
       </if>
     </where>
   </select>
-  <select id="selectWmsWarehouseVOList" parameterType="com.kaiyu56.wms.api.domain.WmsWarehouse"
-          resultMap="WmsWarehouseVOResult">
+  <select id="selectWmsWarehouseVOList" parameterType="com.kaiyu56.wms.api.domain.WmsWarehouse" resultMap="WmsWarehouseVOResult">
     select wms_wh.warehouse_id,
-           wms_wh.warehouse_code,
-           wms_wh.warehouse_name,
-           wms_wh.warehouse_in_charge,
-           su.nick_name as warehouse_in_charge_name,
-           wms_wh.warehouse_type,
-           wms_wh.warehouse_area,
-           wms_wh.warehouse_area_x,
-           wms_wh.warehouse_area_y,
-           wms_wh.warehouse_address,
-           wms_wh.province_city_district_street,
-           wms_wh.province_code,
-           wms_wh.city_code,
-           wms_wh.district_code,
-           wms_wh.street_code,
-           wms_wh.dept_id,
-           sd.dept_name as dept_name,
-           wms_wh.status,
-           wms_wh.del_flag,
-           wms_wh.create_by,
-           wms_wh.create_time,
-           wms_wh.update_by,
-           wms_wh.update_time,
-           wms_wh.remark
+    wms_wh.warehouse_code,
+    wms_wh.warehouse_name,
+    wms_wh.warehouse_in_charge,
+    su.nick_name as warehouse_in_charge_name,
+    wms_wh.warehouse_type,
+    wms_wh.warehouse_area,
+    wms_wh.warehouse_area_x,
+    wms_wh.warehouse_area_y,
+    wms_wh.warehouse_max_x,
+    wms_wh.warehouse_max_y,
+    wms_wh.warehouse_address,
+    wms_wh.province_city_district_street,
+    wms_wh.province_code,
+    wms_wh.city_code,
+    wms_wh.district_code,
+    wms_wh.street_code,
+    wms_wh.dept_id,
+    sd.dept_name as dept_name,
+    wms_wh.status,
+    wms_wh.del_flag,
+    wms_wh.create_by,
+    wms_wh.create_time,
+    wms_wh.update_by,
+    wms_wh.update_time,
+    wms_wh.remark
     from wms_warehouse wms_wh
-    left join sys_dept sd on wms_wh.dept_id =sd.dept_id
+    left join sys_dept sd on wms_wh.dept_id = sd.dept_id
     left join sys_user su on wms_wh.warehouse_in_charge = su.user_id
+
     <where>
       <if test="warehouseCode != null  and warehouseCode != ''">
         and warehouse_code like concat('%', #{warehouseCode}, '%')
@@ -216,13 +223,11 @@
       <if test="streetCode != null">
         and street_code = #{streetCode}
       </if>
-
       <if test="deptId != null">
-        and dept_id = #{deptId}
+        and wms_wh.dept_id = #{deptId}
       </if>
-
       <if test="status != null  and status != ''">
-        and status = #{status}
+        and wms_wh.status = #{status}
       </if>
     </where>
   </select>
@@ -236,7 +241,14 @@
     where warehouse_id = #{warehouseId}
   </select>
 
-  <insert id="insertWmsWarehouse" parameterType="WmsWarehouse" useGeneratedKeys="true" keyProperty="warehouseId">
+  <select id="selectWmsWarehouseNameById" parameterType="Long" resultType="java.lang.String">
+    select warehouse_name
+    from wms_warehouse
+    where warehouse_id = #{warehouseId}
+  </select>
+
+  <insert id="insertWmsWarehouse" parameterType="com.kaiyu56.wms.api.domain.WmsWarehouse" useGeneratedKeys="true"
+          keyProperty="warehouseId">
     insert into wms_warehouse
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="warehouseCode != null and warehouseCode != ''">
@@ -287,18 +299,18 @@
       <if test="delFlag != null">
         del_flag,
       </if>
-      <if test="createBy != null">
-        create_by,
-      </if>
-      <if test="createTime != null">
-        create_time,
-      </if>
-      <if test="updateBy != null">
-        update_by,
-      </if>
-      <if test="updateTime != null">
-        update_time,
-      </if>
+      <!--      <if test="createBy != null">-->
+      create_by,
+      <!--      </if>-->
+      <!--      <if test="createTime != null">-->
+      create_time,
+      <!--      </if>-->
+      <!--      <if test="updateBy != null">-->
+      update_by,
+      <!--      </if>-->
+      <!--      <if test="updateTime != null">-->
+      update_time,
+      <!--      </if>-->
       <if test="remark != null">
         remark,
       </if>
@@ -352,25 +364,25 @@
       <if test="delFlag != null">
         #{delFlag},
       </if>
-      <if test="createBy != null">
-        #{createBy},
-      </if>
-      <if test="createTime != null">
-        #{createTime},
-      </if>
-      <if test="updateBy != null">
-        #{updateBy},
-      </if>
-      <if test="updateTime != null">
-        #{updateTime},
-      </if>
+      <!--      <if test="createBy != null">-->
+      #{createBy},
+      <!--      </if>-->
+      <!--      <if test="createTime != null">-->
+      #{createTime},
+      <!--      </if>-->
+      <!--      <if test="updateBy != null">-->
+      #{updateBy},
+      <!--      </if>-->
+      <!--      <if test="updateTime != null">-->
+      #{updateTime},
+      <!--      </if>-->
       <if test="remark != null">
         #{remark},
       </if>
     </trim>
   </insert>
 
-  <update id="updateWmsWarehouse" parameterType="WmsWarehouse">
+  <update id="updateWmsWarehouse" parameterType="com.kaiyu56.wms.api.domain.WmsWarehouse">
     update wms_warehouse
     <trim prefix="SET" suffixOverrides=",">
       <if test="warehouseCode != null and warehouseCode != ''">
@@ -393,6 +405,12 @@
       </if>
       <if test="warehouseAreaY != null">
         warehouse_area_y = #{warehouseAreaY},
+      </if>
+      <if test="warehouseAreaX != null">
+        warehouse_max_x = #{warehouseMaxX},
+      </if>
+      <if test="warehouseAreaY != null">
+        warehouse_max_y = #{warehouseMaxY},
       </if>
       <if test="warehouseAddress != null">
         warehouse_address = #{warehouseAddress},
@@ -421,18 +439,18 @@
       <if test="delFlag != null">
         del_flag = #{delFlag},
       </if>
-      <if test="createBy != null">
-        create_by = #{createBy},
-      </if>
-      <if test="createTime != null">
-        create_time = #{createTime},
-      </if>
-      <if test="updateBy != null">
-        update_by = #{updateBy},
-      </if>
-      <if test="updateTime != null">
-        update_time = #{updateTime},
-      </if>
+      <!--      <if test="createBy != null">-->
+      <!--        create_by = #{createBy},-->
+      <!--      </if>-->
+      <!--      <if test="createTime != null">-->
+      <!--        create_time = #{createTime},-->
+      <!--      </if>-->
+      <!--      <if test="updateBy != null">-->
+      update_by = #{updateBy},
+      <!--      </if>-->
+      <!--      <if test="updateTime != null">-->
+      update_time = #{updateTime},
+      <!--      </if>-->
       <if test="remark != null">
         remark = #{remark},
       </if>

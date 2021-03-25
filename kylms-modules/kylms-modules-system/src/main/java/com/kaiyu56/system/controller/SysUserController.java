@@ -1,6 +1,7 @@
 package com.kaiyu56.system.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -67,9 +68,12 @@ public class SysUserController extends BaseController {
      */
     @PreAuthorize(hasPermi = "system:user:list")
     @GetMapping("/list/{userIds}")
-    public AjaxResult selectByIds(@PathVariable Long[] userIds) {
+    public R<List<SysUser>> selectByIds(@PathVariable Long[] userIds) {
         List<SysUser> list = userService.selectByIds(userIds);
-        return AjaxResult.success(list);
+//        HashMap<String, Object> map = new HashMap<>(1);
+//        map.put("rows", list);
+//        Object rows = new HashMap<String, Object>(1).put("rows", list);
+        return R.ok(list);
     }
 
     @Log(title = "用户管理", businessType = BusinessType.EXPORT)

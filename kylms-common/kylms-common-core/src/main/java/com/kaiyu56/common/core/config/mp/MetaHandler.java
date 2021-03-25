@@ -2,7 +2,9 @@ package com.kaiyu56.common.core.config.mp;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.kaiyu56.common.core.utils.SecurityUtils;
+import com.kaiyu56.common.core.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;
 
@@ -31,10 +33,10 @@ public class MetaHandler implements MetaObjectHandler {
 //        }
         setFieldValByName("createTime", now, metaObject);
         setFieldValByName("updateTime", now, metaObject);
-        if (null == createBy) {
+        if (ObjectUtils.isEmpty(createBy)) {
             setFieldValByName("createBy", currentUser, metaObject);
         }
-        if (null == updateBy) {
+        if (ObjectUtils.isEmpty(updateBy)) {
             setFieldValByName("updateBy", currentUser, metaObject);
         }
     }
@@ -45,7 +47,7 @@ public class MetaHandler implements MetaObjectHandler {
         String currentUser = SecurityUtils.getUsername();
         setFieldValByName("updateTime", new Date(), metaObject);
         Object updateBy = getFieldValByName("updateBy", metaObject);
-        if (null == updateBy) {
+        if (ObjectUtils.isEmpty(updateBy)) {
             setFieldValByName("updateBy", currentUser, metaObject);
         }
     }

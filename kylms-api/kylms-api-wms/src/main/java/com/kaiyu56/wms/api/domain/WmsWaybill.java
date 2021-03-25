@@ -30,7 +30,7 @@ public class WmsWaybill extends BaseEntity {
     /**
      * 序号
      */
-    @TableId(value = "waybill_id", type = IdType.AUTO)
+    @TableId(value = "waybill_id", type = IdType.ASSIGN_ID)
     @JsonSerialize(using = ToStringSerializer.class)
     private Long waybillId;
     /**
@@ -40,19 +40,19 @@ public class WmsWaybill extends BaseEntity {
     @TableField(value = "waybill_code")
     private String waybillCode;
     /**
-     * 到达站
-     */
-    @Excel(name = "到达站")
-    @TableField(value = "destination")
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long destination;
-    /**
      * 始发站
      */
     @Excel(name = "始发站")
     @TableField(value = "departure")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long departure;
+    /**
+     * 到达站
+     */
+    @Excel(name = "到达站")
+    @TableField(value = "destination")
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long destination;
     /**
      * 中转地
      */

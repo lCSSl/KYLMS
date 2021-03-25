@@ -1,4 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.kaiyu56.common.core.utils.SpringUtils
+  com.kaiyu56.common.core.utils.SpringUtils, \
+com.kaiyu56.common.core.config.mp.MetaHandler
 
   

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.kaiyu56.wms.api.domain.WmsWaybill;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.kaiyu56.wms.api.domain.vo.WmsWaybillVO;
 
 /**
  * 运单信息主Service接口
@@ -27,4 +28,6 @@ public interface IWmsWaybillService extends IService<WmsWaybill> {
      * @return 运单信息主集合
      */
     public List<WmsWaybill> selectWmsWaybillList(WmsWaybill wmsWaybill);
+
+    public List<WmsWaybillVO> selectWmsWaybillVOList(WmsWaybill wmsWaybill);
 }

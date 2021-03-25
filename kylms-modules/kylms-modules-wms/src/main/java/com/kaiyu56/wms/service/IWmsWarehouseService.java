@@ -1,8 +1,12 @@
 package com.kaiyu56.wms.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.kaiyu56.wms.api.domain.WmsWarehouse;
+import com.kaiyu56.wms.api.domain.WmsWaybill;
 import com.kaiyu56.wms.api.domain.vo.WmsWarehouseVO;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -11,7 +15,7 @@ import java.util.List;
  * @author css
  * @date 2021-03-22
  */
-public interface IWmsWarehouseService 
+public interface IWmsWarehouseService extends IService<WmsWarehouse>
 {
     /**
      * 查询站点(仓库)信息
@@ -51,10 +55,9 @@ public interface IWmsWarehouseService
      * @return 结果
      */
     public int insertWmsWarehouse(WmsWarehouse wmsWarehouse);
-
     /**
      * 修改站点(仓库)信息
-     * 
+     *
      * @param wmsWarehouse 站点(仓库)信息
      * @return 结果
      */
@@ -62,7 +65,7 @@ public interface IWmsWarehouseService
 
     /**
      * 批量删除站点(仓库)信息
-     * 
+     *
      * @param warehouseIds 需要删除的站点(仓库)信息ID
      * @return 结果
      */
@@ -70,9 +73,19 @@ public interface IWmsWarehouseService
 
     /**
      * 删除站点(仓库)信息信息
-     * 
+     *
      * @param warehouseId 站点(仓库)信息ID
      * @return 结果
      */
     public int deleteWmsWarehouseById(Long warehouseId);
+
+    /**
+     * 初始化站点(仓库)方格
+     * @param warehouseId
+     * @param dictCode
+     * @param trayType
+     * @param trayInterval
+     * @return
+     */
+    public int initWmsWarehouseExtItem(Long warehouseId,Long dictCode,String trayType,BigDecimal trayInterval);
 }

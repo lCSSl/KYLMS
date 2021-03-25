@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kaiyu56.wms.mapper.WmsCargoTempMapper">
+
+    <resultMap type="com.kaiyu56.wms.domain.WmsCargoTemp" id="WmsCargoTempResult">
+        <result property="id"    column="id"    />
+        <result property="waybillId"    column="waybill_id"    />
+        <result property="cargoId"    column="cargo_id"    />
+        <result property="tCargoName"    column="t_cargo_name"    />
+        <result property="tCargoNumber"    column="t_cargo_number"    />
+        <result property="tCargoTotalWeight"    column="t_cargo_total_weight"    />
+        <result property="tCargoTotalVolume"    column="t_cargo_total_volume"    />
+        <result property="valuable"    column="valuable"    />
+        <result property="irregular"    column="irregular"    />
+        <result property="documents"    column="documents"    />
+        <result property="packageType"    column="package_type"    />
+    </resultMap>
+
+    <sql id="selectWmsCargoTempVo">
+        select id, waybill_id, cargo_id, t_cargo_name, t_cargo_number, t_cargo_total_weight, t_cargo_total_volume, valuable, irregular, documents, package_type from wms_cargo_temp
+    </sql>
+
+    <select id="selectWmsCargoTempList" parameterType="com.kaiyu56.wms.domain.WmsCargoTemp" resultMap="WmsCargoTempResult">
+        <include refid="selectWmsCargoTempVo"/>
+        <where>  
+            <if test="waybillId != null "> and waybill_id = #{waybillId}</if>
+    
+            <if test="cargoId != null "> and cargo_id = #{cargoId}</if>
+    
+            <if test="tCargoName != null  and tCargoName != ''"> and t_cargo_name like concat('%', #{tCargoName}, '%')</if>
+            <if test="tCargoNumber != null "> and t_cargo_number &gt;= #{tCargoNumber}</if>
+            <if test="tCargoTotalWeight != null "> and t_cargo_total_weight = #{tCargoTotalWeight}</if>
+    
+            <if test="tCargoTotalVolume != null "> and t_cargo_total_volume = #{tCargoTotalVolume}</if>
+    
+            <if test="valuable != null  and valuable != ''"> and valuable = #{valuable}</if>
+    
+            <if test="irregular != null  and irregular != ''"> and irregular = #{irregular}</if>
+    
+            <if test="documents != null  and documents != ''"> and documents = #{documents}</if>
+    
+            <if test="packageType != null  and packageType != ''"> and package_type = #{packageType}</if>
+    
+        </where>
+    </select>
+    
+    <select id="selectWmsCargoTempById" parameterType="Long" resultMap="WmsCargoTempResult">
+        <include refid="selectWmsCargoTempVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertWmsCargoTemp" parameterType="WmsCargoTemp" useGeneratedKeys="true" keyProperty="id">
+        insert into wms_cargo_temp
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="waybillId != null">waybill_id,</if>
+            <if test="cargoId != null">cargo_id,</if>
+            <if test="tCargoName != null">t_cargo_name,</if>
+            <if test="tCargoNumber != null">t_cargo_number,</if>
+            <if test="tCargoTotalWeight != null">t_cargo_total_weight,</if>
+            <if test="tCargoTotalVolume != null">t_cargo_total_volume,</if>
+            <if test="valuable != null">valuable,</if>
+            <if test="irregular != null">irregular,</if>
+            <if test="documents != null">documents,</if>
+            <if test="packageType != null">package_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="waybillId != null">#{waybillId},</if>
+            <if test="cargoId != null">#{cargoId},</if>
+            <if test="tCargoName != null">#{tCargoName},</if>
+            <if test="tCargoNumber != null">#{tCargoNumber},</if>
+            <if test="tCargoTotalWeight != null">#{tCargoTotalWeight},</if>
+            <if test="tCargoTotalVolume != null">#{tCargoTotalVolume},</if>
+            <if test="valuable != null">#{valuable},</if>
+            <if test="irregular != null">#{irregular},</if>
+            <if test="documents != null">#{documents},</if>
+            <if test="packageType != null">#{packageType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateWmsCargoTemp" parameterType="WmsCargoTemp">
+        update wms_cargo_temp
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="waybillId != null">waybill_id = #{waybillId},</if>
+            <if test="cargoId != null">cargo_id = #{cargoId},</if>
+            <if test="tCargoName != null">t_cargo_name = #{tCargoName},</if>
+            <if test="tCargoNumber != null">t_cargo_number = #{tCargoNumber},</if>
+            <if test="tCargoTotalWeight != null">t_cargo_total_weight = #{tCargoTotalWeight},</if>
+            <if test="tCargoTotalVolume != null">t_cargo_total_volume = #{tCargoTotalVolume},</if>
+            <if test="valuable != null">valuable = #{valuable},</if>
+            <if test="irregular != null">irregular = #{irregular},</if>
+            <if test="documents != null">documents = #{documents},</if>
+            <if test="packageType != null">package_type = #{packageType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteWmsCargoTempById" parameterType="Long">
+        delete from wms_cargo_temp where id = #{id}
+    </delete>
+
+    <delete id="deleteWmsCargoTempByIds" parameterType="String">
+        delete from wms_cargo_temp where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

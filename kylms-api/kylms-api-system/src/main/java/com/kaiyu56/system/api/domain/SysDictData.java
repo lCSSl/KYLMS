@@ -1,4 +1,4 @@
-package com.kaiyu56.system.domain;
+package com.kaiyu56.system.api.domain;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;

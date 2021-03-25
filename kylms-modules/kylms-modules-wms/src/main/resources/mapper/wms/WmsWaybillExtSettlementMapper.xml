@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kaiyu56.wms.mapper.WmsWaybillExtSettlementMapper">
+
+    <resultMap type="com.kaiyu56.wms.domain.WmsWaybillExtSettlement" id="WmsWaybillExtSettlementResult">
+        <result property="wbSettlementId"    column="wb_settlement_id"    />
+        <result property="waybillId"    column="waybill_id"    />
+        <result property="mainFee"    column="main_fee"    />
+        <result property="deliveryFee"    column="delivery_fee"    />
+        <result property="transferFee"    column="transfer_fee"    />
+        <result property="wbSettlementTypes"    column="wb_settlement_types"    />
+        <result property="receiptFee"    column="receipt_fee"    />
+        <result property="receiptRequest"    column="receipt_request"    />
+        <result property="advanceFee"    column="advance_fee"    />
+        <result property="insuranceFee"    column="insurance_fee"    />
+        <result property="insuranceType"    column="insurance_type"    />
+        <result property="insuranceDeclaredValue"    column="insurance_declared_value"    />
+        <result property="collectionFee"    column="collection_fee"    />
+        <result property="collectionMoney"    column="collection_money"    />
+        <result property="packagingFee"    column="packaging_fee"    />
+        <result property="otherFee"    column="other_fee"    />
+        <result property="otherFeeContent"    column="other_fee_content"    />
+        <result property="loadingFee"    column="loading_fee"    />
+        <result property="restockingFee"    column="restocking_fee"    />
+        <result property="storageFee"    column="storage_fee"    />
+        <result property="forkliftFee"    column="forklift_fee"    />
+        <result property="upstairsFee"    column="upstairs_fee"    />
+        <result property="customsFees"    column="customs_fees"    />
+        <result property="woodenFrameFee"    column="wooden_frame_fee"    />
+        <result property="productionFee"    column="production_fee"    />
+        <result property="informationFee"    column="information_fee"    />
+        <result property="receivingCargoFee"    column="receiving_cargo_fee"    />
+        <result property="fuelCostsFee"    column="fuel_costs_fee"    />
+        <result property="rate"    column="rate"    />
+        <result property="taxesFee"    column="taxes_fee"    />
+        <result property="changeWaybillFee"    column="change_waybill_fee"    />
+        <result property="totalOtherFees"    column="total_other_fees"    />
+        <result property="totalFees"    column="total_fees"    />
+    </resultMap>
+
+    <sql id="selectWmsWaybillExtSettlementVo">
+        select wb_settlement_id, waybill_id, main_fee, delivery_fee, transfer_fee, wb_settlement_types, receipt_fee, receipt_request, advance_fee, insurance_fee, insurance_type, insurance_declared_value, collection_fee, collection_money, packaging_fee, other_fee, other_fee_content, loading_fee, restocking_fee, storage_fee, forklift_fee, upstairs_fee, customs_fees, wooden_frame_fee, production_fee, information_fee, receiving_cargo_fee, fuel_costs_fee, rate, taxes_fee, change_waybill_fee, total_other_fees, total_fees from wms_waybill_ext_settlement
+    </sql>
+
+    <select id="selectWmsWaybillExtSettlementList" parameterType="com.kaiyu56.wms.domain.WmsWaybillExtSettlement" resultMap="WmsWaybillExtSettlementResult">
+        <include refid="selectWmsWaybillExtSettlementVo"/>
+        <where>  
+            <if test="waybillId != null "> and waybill_id = #{waybillId}</if>
+    
+            <if test="mainFee != null "> and main_fee = #{mainFee}</if>
+    
+            <if test="deliveryFee != null "> and delivery_fee = #{deliveryFee}</if>
+    
+            <if test="transferFee != null "> and transfer_fee = #{transferFee}</if>
+    
+            <if test="wbSettlementTypes != null  and wbSettlementTypes != ''"> and wb_settlement_types = #{wbSettlementTypes}</if>
+    
+            <if test="receiptFee != null "> and receipt_fee = #{receiptFee}</if>
+    
+            <if test="receiptRequest != null  and receiptRequest != ''"> and receipt_request = #{receiptRequest}</if>
+    
+            <if test="advanceFee != null "> and advance_fee = #{advanceFee}</if>
+    
+            <if test="insuranceFee != null "> and insurance_fee = #{insuranceFee}</if>
+    
+            <if test="insuranceType != null  and insuranceType != ''"> and insurance_type = #{insuranceType}</if>
+    
+            <if test="insuranceDeclaredValue != null "> and insurance_declared_value = #{insuranceDeclaredValue}</if>
+    
+            <if test="collectionFee != null "> and collection_fee = #{collectionFee}</if>
+    
+            <if test="collectionMoney != null "> and collection_money = #{collectionMoney}</if>
+    
+            <if test="packagingFee != null "> and packaging_fee = #{packagingFee}</if>
+    
+            <if test="otherFee != null "> and other_fee = #{otherFee}</if>
+    
+            <if test="otherFeeContent != null  and otherFeeContent != ''"> and other_fee_content = #{otherFeeContent}</if>
+    
+            <if test="loadingFee != null "> and loading_fee = #{loadingFee}</if>
+    
+            <if test="restockingFee != null "> and restocking_fee = #{restockingFee}</if>
+    
+            <if test="storageFee != null "> and storage_fee = #{storageFee}</if>
+    
+            <if test="forkliftFee != null "> and forklift_fee = #{forkliftFee}</if>
+    
+            <if test="upstairsFee != null "> and upstairs_fee = #{upstairsFee}</if>
+    
+            <if test="customsFees != null "> and customs_fees = #{customsFees}</if>
+    
+            <if test="woodenFrameFee != null "> and wooden_frame_fee = #{woodenFrameFee}</if>
+    
+            <if test="productionFee != null "> and production_fee = #{productionFee}</if>
+    
+            <if test="informationFee != null "> and information_fee = #{informationFee}</if>
+    
+            <if test="receivingCargoFee != null "> and receiving_cargo_fee = #{receivingCargoFee}</if>
+    
+            <if test="fuelCostsFee != null "> and fuel_costs_fee = #{fuelCostsFee}</if>
+    
+            <if test="rate != null "> and rate = #{rate}</if>
+    
+            <if test="taxesFee != null "> and taxes_fee = #{taxesFee}</if>
+    
+            <if test="changeWaybillFee != null "> and change_waybill_fee = #{changeWaybillFee}</if>
+    
+            <if test="totalOtherFees != null "> and total_other_fees = #{totalOtherFees}</if>
+    
+            <if test="totalFees != null "> and total_fees = #{totalFees}</if>
+    
+        </where>
+    </select>
+    
+    <select id="selectWmsWaybillExtSettlementById" parameterType="Long" resultMap="WmsWaybillExtSettlementResult">
+        <include refid="selectWmsWaybillExtSettlementVo"/>
+        where wb_settlement_id = #{wbSettlementId}
+    </select>
+        
+    <insert id="insertWmsWaybillExtSettlement" parameterType="WmsWaybillExtSettlement" useGeneratedKeys="true" keyProperty="wbSettlementId">
+        insert into wms_waybill_ext_settlement
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="waybillId != null">waybill_id,</if>
+            <if test="mainFee != null">main_fee,</if>
+            <if test="deliveryFee != null">delivery_fee,</if>
+            <if test="transferFee != null">transfer_fee,</if>
+            <if test="wbSettlementTypes != null">wb_settlement_types,</if>
+            <if test="receiptFee != null">receipt_fee,</if>
+            <if test="receiptRequest != null">receipt_request,</if>
+            <if test="advanceFee != null">advance_fee,</if>
+            <if test="insuranceFee != null">insurance_fee,</if>
+            <if test="insuranceType != null">insurance_type,</if>
+            <if test="insuranceDeclaredValue != null">insurance_declared_value,</if>
+            <if test="collectionFee != null">collection_fee,</if>
+            <if test="collectionMoney != null">collection_money,</if>
+            <if test="packagingFee != null">packaging_fee,</if>
+            <if test="otherFee != null">other_fee,</if>
+            <if test="otherFeeContent != null">other_fee_content,</if>
+            <if test="loadingFee != null">loading_fee,</if>
+            <if test="restockingFee != null">restocking_fee,</if>
+            <if test="storageFee != null">storage_fee,</if>
+            <if test="forkliftFee != null">forklift_fee,</if>
+            <if test="upstairsFee != null">upstairs_fee,</if>
+            <if test="customsFees != null">customs_fees,</if>
+            <if test="woodenFrameFee != null">wooden_frame_fee,</if>
+            <if test="productionFee != null">production_fee,</if>
+            <if test="informationFee != null">information_fee,</if>
+            <if test="receivingCargoFee != null">receiving_cargo_fee,</if>
+            <if test="fuelCostsFee != null">fuel_costs_fee,</if>
+            <if test="rate != null">rate,</if>
+            <if test="taxesFee != null">taxes_fee,</if>
+            <if test="changeWaybillFee != null">change_waybill_fee,</if>
+            <if test="totalOtherFees != null">total_other_fees,</if>
+            <if test="totalFees != null">total_fees,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="waybillId != null">#{waybillId},</if>
+            <if test="mainFee != null">#{mainFee},</if>
+            <if test="deliveryFee != null">#{deliveryFee},</if>
+            <if test="transferFee != null">#{transferFee},</if>
+            <if test="wbSettlementTypes != null">#{wbSettlementTypes},</if>
+            <if test="receiptFee != null">#{receiptFee},</if>
+            <if test="receiptRequest != null">#{receiptRequest},</if>
+            <if test="advanceFee != null">#{advanceFee},</if>
+            <if test="insuranceFee != null">#{insuranceFee},</if>
+            <if test="insuranceType != null">#{insuranceType},</if>
+            <if test="insuranceDeclaredValue != null">#{insuranceDeclaredValue},</if>
+            <if test="collectionFee != null">#{collectionFee},</if>
+            <if test="collectionMoney != null">#{collectionMoney},</if>
+            <if test="packagingFee != null">#{packagingFee},</if>
+            <if test="otherFee != null">#{otherFee},</if>
+            <if test="otherFeeContent != null">#{otherFeeContent},</if>
+            <if test="loadingFee != null">#{loadingFee},</if>
+            <if test="restockingFee != null">#{restockingFee},</if>
+            <if test="storageFee != null">#{storageFee},</if>
+            <if test="forkliftFee != null">#{forkliftFee},</if>
+            <if test="upstairsFee != null">#{upstairsFee},</if>
+            <if test="customsFees != null">#{customsFees},</if>
+            <if test="woodenFrameFee != null">#{woodenFrameFee},</if>
+            <if test="productionFee != null">#{productionFee},</if>
+            <if test="informationFee != null">#{informationFee},</if>
+            <if test="receivingCargoFee != null">#{receivingCargoFee},</if>
+            <if test="fuelCostsFee != null">#{fuelCostsFee},</if>
+            <if test="rate != null">#{rate},</if>
+            <if test="taxesFee != null">#{taxesFee},</if>
+            <if test="changeWaybillFee != null">#{changeWaybillFee},</if>
+            <if test="totalOtherFees != null">#{totalOtherFees},</if>
+            <if test="totalFees != null">#{totalFees},</if>
+         </trim>
+    </insert>
+
+    <update id="updateWmsWaybillExtSettlement" parameterType="WmsWaybillExtSettlement">
+        update wms_waybill_ext_settlement
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="waybillId != null">waybill_id = #{waybillId},</if>
+            <if test="mainFee != null">main_fee = #{mainFee},</if>
+            <if test="deliveryFee != null">delivery_fee = #{deliveryFee},</if>
+            <if test="transferFee != null">transfer_fee = #{transferFee},</if>
+            <if test="wbSettlementTypes != null">wb_settlement_types = #{wbSettlementTypes},</if>
+            <if test="receiptFee != null">receipt_fee = #{receiptFee},</if>
+            <if test="receiptRequest != null">receipt_request = #{receiptRequest},</if>
+            <if test="advanceFee != null">advance_fee = #{advanceFee},</if>
+            <if test="insuranceFee != null">insurance_fee = #{insuranceFee},</if>
+            <if test="insuranceType != null">insurance_type = #{insuranceType},</if>
+            <if test="insuranceDeclaredValue != null">insurance_declared_value = #{insuranceDeclaredValue},</if>
+            <if test="collectionFee != null">collection_fee = #{collectionFee},</if>
+            <if test="collectionMoney != null">collection_money = #{collectionMoney},</if>
+            <if test="packagingFee != null">packaging_fee = #{packagingFee},</if>
+            <if test="otherFee != null">other_fee = #{otherFee},</if>
+            <if test="otherFeeContent != null">other_fee_content = #{otherFeeContent},</if>
+            <if test="loadingFee != null">loading_fee = #{loadingFee},</if>
+            <if test="restockingFee != null">restocking_fee = #{restockingFee},</if>
+            <if test="storageFee != null">storage_fee = #{storageFee},</if>
+            <if test="forkliftFee != null">forklift_fee = #{forkliftFee},</if>
+            <if test="upstairsFee != null">upstairs_fee = #{upstairsFee},</if>
+            <if test="customsFees != null">customs_fees = #{customsFees},</if>
+            <if test="woodenFrameFee != null">wooden_frame_fee = #{woodenFrameFee},</if>
+            <if test="productionFee != null">production_fee = #{productionFee},</if>
+            <if test="informationFee != null">information_fee = #{informationFee},</if>
+            <if test="receivingCargoFee != null">receiving_cargo_fee = #{receivingCargoFee},</if>
+            <if test="fuelCostsFee != null">fuel_costs_fee = #{fuelCostsFee},</if>
+            <if test="rate != null">rate = #{rate},</if>
+            <if test="taxesFee != null">taxes_fee = #{taxesFee},</if>
+            <if test="changeWaybillFee != null">change_waybill_fee = #{changeWaybillFee},</if>
+            <if test="totalOtherFees != null">total_other_fees = #{totalOtherFees},</if>
+            <if test="totalFees != null">total_fees = #{totalFees},</if>
+        </trim>
+        where wb_settlement_id = #{wbSettlementId}
+    </update>
+
+    <delete id="deleteWmsWaybillExtSettlementById" parameterType="Long">
+        delete from wms_waybill_ext_settlement where wb_settlement_id = #{wbSettlementId}
+    </delete>
+
+    <delete id="deleteWmsWaybillExtSettlementByIds" parameterType="String">
+        delete from wms_waybill_ext_settlement where wb_settlement_id in 
+        <foreach item="wbSettlementId" collection="array" open="(" separator="," close=")">
+            #{wbSettlementId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,7 +1,7 @@
 package com.kaiyu56.system.service;
 
 import java.util.List;
-import com.kaiyu56.system.domain.SysDictData;
+import com.kaiyu56.system.api.domain.SysDictData;
 
 /**
  * 字典 业务层

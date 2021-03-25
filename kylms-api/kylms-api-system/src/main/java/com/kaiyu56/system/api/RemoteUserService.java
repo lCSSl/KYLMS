@@ -9,6 +9,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.List;
+
 /**
  * 用户服务
  *
@@ -31,6 +33,6 @@ public interface RemoteUserService {
      * @param userIds 用户IDS列表
      * @return 用户信息集合信息
      */
-    @GetMapping("/list/{userIds}")
-    public R<SysUser> selectByIds(@PathVariable("userIds") Long[] userIds);
+    @GetMapping("/user/list/{userIds}")
+    public R<List<SysUser>> selectByIds(@PathVariable("userIds") Long[] userIds);
 }

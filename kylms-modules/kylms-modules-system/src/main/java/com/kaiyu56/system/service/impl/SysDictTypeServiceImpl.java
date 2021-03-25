@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kaiyu56.common.core.constant.UserConstants;
 import com.kaiyu56.common.core.exception.CustomException;
 import com.kaiyu56.common.core.utils.StringUtils;
-import com.kaiyu56.system.domain.SysDictData;
+import com.kaiyu56.system.api.domain.SysDictData;
 import com.kaiyu56.system.domain.SysDictType;
 import com.kaiyu56.system.mapper.SysDictDataMapper;
 import com.kaiyu56.system.mapper.SysDictTypeMapper;

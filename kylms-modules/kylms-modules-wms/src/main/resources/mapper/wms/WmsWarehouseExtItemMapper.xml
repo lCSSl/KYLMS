@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kaiyu56.wms.mapper.WmsWarehouseExtItemMapper">
+  <resultMap type="com.kaiyu56.wms.domain.WmsWarehouseExtItem" id="WmsWarehouseExtItemResult">
+    <result property="itemId" column="item_id"/>
+    <result property="warehouseId" column="warehouse_id"/>
+    <result property="itemX" column="item_x"/>
+    <result property="itemY" column="item_y"/>
+    <result property="status" column="status"/>
+    <result property="delFlag" column="del_flag"/>
+    <result property="createBy" column="create_by"/>
+    <result property="createTime" column="create_time"/>
+    <result property="updateBy" column="update_by"/>
+    <result property="updateTime" column="update_time"/>
+    <result property="remark" column="remark"/>
+  </resultMap>
+
+  <sql id="selectWmsWarehouseExtItemVo">
+    select item_id,
+           warehouse_id,
+           item_x,
+           item_y,
+           status,
+           del_flag,
+           create_by,
+           create_time,
+           update_by,
+           update_time,
+           remark
+    from wms_warehouse_ext_item_batch
+  </sql>
+
+  <select id="selectWmsWarehouseExtItemList" parameterType="com.kaiyu56.wms.domain.WmsWarehouseExtItem"
+          resultMap="WmsWarehouseExtItemResult">
+    <include refid="selectWmsWarehouseExtItemVo"/>
+    <where>
+      <if test="warehouseId != null">
+        and warehouse_id = #{warehouseId}
+      </if>
+
+      <if test="itemX != null">
+        and item_x = #{itemX}
+      </if>
+
+      <if test="itemY != null">
+        and item_y = #{itemY}
+      </if>
+
+      <if test="status != null  and status != ''">
+        and status = #{status}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectWmsWarehouseExtItemById" parameterType="Long" resultMap="WmsWarehouseExtItemResult">
+    <include refid="selectWmsWarehouseExtItemVo"/>
+    where item_id = #{itemId}
+  </select>
+
+  <insert id="insertWmsWarehouseExtItem" parameterType="WmsWarehouseExtItem" useGeneratedKeys="true"
+          keyProperty="itemId">
+    insert into wms_warehouse_ext_item_batch
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="warehouseId != null">
+        warehouse_id,
+      </if>
+      <if test="itemX != null">
+        item_x,
+      </if>
+      <if test="itemY != null">
+        item_y,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="warehouseId != null">
+        #{warehouseId},
+      </if>
+      <if test="itemX != null">
+        #{itemX},
+      </if>
+      <if test="itemY != null">
+        #{itemY},
+      </if>
+      <if test="status != null">
+        #{status},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag},
+      </if>
+      <if test="createBy != null">
+        #{createBy},
+      </if>
+      <if test="createTime != null">
+        #{createTime},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime},
+      </if>
+      <if test="remark != null">
+        #{remark},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateWmsWarehouseExtItem" parameterType="WmsWarehouseExtItem">
+    update wms_warehouse_ext_item_batch
+    <trim prefix="SET" suffixOverrides=",">
+      <if test="warehouseId != null">
+        warehouse_id = #{warehouseId},
+      </if>
+      <if test="itemX != null">
+        item_x = #{itemX},
+      </if>
+      <if test="itemY != null">
+        item_y = #{itemY},
+      </if>
+      <if test="status != null">
+        status = #{status},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+      <if test="remark != null">
+        remark = #{remark},
+      </if>
+    </trim>
+    where item_id = #{itemId}
+  </update>
+
+  <delete id="deleteWmsWarehouseExtItemById" parameterType="Long">
+    delete
+    from wms_warehouse_ext_item_batch
+    where item_id = #{itemId}
+  </delete>
+
+  <delete id="deleteWmsWarehouseExtItemByIds" parameterType="String">
+    delete
+    from wms_warehouse_ext_item_batch where item_id in
+    <foreach item="itemId" collection="array" open="(" separator="," close=")">
+      #{itemId}
+    </foreach>
+  </delete>
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+  </insert>
+  <insert id="batchInsertWmsWarehouseExtItem" keyColumn="item_id" keyProperty="itemId" parameterType="map"
+          useGeneratedKeys="true">
+    insert into wms_warehouse_ext_item_batch
+        (warehouse_id, item_x, item_y, create_by, create_time, update_by, update_time, status)
+        values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.warehouseId,jdbcType=BIGINT},
+       #{item.itemX,jdbcType=BIGINT},
+       #{item.itemY,jdbcType=BIGINT},
+       #{item.createBy,jdbcType=VARCHAR},
+       #{item.createTime,jdbcType=TIMESTAMP},
+       #{item.updateBy,jdbcType=VARCHAR},
+       #{item.updateTime,jdbcType=TIMESTAMP}, '0')
+    </foreach>
+  </insert>
+</mapper>

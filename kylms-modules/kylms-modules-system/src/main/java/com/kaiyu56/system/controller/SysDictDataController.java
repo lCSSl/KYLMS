@@ -23,7 +23,7 @@ import com.kaiyu56.common.core.web.page.TableDataInfo;
 import com.kaiyu56.common.log.annotation.Log;
 import com.kaiyu56.common.log.enums.BusinessType;
 import com.kaiyu56.common.security.annotation.PreAuthorize;
-import com.kaiyu56.system.domain.SysDictData;
+import com.kaiyu56.system.api.domain.SysDictData;
 import com.kaiyu56.system.service.ISysDictDataService;
 import com.kaiyu56.system.service.ISysDictTypeService;
 
