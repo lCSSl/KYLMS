@@ -8,12 +8,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="cargoId"    column="cargo_id"    />
         <result property="cargoCode"    column="cargo_code"    />
         <result property="cargoName"    column="cargo_name"    />
-        <result property="cargoWeight"    column="cargo_weight"    />
-        <result property="cargoVolume"    column="cargo_volume"    />
+        <result property="packageType"    column="package_type"    />
+        <result property="valuationType"    column="valuation_type"    />
+        <result property="valuationValue"    column="valuation_value"    />
         <result property="valuable"    column="valuable"    />
         <result property="irregular"    column="irregular"    />
         <result property="documents"    column="documents"    />
-        <result property="packageType"    column="package_type"    />
         <result property="csrId"    column="csr_id"    />
         <result property="deptId"    column="dept_id"    />
         <result property="status"    column="status"    />
@@ -26,7 +26,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectWmsCargoVo">
-        select cargo_id, cargo_code, cargo_name, cargo_weight, cargo_volume, valuable, irregular, documents, package_type, csr_id, dept_id, status, del_flag, create_by, create_time, update_by, update_time, remark from wms_cargo
+        select cargo_id, cargo_code, cargo_name, package_type, valuation_type, valuation_value, valuable, irregular, documents, csr_id, dept_id, status, del_flag, create_by, create_time, update_by, update_time, remark from wms_cargo
     </sql>
 
     <select id="selectWmsCargoList" parameterType="com.kaiyu56.wms.domain.WmsCargo" resultMap="WmsCargoResult">
@@ -34,17 +34,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>  
             <if test="cargoCode != null  and cargoCode != ''"> and cargo_code like concat('%', #{cargoCode}, '%')</if>
             <if test="cargoName != null  and cargoName != ''"> and cargo_name like concat('%', #{cargoName}, '%')</if>
-            <if test="cargoWeight != null "> and cargo_weight = #{cargoWeight}</if>
+            <if test="packageType != null  and packageType != ''"> and package_type = #{packageType}</if>
     
-            <if test="cargoVolume != null "> and cargo_volume = #{cargoVolume}</if>
+            <if test="valuationType != null  and valuationType != ''"> and valuation_type = #{valuationType}</if>
     
+            <if test="valuationValue != null "> and valuation_value &gt;= #{valuationValue}</if>
             <if test="valuable != null  and valuable != ''"> and valuable = #{valuable}</if>
     
             <if test="irregular != null  and irregular != ''"> and irregular = #{irregular}</if>
     
             <if test="documents != null  and documents != ''"> and documents = #{documents}</if>
-    
-            <if test="packageType != null  and packageType != ''"> and package_type = #{packageType}</if>
     
             <if test="csrId != null "> and csr_id = #{csrId}</if>
     
@@ -60,17 +59,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where cargo_id = #{cargoId}
     </select>
         
-    <insert id="insertWmsCargo" parameterType="WmsCargo" useGeneratedKeys="true" keyProperty="cargoId">
+    <insert id="insertWmsCargo" parameterType="com.kaiyu56.wms.domain.WmsCargo" useGeneratedKeys="true" keyProperty="cargoId">
         insert into wms_cargo
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="cargoCode != null">cargo_code,</if>
+            <if test="cargoId != null">cargo_id,</if>
+            <if test="cargoCode != null and cargoCode != ''">cargo_code,</if>
             <if test="cargoName != null and cargoName != ''">cargo_name,</if>
-            <if test="cargoWeight != null">cargo_weight,</if>
-            <if test="cargoVolume != null">cargo_volume,</if>
-            <if test="valuable != null and valuable != ''">valuable,</if>
-            <if test="irregular != null and irregular != ''">irregular,</if>
-            <if test="documents != null and documents != ''">documents,</if>
             <if test="packageType != null and packageType != ''">package_type,</if>
+            <if test="valuationType != null and valuationType != ''">valuation_type,</if>
+            <if test="valuationValue != null">valuation_value,</if>
+            <if test="valuable != null">valuable,</if>
+            <if test="irregular != null">irregular,</if>
+            <if test="documents != null">documents,</if>
             <if test="csrId != null">csr_id,</if>
             <if test="deptId != null">dept_id,</if>
             <if test="status != null">status,</if>
@@ -82,14 +82,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark != null">remark,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="cargoCode != null">#{cargoCode},</if>
+            <if test="cargoId != null">#{cargoId,jdbcType=BIGINT},</if>
+            <if test="cargoCode != null and cargoCode != ''">#{cargoCode},</if>
             <if test="cargoName != null and cargoName != ''">#{cargoName},</if>
-            <if test="cargoWeight != null">#{cargoWeight},</if>
-            <if test="cargoVolume != null">#{cargoVolume},</if>
-            <if test="valuable != null and valuable != ''">#{valuable},</if>
-            <if test="irregular != null and irregular != ''">#{irregular},</if>
-            <if test="documents != null and documents != ''">#{documents},</if>
             <if test="packageType != null and packageType != ''">#{packageType},</if>
+            <if test="valuationType != null and valuationType != ''">#{valuationType},</if>
+            <if test="valuationValue != null">#{valuationValue},</if>
+            <if test="valuable != null">#{valuable},</if>
+            <if test="irregular != null">#{irregular},</if>
+            <if test="documents != null">#{documents},</if>
             <if test="csrId != null">#{csrId},</if>
             <if test="deptId != null">#{deptId},</if>
             <if test="status != null">#{status},</if>
@@ -102,17 +103,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateWmsCargo" parameterType="WmsCargo">
+    <update id="updateWmsCargo" parameterType="com.kaiyu56.wms.domain.WmsCargo">
         update wms_cargo
         <trim prefix="SET" suffixOverrides=",">
-            <if test="cargoCode != null">cargo_code = #{cargoCode},</if>
+            <if test="cargoCode != null and cargoCode != ''">cargo_code = #{cargoCode},</if>
             <if test="cargoName != null and cargoName != ''">cargo_name = #{cargoName},</if>
-            <if test="cargoWeight != null">cargo_weight = #{cargoWeight},</if>
-            <if test="cargoVolume != null">cargo_volume = #{cargoVolume},</if>
-            <if test="valuable != null and valuable != ''">valuable = #{valuable},</if>
-            <if test="irregular != null and irregular != ''">irregular = #{irregular},</if>
-            <if test="documents != null and documents != ''">documents = #{documents},</if>
             <if test="packageType != null and packageType != ''">package_type = #{packageType},</if>
+            <if test="valuationType != null and valuationType != ''">valuation_type = #{valuationType},</if>
+            <if test="valuationValue != null">valuation_value = #{valuationValue},</if>
+            <if test="valuable != null">valuable = #{valuable},</if>
+            <if test="irregular != null">irregular = #{irregular},</if>
+            <if test="documents != null">documents = #{documents},</if>
             <if test="csrId != null">csr_id = #{csrId},</if>
             <if test="deptId != null">dept_id = #{deptId},</if>
             <if test="status != null">status = #{status},</if>

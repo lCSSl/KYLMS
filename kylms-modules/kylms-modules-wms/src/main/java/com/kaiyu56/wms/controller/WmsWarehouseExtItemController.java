@@ -52,7 +52,6 @@ public class WmsWarehouseExtItemController extends BaseController {
         startPage();
         List<WmsWarehouseExtItem> list = wmsWarehouseExtItemService.selectWmsWarehouseExtItemList(wmsWarehouseExtItem);
         return getDataTable(list);
-
     }
 
     /**
@@ -74,6 +73,27 @@ public class WmsWarehouseExtItemController extends BaseController {
     @GetMapping(value = "/{itemId}")
     public AjaxResult getInfo(@PathVariable("itemId") Long itemId) {
         return AjaxResult.success(wmsWarehouseExtItemService.selectWmsWarehouseExtItemById(itemId));
+    }
+
+    /**
+     * 获取仓库拓展-仓库方格信息详细信息
+     */
+    @PreAuthorize(hasPermi = "wms:WmsWarehouseExtItem:query")
+    @GetMapping(value = "/getInfo")
+    public AjaxResult getInfo(WmsWarehouseExtItem wmsWarehouseExtItem) {
+        return AjaxResult.success(wmsWarehouseExtItemService.selectWmsWarehouseExtItemByXY(wmsWarehouseExtItem));
+    }
+
+    @PreAuthorize(hasPermi = "wms:WmsWarehouseExtItem:query")
+    @GetMapping(value = "/getWaybillInfo/{itemId}")
+    public AjaxResult getWaybillInfo(@PathVariable("itemId") Long itemId) {
+        return AjaxResult.success(wmsWarehouseExtItemService.selectWmsWaybillInfoByItemId(itemId));
+    }
+
+    @PreAuthorize(hasPermi = "wms:WmsWarehouseExtItem:query")
+    @GetMapping(value = "/getWaybillId/{itemId}")
+    public AjaxResult getWaybillId(@PathVariable("itemId") Long itemId) {
+        return AjaxResult.success(wmsWarehouseExtItemService.selectWmsWaybillInfoByItemId(itemId));
     }
 
     /**
@@ -105,4 +125,16 @@ public class WmsWarehouseExtItemController extends BaseController {
     public AjaxResult remove(@PathVariable Long[] itemIds) {
         return toAjax(wmsWarehouseExtItemService.deleteWmsWarehouseExtItemByIds(itemIds));
     }
+
+    /**
+     * 装载方格
+     */
+    @PreAuthorize(hasPermi = "wms:WmsWarehouseExtItem:edit")
+    @Log(title = "仓库拓展-仓库方格信息", businessType = BusinessType.UPDATE)
+    @PutMapping("/loadWaybill/{waybillId}")
+    public AjaxResult loadWaybill(@PathVariable Long waybillId, @RequestBody WmsWarehouseExtItem wmsWarehouseExtItem) {
+        return toAjax(wmsWarehouseExtItemService.loadWaybill(waybillId,wmsWarehouseExtItem));
+    }
+
+
 }

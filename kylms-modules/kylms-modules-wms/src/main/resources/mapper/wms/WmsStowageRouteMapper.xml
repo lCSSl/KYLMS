@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kaiyu56.wms.mapper.WmsStowageRouteMapper">
+
+    <resultMap type="com.kaiyu56.wms.domain.WmsStowageRoute" id="WmsStowageRouteResult">
+        <result property="routeId"    column="route_id"    />
+        <result property="stowageId"    column="stowage_id"    />
+        <result property="stowageWarehouseId"    column="stowage_warehouse_id"    />
+        <result property="stowageWarehouseName"    column="stowage_warehouse_name"    />
+        <result property="routeSort"    column="route_sort"    />
+        <result property="routeStatus"    column="route_status"    />
+        <result property="routeNext"    column="route_next"    />
+        <result property="status"    column="status"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <association property="ll" column="stowage_warehouse_id" select="com.kaiyu56.wms.mapper.WmsWarehouseMapper.selectLngAndLatWmsWarehouseById"/>
+    </resultMap>
+
+    <sql id="selectWmsStowageRouteVo">
+        select route_id, stowage_id, stowage_warehouse_id, stowage_warehouse_name,route_sort,route_status,route_next, status, del_flag, create_by, create_time, update_by, update_time, remark from wms_stowage_route
+    </sql>
+
+    <select id="selectWmsStowageRouteList" parameterType="com.kaiyu56.wms.domain.WmsStowageRoute" resultMap="WmsStowageRouteResult">
+        <include refid="selectWmsStowageRouteVo"/>
+        <where>
+            <if test="stowageId != null "> and stowage_id = #{stowageId}</if>
+            <if test="routeNext != null "> and stowage_id = #{routeNext,jdbcType=BIGINT}</if>
+            <if test="stowageWarehouseId != null "> and stowage_warehouse_id = #{stowageWarehouseId}</if>
+            <if test="stowageWarehouseName != null  and stowageWarehouseName != ''"> and stowage_warehouse_name like concat('%', #{stowageWarehouseName}, '%')</if>
+        </where>
+        <if test="stowageId != null">
+            order by route_sort
+        </if>
+    </select>
+    
+    <select id="selectWmsStowageRouteById" parameterType="Long" resultMap="WmsStowageRouteResult">
+        <include refid="selectWmsStowageRouteVo"/>
+        where route_id = #{routeId}
+    </select>
+    <select id="selectFirstWmsStowageRoute" parameterType="Long" resultMap="WmsStowageRouteResult">
+        <include refid="selectWmsStowageRouteVo"/>
+        where stowage_id = #{stowageId} and route_sort=0;
+    </select>
+    <select id="selectWmsStowageRouteByRouteNext" parameterType="Long" resultMap="WmsStowageRouteResult">
+        <include refid="selectWmsStowageRouteVo"/>
+        where route_next = #{routeNext}
+    </select>
+    <select id="selectWmsStowageRouteByStowageWarehouseId" parameterType="Long" resultType="int">
+        select count(route_id) from wms_stowage_route
+        where stowage_id = #{stowageId} and stowage_warehouse_id = #{stowageWarehouseId}
+    </select>
+
+    <insert id="insertWmsStowageRoute" parameterType="com.kaiyu56.wms.domain.WmsStowageRoute" useGeneratedKeys="true" keyProperty="routeId">
+        insert into wms_stowage_route
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            route_id,
+            <if test="stowageId != null">stowage_id,</if>
+            <if test="stowageWarehouseId != null">stowage_warehouse_id,</if>
+            <if test="stowageWarehouseName != null and stowageWarehouseName != ''">stowage_warehouse_name,</if>
+            <if test="routeSort != null">route_sort,</if>
+            <if test="routeStatus != null">route_status,</if>
+            <if test="routeNext != null">route_next,</if>
+            <if test="status != null">status,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{routeId,jdbcType=BIGINT},
+            <if test="stowageId != null">#{stowageId},</if>
+            <if test="stowageWarehouseId != null">#{stowageWarehouseId},</if>
+            <if test="stowageWarehouseName != null and stowageWarehouseName != ''">#{stowageWarehouseName},</if>
+            <if test="routeSort != null">#{routeSort},</if>
+            <if test="routeStatus != null">#{routeStatus},</if>
+            <if test="routeNext != null">#{routeNext,jdbcType=BIGINT},</if>
+            <if test="status != null">#{status},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateWmsStowageRoute" parameterType="com.kaiyu56.wms.domain.WmsStowageRoute">
+        update wms_stowage_route
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="stowageId != null">stowage_id = #{stowageId},</if>
+            <if test="stowageWarehouseId != null">stowage_warehouse_id = #{stowageWarehouseId},</if>
+            <if test="stowageWarehouseName != null and stowageWarehouseName != ''">stowage_warehouse_name = #{stowageWarehouseName},</if>
+            <if test="routeStatus != null">route_status = #{routeStatus},</if>
+            <if test="routeNext != null">route_next = #{routeNext,jdbcType=BIGINT},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where route_id = #{routeId}
+    </update>
+
+    <delete id="deleteWmsStowageRouteById" parameterType="Long">
+        delete from wms_stowage_route where route_id = #{routeId}
+    </delete>
+
+    <delete id="deleteWmsStowageRouteByIds" parameterType="String">
+        delete from wms_stowage_route where route_id in 
+        <foreach item="routeId" collection="array" open="(" separator="," close=")">
+            #{routeId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteWmsStowageRouteByStowageId" parameterType="Long">
+        delete from wms_stowage_route where stowage_id = #{stowageId,jdbcType=BIGINT}
+    </delete>
+
+    <select id="selectRouteIdsByStowageIdWithStartNode" resultType="java.lang.Long">
+        select route_id from wms_stowage_route
+        where route_sort != 0
+        and stowage_id = #{stowageId,jdbcType=BIGINT}
+  </select>
+</mapper>

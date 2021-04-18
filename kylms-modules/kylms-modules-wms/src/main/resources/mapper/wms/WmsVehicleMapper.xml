@@ -13,7 +13,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="vehicleWidth"    column="vehicle_width"    />
         <result property="vehicleLength"    column="vehicle_length"    />
         <result property="vehicleHeight"    column="vehicle_height"    />
+        <result property="vehicleLongitude"    column="vehicle_longitude"    />
+        <result property="vehicleLatitude"    column="vehicle_latitude"    />
         <result property="deptId"    column="dept_id"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="vehicleStatus"    column="vehicle_status"    />
         <result property="status"    column="status"    />
         <result property="delFlag"    column="del_flag"    />
         <result property="createBy"    column="create_by"    />
@@ -22,39 +26,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateTime"    column="update_time"    />
         <result property="remark"    column="remark"    />
     </resultMap>
+    <resultMap type="com.kaiyu56.wms.api.domain.vo.WmsVehicleLL" id="WmsVehicleLLResult">
+        <result property="lng"    column="lng"    />
+        <result property="lat"    column="lat"    />
+    </resultMap>
 
     <sql id="selectWmsVehicleVo">
-        select vehicle_id, vehicle_code, vehicle_plate, vehicle_type, vehicle_source, vehicle_width, vehicle_length, vehicle_height, dept_id, status, del_flag, create_by, create_time, update_by, update_time, remark from wms_vehicle
+        select vehicle_id, vehicle_code, vehicle_plate, vehicle_type, vehicle_source, vehicle_width, vehicle_length, vehicle_height,vehicle_longitude,vehicle_latitude, dept_id,dept_name,vehicle_status ,status, del_flag, create_by, create_time, update_by, update_time, remark from wms_vehicle
     </sql>
 
     <select id="selectWmsVehicleList" parameterType="com.kaiyu56.wms.domain.WmsVehicle" resultMap="WmsVehicleResult">
         <include refid="selectWmsVehicleVo"/>
-        <where>  
+        <where>
             <if test="vehicleCode != null  and vehicleCode != ''"> and vehicle_code like concat('%', #{vehicleCode}, '%')</if>
             <if test="vehiclePlate != null  and vehiclePlate != ''"> and vehicle_plate like concat('%', #{vehiclePlate}, '%')</if>
             <if test="vehicleType != null  and vehicleType != ''"> and vehicle_type = #{vehicleType}</if>
-    
             <if test="vehicleSource != null  and vehicleSource != ''"> and vehicle_source = #{vehicleSource}</if>
-    
-            <if test="vehicleWidth != null "> and vehicle_width = #{vehicleWidth}</if>
-    
-            <if test="vehicleLength != null "> and vehicle_length = #{vehicleLength}</if>
-    
-            <if test="vehicleHeight != null "> and vehicle_height = #{vehicleHeight}</if>
-    
+            <if test="vehicleWidth != null "> and vehicle_width <![CDATA[>=]]>  #{vehicleWidth}</if>
+            <if test="vehicleLength != null "> and vehicle_length <![CDATA[>=]]>  #{vehicleLength}</if>
+            <if test="vehicleHeight != null "> and vehicle_height <![CDATA[>=]]> #{vehicleHeight}</if>
             <if test="deptId != null "> and dept_id = #{deptId}</if>
-    
+            <if test="vehicleStatus != null  and vehicleStatus != ''"> and vehicle_status = #{vehicleStatus,jdbcType=VARCHAR}</if>
             <if test="status != null  and status != ''"> and status = #{status}</if>
-    
         </where>
     </select>
-    
+
     <select id="selectWmsVehicleById" parameterType="Long" resultMap="WmsVehicleResult">
         <include refid="selectWmsVehicleVo"/>
         where vehicle_id = #{vehicleId}
     </select>
-        
-    <insert id="insertWmsVehicle" parameterType="WmsVehicle" useGeneratedKeys="true" keyProperty="vehicleId">
+
+    <insert id="insertWmsVehicle" parameterType="com.kaiyu56.wms.domain.WmsVehicle" useGeneratedKeys="true" keyProperty="vehicleId">
         insert into wms_vehicle
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="vehicleCode != null and vehicleCode != ''">vehicle_code,</if>
@@ -64,7 +66,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="vehicleWidth != null">vehicle_width,</if>
             <if test="vehicleLength != null">vehicle_length,</if>
             <if test="vehicleHeight != null">vehicle_height,</if>
+            <if test="vehicleLongitude != null">vehicle_longitude,</if>
+            <if test="vehicleLatitude != null">vehicle_latitude,</if>
             <if test="deptId != null">dept_id,</if>
+            <if test="deptName != null">dept_name,</if>
+            <if test="vehicleStatus != null and vehicleStatus != ''">vehicle_status,</if>
             <if test="status != null and status != ''">status,</if>
             <if test="delFlag != null">del_flag,</if>
             <if test="createBy != null">create_by,</if>
@@ -81,7 +87,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="vehicleWidth != null">#{vehicleWidth},</if>
             <if test="vehicleLength != null">#{vehicleLength},</if>
             <if test="vehicleHeight != null">#{vehicleHeight},</if>
+            <if test="vehicleLongitude != null">#{vehicleLongitude},</if>
+            <if test="vehicleLatitude != null">#{vehicleLatitude},</if>
             <if test="deptId != null">#{deptId},</if>
+            <if test="deptName != null">#{deptName,jdbcType=VARCHAR},</if>
+            <if test="vehicleStatus != null and vehicleStatus != ''">#{vehicleStatus,jdbcType=VARCHAR},</if>
             <if test="status != null and status != ''">#{status},</if>
             <if test="delFlag != null">#{delFlag},</if>
             <if test="createBy != null">#{createBy},</if>
@@ -92,7 +102,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateWmsVehicle" parameterType="WmsVehicle">
+    <update id="updateWmsVehicle" parameterType="com.kaiyu56.wms.domain.WmsVehicle">
         update wms_vehicle
         <trim prefix="SET" suffixOverrides=",">
             <if test="vehicleCode != null and vehicleCode != ''">vehicle_code = #{vehicleCode},</if>
@@ -102,7 +112,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="vehicleWidth != null">vehicle_width = #{vehicleWidth},</if>
             <if test="vehicleLength != null">vehicle_length = #{vehicleLength},</if>
             <if test="vehicleHeight != null">vehicle_height = #{vehicleHeight},</if>
+            <if test="vehicleLongitude != null"> vehicle_longitude=#{vehicleLongitude},</if>
+            <if test="vehicleLatitude != null">vehicle_latitude=#{vehicleLatitude},</if>
             <if test="deptId != null">dept_id = #{deptId},</if>
+            <if test="deptName != null">dept_name = #{deptName,jdbcType=VARCHAR},</if>
+            <if test="vehicleStatus != null and vehicleStatus != ''">vehicle_status = #{vehicleStatus,jdbcType=VARCHAR},</if>
             <if test="status != null and status != ''">status = #{status},</if>
             <if test="delFlag != null">del_flag = #{delFlag},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
@@ -119,9 +133,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteWmsVehicleByIds" parameterType="String">
-        delete from wms_vehicle where vehicle_id in 
+        delete from wms_vehicle where vehicle_id in
         <foreach item="vehicleId" collection="array" open="(" separator="," close=")">
             #{vehicleId}
         </foreach>
     </delete>
+
+  <select id="selectLngAndLatById" parameterType="Long" resultMap="WmsVehicleLLResult">
+    select vehicle_longitude as lng, vehicle_latitude as lat
+    from wms_vehicle
+    where vehicle_id = #{vehicle_id}
+  </select>
 </mapper>

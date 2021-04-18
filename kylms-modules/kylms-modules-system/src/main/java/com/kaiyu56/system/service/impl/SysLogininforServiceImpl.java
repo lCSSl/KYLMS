@@ -1,6 +1,8 @@
 package com.kaiyu56.system.service.impl;
 
 import java.util.List;
+
+import com.kaiyu56.common.datascope.annotation.DataScope;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.kaiyu56.system.domain.SysLogininfor;

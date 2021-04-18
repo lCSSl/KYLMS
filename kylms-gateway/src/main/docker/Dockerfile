@@ -10,7 +10,7 @@ VOLUME /tmp
 # 环境变量
 # 在创建容器时使用 -e 可改变值，如 -e NACOS_SERVER_ADDR=wsl.kaiyu.work:8848 -e SPRING_PROFILES_ACTIVE=dev
 # nacos服务器地址
-ENV NACOS_SERVER_ADDR=wsl.kaiyu.work:8848
+ENV NACOS_SERVER_ADDR=server.kaiyu.work:8848
 # 项目环境变量
 ENV SPRING_PROFILES_ACTIVE=dev
 

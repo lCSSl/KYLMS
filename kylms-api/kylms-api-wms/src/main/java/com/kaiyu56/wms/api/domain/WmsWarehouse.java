@@ -1,5 +1,9 @@
 package com.kaiyu56.wms.api.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.kaiyu56.common.core.annotation.Excel;
 import com.kaiyu56.common.core.web.domain.BaseEntity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -19,6 +23,8 @@ public class WmsWarehouse extends BaseEntity {
     /**
      * 站点ID
      */
+    @TableId(value = "warehouse_id", type = IdType.ASSIGN_ID)
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long warehouseId;
 
     /**
@@ -66,13 +72,26 @@ public class WmsWarehouse extends BaseEntity {
      * 站点方格最大X坐标
      */
     @Excel(name = "最大X坐标")
-    private int warehouseMaxX;
+    private Long warehouseMaxX;
 
     /**
      * 站点方格最大Y坐标
      */
     @Excel(name = "最大Y坐标")
-    private int warehouseMaxY;
+    private Long warehouseMaxY;
+
+    /**
+     * 站点经度
+     */
+    @Excel(name = "站点经度")
+    private BigDecimal warehouseLongitude;
+
+    /**
+     * 站点纬度
+     */
+    @Excel(name = "站点纬度")
+    private BigDecimal warehouseLatitude;
+
     /**
      * 站点详细地址
      */
@@ -113,6 +132,7 @@ public class WmsWarehouse extends BaseEntity {
      * 部门ID
      */
     @Excel(name = "部门ID")
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long deptId;
 
     /**
@@ -262,19 +282,19 @@ public class WmsWarehouse extends BaseEntity {
         return delFlag;
     }
 
-    public int getWarehouseMaxX() {
+    public Long getWarehouseMaxX() {
         return warehouseMaxX;
     }
 
-    public void setWarehouseMaxX(int warehouseMaxX) {
+    public void setWarehouseMaxX(Long warehouseMaxX) {
         this.warehouseMaxX = warehouseMaxX;
     }
 
-    public int getWarehouseMaxY() {
+    public Long getWarehouseMaxY() {
         return warehouseMaxY;
     }
 
-    public void setWarehouseMaxY(int warehouseMaxY) {
+    public void setWarehouseMaxY(Long warehouseMaxY) {
         this.warehouseMaxY = warehouseMaxY;
     }
 

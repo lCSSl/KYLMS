@@ -12,6 +12,7 @@ import com.kaiyu56.system.domain.SysUserPost;
 import com.kaiyu56.system.domain.SysUserRole;
 import com.kaiyu56.system.mapper.*;
 import com.kaiyu56.system.service.ISysConfigService;
+import com.kaiyu56.system.service.ISysPostService;
 import com.kaiyu56.system.service.ISysUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +21,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 用户 业务层处理
@@ -49,6 +52,9 @@ public class SysUserServiceImpl implements ISysUserService {
     @Autowired
     private ISysConfigService configService;
 
+    @Autowired
+    private ISysPostService postService;
+
     /**
      * 根据条件分页查询用户列表
      *
@@ -61,10 +67,35 @@ public class SysUserServiceImpl implements ISysUserService {
         return userMapper.selectUserList(user);
     }
 
+    /**
+     * 根据条件分页查询用户列表
+     *
+     * @param map
+     * @return 用户信息集合信息
+     */
     @Override
-    public List<SysUser> selectByIds(Long[] userIds) {
-        List<SysUser> sysUsers = userMapper.selectByIds(userIds);
-        return sysUsers;
+    @DataScope(deptAlias = "d", userAlias = "u")
+    public List<SysUser> getDriver(Map<String, Object> map) {
+        if (StringUtils.isEmpty(map)) {
+            List<Long> userIds = userPostMapper.getUserIdsByPostId(5l,null);
+            return selectByIds(null, userIds);
+        }
+        Boolean idle = Boolean.valueOf(map.get("idle").toString());
+        if (idle) {
+            List<Long> workingDriver = userMapper.selectWorkingDriver();
+            List<Long> userIds = userPostMapper.getUserIdsByPostId(5l,workingDriver);
+            String nickName = map.get("nickName") != null ? map.get("nickName").toString() : "";
+            return selectByIds(nickName, userIds);
+        }else {
+            List<Long> userIds = userPostMapper.getUserIdsByPostId(5l,null);
+            String nickName = map.get("nickName") != null ? map.get("nickName").toString() : "";
+            return selectByIds(nickName, userIds);
+        }
+    }
+
+    @Override
+    public List<SysUser> selectByIds(String nickName, List<Long> userIds) {
+        return userMapper.selectByIds(nickName, userIds);
     }
 
     /**

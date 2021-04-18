@@ -37,12 +37,13 @@
     from sys_dept d
   </sql>
 
-  <select id="selectDeptList" parameterType="SysDept" resultMap="SysDeptResult">
+  <select id="selectDeptList" parameterType="com.kaiyu56.system.api.domain.SysDept" resultMap="SysDeptResult">
     <include refid="selectDeptVo"/>
     where d.del_flag = '0'
-    <if test="parentId != null and parentId != 0">
-      AND parent_id = #{parentId}
-    </if>
+<!--    <if test="parentId != null and parentId != 0">-->
+<!--      &lt;!&ndash; AND parent_id = #{parentId}&ndash;&gt;-->
+<!--      AND find_in_set(#{parentId},ancestors)-->
+<!--    </if>-->
     <if test="deptName != null and deptName != ''">
       AND dept_name like concat('%', #{deptName}, '%')
     </if>
@@ -227,7 +228,7 @@
     </foreach>
   </update>
 
-  <update id="updateDeptStatus" parameterType="SysDept">
+  <update id="updateDeptStatus" parameterType="com.kaiyu56.system.api.domain.SysDept">
     update sys_dept
     <set>
       <if test="status != null and status != ''">
@@ -246,4 +247,8 @@
     set del_flag = '2'
     where dept_id = #{deptId}
   </delete>
+
+  <select id="countDeptByName" parameterType="string" resultType="int">
+    select count(dept_id) from sys_dept where instr(dept_name,'${deptName}')
+  </select>
 </mapper>

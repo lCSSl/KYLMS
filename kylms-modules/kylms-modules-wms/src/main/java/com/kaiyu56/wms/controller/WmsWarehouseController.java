@@ -1,7 +1,7 @@
 package com.kaiyu56.wms.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
-import com.kaiyu56.common.core.domain.R;
+import com.kaiyu56.common.core.utils.SecurityUtils;
 import com.kaiyu56.common.core.utils.poi.ExcelUtil;
 import com.kaiyu56.common.core.web.controller.BaseController;
 import com.kaiyu56.common.core.web.domain.AjaxResult;
@@ -9,9 +9,9 @@ import com.kaiyu56.common.core.web.page.TableDataInfo;
 import com.kaiyu56.common.log.annotation.Log;
 import com.kaiyu56.common.log.enums.BusinessType;
 import com.kaiyu56.common.security.annotation.PreAuthorize;
-import com.kaiyu56.system.api.RemoteDictService;
 import com.kaiyu56.system.api.RemoteUserService;
-import com.kaiyu56.system.api.domain.SysDictData;
+import com.kaiyu56.system.api.domain.SysDept;
+import com.kaiyu56.system.api.model.LoginUser;
 import com.kaiyu56.wms.api.domain.WmsWarehouse;
 import com.kaiyu56.wms.api.domain.vo.WmsWarehouseVO;
 import com.kaiyu56.wms.service.IWmsWarehouseService;
@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -89,7 +90,6 @@ public class WmsWarehouseController extends BaseController {
     @Log(title = "站点(仓库)信息", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody WmsWarehouse wmsWarehouse) {
-        wmsWarehouse.setWarehouseCode("KY-WH-" + IdWorker.get32UUID().toUpperCase());
         return toAjax(wmsWarehouseService.insertWmsWarehouse(wmsWarehouse));
     }
 
@@ -135,5 +135,12 @@ public class WmsWarehouseController extends BaseController {
                                            @PathVariable("trayInterval") BigDecimal trayInterval) {
 
         return AjaxResult.success(wmsWarehouseService.initWmsWarehouseExtItem(warehouseId, dictCode, trayType, trayInterval));
+    }
+    /**
+     * 查询默认站点
+     */
+    @GetMapping(value = "/getDefaultWarehouse")
+    public AjaxResult getDefaultWarehouse() {
+        return AjaxResult.success( wmsWarehouseService.selectDefaultWmsWarehouse());
     }
 }

@@ -45,8 +45,8 @@
       <el-form-item label="${comment}" prop="${column.javaField}">
         <el-select v-model="queryParams.${column.javaField}" placeholder="请选择${comment}" clearable size="small">
           <el-option
-            v-for="dict in ${column.javaField}Options"
-            :key="dict.dictValue"
+            v-for="(dict,index) in ${column.javaField}Options"
+            :key="index"
             :label="dict.dictLabel"
             :value="dict.dictValue"
           />
@@ -254,8 +254,8 @@
         <el-form-item label="${comment}" prop="${field}">
           <el-select v-model="form.${field}" placeholder="请选择${comment}">
             <el-option
-              v-for="dict in ${field}Options"
-              :key="dict.dictValue"
+              v-for="(dict,index) in ${field}Options"
+              :key="index"
               :label="dict.dictLabel"
               #if($column.javaType == "Integer" || $column.javaType == "Long"):value="parseInt(dict.dictValue)"#else:value="dict.dictValue"#end
 
@@ -276,8 +276,8 @@
         <el-form-item label="${comment}">
           <el-checkbox-group v-model="form.${field}">
             <el-checkbox
-              v-for="dict in ${field}Options"
-              :key="dict.dictValue"
+              v-for="(dict,index) in ${field}Options"
+              :key="index"
               :label="dict.dictValue">
               {{dict.dictLabel}}
             </el-checkbox>
@@ -297,8 +297,8 @@
         <el-form-item label="${comment}">
           <el-radio-group v-model="form.${field}">
             <el-radio
-              v-for="dict in ${field}Options"
-              :key="dict.dictValue"
+              v-for="(dict,index) in ${field}Options"
+              :key="index"
               #if($column.javaType == "Integer" || $column.javaType == "Long"):label="parseInt(dict.dictValue)"#else:label="dict.dictValue"#end
 
             >{{dict.dictLabel}}</el-radio>

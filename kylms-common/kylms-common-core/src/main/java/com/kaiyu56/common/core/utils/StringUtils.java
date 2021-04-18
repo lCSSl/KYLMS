@@ -455,4 +455,8 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
     public static <T> T cast(Object obj) {
         return (T) obj;
     }
+
+    public static boolean checkLongKey(Long value){
+        return isNotNull(value)&&value.compareTo(0l)>0;
+    }
 }

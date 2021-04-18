@@ -5,6 +5,7 @@ import java.util.List;
 import com.kaiyu56.wms.api.domain.WmsWaybill;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.kaiyu56.wms.api.domain.vo.WmsWaybillVO;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 运单信息主Mapper接口
@@ -37,5 +38,7 @@ public interface WmsWaybillMapper extends BaseMapper<WmsWaybill> {
      * @return 运单信息主集合
      */
     public List<WmsWaybillVO> selectWmsWaybillVOList(WmsWaybill wmsWaybill);
+    public List<WmsWaybillVO> selectWmsWaybillVOListByIds(List<Long> ids);
 
+    int insertWmsWaybill(WmsWaybill wmsWaybill);
 }

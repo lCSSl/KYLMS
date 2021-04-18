@@ -40,7 +40,7 @@ public class TokenService {
         // 生成token
         String token = IdUtils.fastUUID();
         loginUser.setToken(token);
-        loginUser.setUserid(loginUser.getSysUser().getUserId());
+        loginUser.setUserId(loginUser.getSysUser().getUserId());
         loginUser.setUsername(loginUser.getSysUser().getUserName());
         loginUser.setIpaddr(IpUtils.getIpAddr(ServletUtils.getRequest()));
         refreshToken(loginUser);
@@ -49,6 +49,7 @@ public class TokenService {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("access_token", token);
         map.put("expires_in", EXPIRE_TIME);
+        //用户信息缓存至redis中，以token为key
         redisService.setCacheObject(ACCESS_TOKEN + token, loginUser, EXPIRE_TIME, TimeUnit.SECONDS);
         return map;
     }

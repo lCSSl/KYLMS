@@ -34,7 +34,9 @@ public class BaseException extends RuntimeException {
         this.args = args;
         this.defaultMessage = defaultMessage;
     }
-
+    public BaseException() {
+        this(null, null, null, "系统繁忙请稍后再试");
+    }
     public BaseException(String module, String code, Object[] args) {
         this(module, code, args, null);
     }

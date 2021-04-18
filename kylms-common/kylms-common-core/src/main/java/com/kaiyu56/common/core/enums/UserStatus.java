@@ -5,8 +5,10 @@ package com.kaiyu56.common.core.enums;
  *
  * @author css
  */
-public enum UserStatus {
-    OK("0", "正常"), DISABLE("1", "停用"), DELETED("2", "删除");
+public enum UserStatus implements BaseEnum {
+    OK("0", "正常"),
+    DISABLE("1", "停用"),
+    DELETED("2", "删除");
 
     private final String code;
     private final String info;

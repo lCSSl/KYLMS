@@ -21,7 +21,7 @@ public class LoginUser implements Serializable {
     /**
      * 用户名id
      */
-    private Long userid;
+    private Long userId;
 
     /**
      * 用户名
@@ -66,12 +66,12 @@ public class LoginUser implements Serializable {
         this.token = token;
     }
 
-    public Long getUserid() {
-        return userid;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUserid(Long userid) {
-        this.userid = userid;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getUsername() {

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kaiyu56.wms.mapper.WmsStowageMdWaybillMapper">
+  <resultMap type="com.kaiyu56.wms.domain.WmsStowageMdWaybill" id="WmsStowageMdWaybillResult">
+    <result property="routeId" column="route_id"/>
+    <result property="stowageId" column="stowage_id"/>
+    <result property="waybillId" column="waybill_id"/>
+  </resultMap>
+
+  <sql id="selectWmsStowageMdWaybillVo">
+    select route_id, stowage_id, waybill_id
+    from wms_stowage_md_waybill
+  </sql>
+
+  <select id="selectWmsStowageMdWaybillList" parameterType="com.kaiyu56.wms.domain.WmsStowageMdWaybill"
+          resultMap="WmsStowageMdWaybillResult">
+    <include refid="selectWmsStowageMdWaybillVo"/>
+    <where>
+      <if test="routeId != null">
+        and route_id = #{routeId}
+      </if>
+
+      <if test="stowageId != null">
+        and stowage_id = #{stowageId}
+      </if>
+
+      <if test="waybillId != null">
+        and waybill_id = #{waybillId}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectWmsStowageMdWaybillById" parameterType="Long" resultMap="WmsStowageMdWaybillResult">
+    <include refid="selectWmsStowageMdWaybillVo"/>
+    where route_id = #{routeId}
+  </select>
+
+  <insert id="insertWmsStowageMdWaybill" parameterType="WmsStowageMdWaybill">
+    insert into wms_stowage_md_waybill
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="routeId != null">
+        route_id,
+      </if>
+      <if test="stowageId != null">
+        stowage_id,
+      </if>
+      <if test="waybillId != null">
+        waybill_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="routeId != null">
+        #{routeId},
+      </if>
+      <if test="stowageId != null">
+        #{stowageId},
+      </if>
+      <if test="waybillId != null">
+        #{waybillId},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertBatchWmsStowageMdWaybill">
+    insert into wms_stowage_md_waybill(route_id, stowage_id, waybill_id)
+        values
+    <foreach collection="param3" item="waybill" index="index" separator=",">
+      (#{param1,jdbcType=BIGINT},
+       #{param2,jdbcType=BIGINT},
+       #{waybill.waybillId,jdbcType=BIGINT})
+    </foreach>
+  </insert>
+  <insert id="insertBatchWmsStowageMdWaybillArray">
+    insert into wms_stowage_md_waybill(route_id, stowage_id, waybill_id)
+        values
+    <foreach item="waybillId" collection="param3" separator=",">
+      (#{param1,jdbcType=BIGINT},
+      #{param2,jdbcType=BIGINT},
+      #{waybillId,jdbcType=BIGINT})
+    </foreach>
+  </insert>
+  <update id="updateWmsStowageMdWaybill" parameterType="com.kaiyu56.wms.domain.WmsStowageMdWaybill">
+    update wms_stowage_md_waybill
+    <trim prefix="SET" suffixOverrides=",">
+      <if test="stowageId != null">
+        stowage_id = #{stowageId},
+      </if>
+      <if test="waybillId != null">
+        waybill_id = #{waybillId},
+      </if>
+    </trim>
+    where route_id = #{routeId}
+  </update>
+
+  <delete id="deleteWmsStowageMdWaybillById" parameterType="Long">
+    delete
+    from wms_stowage_md_waybill
+    where route_id = #{routeId}
+  </delete>
+  <delete id="deleteWmsStowageMdWaybillByStowageId" parameterType="Long">
+    delete
+    from wms_stowage_md_waybill
+    where stowage_id = #{stowageId,jdbcType=BIGINT}
+  </delete>
+
+  <delete id="deleteWmsStowageMdWaybillByIds" parameterType="String">
+    delete
+    from wms_stowage_md_waybill where route_id in
+    <foreach item="routeId" collection="array" open="(" separator="," close=")">
+      #{routeId}
+    </foreach>
+  </delete>
+  <delete id="deleteWmsStowageMdWaybillByWaybillIds" parameterType="String">
+    delete
+    from wms_stowage_md_waybill where waybill_id in
+    <foreach item="waybillId" collection="array" open="(" separator="," close=")">
+      #{waybillId,jdbcType=BIGINT}
+    </foreach>
+  </delete>
+
+  <select id="selectWaybillIdsByStowageId" resultType="java.lang.Long">
+    select waybill_id
+    from wms_stowage_md_waybill
+    where stowage_id = #{stowageId,jdbcType=BIGINT};
+  </select>
+
+  <select id="selectRouteIdsByStowageId" resultType="java.lang.Long">
+    select distinct(route_id)
+    from wms_stowage_md_waybill
+    where stowage_id = #{stowageId,jdbcType=BIGINT};
+  </select>
+
+  <select id="selectWaybillIdsByRouteId" resultType="java.lang.Long">
+    select waybill_id
+    from wms_stowage_md_waybill
+    where route_id = #{routeId,jdbcType=BIGINT};
+  </select>
+</mapper>

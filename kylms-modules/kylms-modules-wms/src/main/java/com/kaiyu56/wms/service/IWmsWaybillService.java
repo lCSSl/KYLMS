@@ -29,5 +29,11 @@ public interface IWmsWaybillService extends IService<WmsWaybill> {
      */
     public List<WmsWaybill> selectWmsWaybillList(WmsWaybill wmsWaybill);
 
-    public List<WmsWaybillVO> selectWmsWaybillVOList(WmsWaybill wmsWaybill);
+    public List<WmsWaybillVO> selectWmsWaybillVOList(WmsWaybillVO vo);
+    public List<WmsWaybillVO> selectWmsWaybillVOList(Long routeId);
+    public int insertWmsWaybill(WmsWaybill wmsWaybill);
+    public WmsWaybill updateWmsWaybill(WmsWaybill wmsWaybill);
+
+    public List<WmsWaybillVO> selectWmsWaybillVOListByIds(List<Long> ids);
+
 }

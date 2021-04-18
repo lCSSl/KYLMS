@@ -1,18 +1,5 @@
 package com.kaiyu56.system.controller;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import com.kaiyu56.common.core.constant.UserConstants;
 import com.kaiyu56.common.core.domain.R;
 import com.kaiyu56.common.core.utils.SecurityUtils;
@@ -27,10 +14,23 @@ import com.kaiyu56.common.security.annotation.PreAuthorize;
 import com.kaiyu56.system.api.domain.SysRole;
 import com.kaiyu56.system.api.domain.SysUser;
 import com.kaiyu56.system.api.model.LoginUser;
+import com.kaiyu56.system.domain.SysPost;
 import com.kaiyu56.system.service.ISysPermissionService;
 import com.kaiyu56.system.service.ISysPostService;
 import com.kaiyu56.system.service.ISysRoleService;
 import com.kaiyu56.system.service.ISysUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 用户信息
@@ -48,7 +48,6 @@ public class SysUserController extends BaseController {
 
     @Autowired
     private ISysPostService postService;
-
     @Autowired
     private ISysPermissionService permissionService;
 
@@ -69,7 +68,7 @@ public class SysUserController extends BaseController {
     @PreAuthorize(hasPermi = "system:user:list")
     @GetMapping("/list/{userIds}")
     public R<List<SysUser>> selectByIds(@PathVariable Long[] userIds) {
-        List<SysUser> list = userService.selectByIds(userIds);
+        List<SysUser> list = userService.selectByIds(null, Arrays.asList(userIds));
 //        HashMap<String, Object> map = new HashMap<>(1);
 //        map.put("rows", list);
 //        Object rows = new HashMap<String, Object>(1).put("rows", list);
@@ -130,9 +129,9 @@ public class SysUserController extends BaseController {
     @GetMapping("getInfo")
     public AjaxResult getInfo() {
         Long userId = SecurityUtils.getUserId();
-        // 角色集合
+        // 查询用户所有角色集合
         Set<String> roles = permissionService.getRolePermission(userId);
-        // 权限集合
+        // 查询用户所有权限集合
         Set<String> permissions = permissionService.getMenuPermission(userId);
         AjaxResult ajax = AjaxResult.success();
         ajax.put("user", userService.selectUserById(userId));
@@ -232,5 +231,15 @@ public class SysUserController extends BaseController {
         userService.checkUserAllowed(user);
         user.setUpdateBy(SecurityUtils.getUsername());
         return toAjax(userService.updateUserStatus(user));
+    }
+    /**
+     * 获取司机
+     */
+    @PreAuthorize(hasPermi = "system:user:list")
+    @PostMapping(value = "/getDriver")
+    public TableDataInfo getDriver(@RequestBody Map<String, Object> map) {
+        startPage();
+        List<SysUser> list = userService.getDriver(map);
+        return getDataTable(list);
     }
 }

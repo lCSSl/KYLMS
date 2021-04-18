@@ -12,14 +12,16 @@
     <result property="csrId" column="csr_id"/>
     <result property="csrCode" column="csr_code"/>
     <result property="csrOrderNumber" column="csr_order_number"/>
+    <result property="deliverCoId" column="deliver_co_id"/>
+    <result property="deliverCoName" column="deliver_co_name"/>
+    <result property="consignorName" column="consignor_name"/>
     <result property="consignorMobile" column="consignor_mobile"/>
     <result property="consignorTelephone" column="consignor_telephone"/>
-    <result property="consignorName" column="consignor_name"/>
-    <result property="deliverCoName" column="deliver_co_name"/>
+    <result property="receivingCoId" column="receiving_co_id"/>
+    <result property="receivingCoName" column="receiving_co_name"/>
+    <result property="consigneeName" column="consignee_name"/>
     <result property="consigneeMobile" column="consignee_mobile"/>
     <result property="consigneeTelephone" column="consignee_telephone"/>
-    <result property="consigneeName" column="consignee_name"/>
-    <result property="receivingCoName" column="receiving_co_name"/>
     <result property="receivingProvince" column="receiving_province"/>
     <result property="receivingCity" column="receiving_city"/>
     <result property="receivingDistrict" column="receiving_district"/>
@@ -47,6 +49,7 @@
     <result property="equipmentSource" column="equipment_source"/>
     <result property="creationSource" column="creation_source"/>
     <result property="waybillStatus" column="waybill_status"/>
+    <result property="ancestorWaybillId" column="ancestor_waybill_id"/>
     <result property="status" column="status"/>
     <result property="delFlag" column="del_flag"/>
     <result property="createBy" column="create_by"/>
@@ -99,6 +102,7 @@
     <result property="equipmentSource" column="equipment_source"/>
     <result property="creationSource" column="creation_source"/>
     <result property="waybillStatus" column="waybill_status"/>
+    <result property="ancestorWaybillId" column="ancestor_waybill_id"/>
     <result property="status" column="status"/>
     <result property="delFlag" column="del_flag"/>
     <result property="createBy" column="create_by"/>
@@ -123,14 +127,16 @@
            csr_id,
            csr_code,
            csr_order_number,
+           deliver_co_id,
+           deliver_co_name,
+           consignor_name,
            consignor_mobile,
            consignor_telephone,
-           consignor_name,
-           deliver_co_name,
+           receiving_co_id,
+           receiving_co_name,
+           consignee_name,
            consignee_mobile,
            consignee_telephone,
-           consignee_name,
-           receiving_co_name,
            receiving_province,
            receiving_city,
            receiving_district,
@@ -158,6 +164,7 @@
            equipment_source,
            creation_source,
            waybill_status,
+           ancestor_waybill_id,
            status,
            del_flag,
            create_by,
@@ -176,14 +183,16 @@
            csr_id,
            csr_code,
            csr_order_number,
+           deliver_co_id,
+           deliver_co_name,
+           consignor_name,
            consignor_mobile,
            consignor_telephone,
-           consignor_name,
-           deliver_co_name,
+           receiving_co_id,
+           receiving_co_name,
+           consignee_name,
            consignee_mobile,
            consignee_telephone,
-           consignee_name,
-           receiving_co_name,
            receiving_province,
            receiving_city,
            receiving_district,
@@ -211,6 +220,7 @@
            equipment_source,
            creation_source,
            waybill_status,
+           ancestor_waybill_id,
            status,
            del_flag,
            create_by,
@@ -223,6 +233,7 @@
   <select id="selectWmsWaybillList" parameterType="com.kaiyu56.wms.api.domain.WmsWaybill" resultMap="WmsWaybillResult">
     <include refid="selectWmsWaybillBase"/>
     <where>
+      del_flag = '0'
       <if test="waybillCode != null  and waybillCode != ''">
         and waybill_code like concat('%', #{waybillCode}, '%')
       </if>
@@ -388,10 +399,10 @@
       <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''">
         and create_time between #{params.beginCreateTime} and #{params.endCreateTime}
       </if>
+
     </where>
   </select>
-  <select id="selectWmsWaybillVOList" parameterType="com.kaiyu56.wms.api.domain.vo.WmsWaybillVO"
-          resultMap="WmsWaybillVOResult">
+  <select id="selectWmsWaybillVOList" resultMap="WmsWaybillVOResult">
     select waybill_id,
            waybill_code,
            destination,
@@ -400,14 +411,16 @@
            csr_id,
            csr_code,
            csr_order_number,
+           deliver_co_id,
+           deliver_co_name,
+           consignor_name,
            consignor_mobile,
            consignor_telephone,
-           consignor_name,
-           deliver_co_name,
+           receiving_co_id,
+           receiving_co_name,
+           consignee_name,
            consignee_mobile,
            consignee_telephone,
-           consignee_name,
-           receiving_co_name,
            receiving_province,
            receiving_city,
            receiving_district,
@@ -435,6 +448,7 @@
            equipment_source,
            creation_source,
            waybill_status,
+           ancestor_waybill_id,
            status,
            del_flag,
            create_by,
@@ -444,14 +458,15 @@
            remark
     from wms_waybill
     <where>
+      del_flag = '0'
       <if test="waybillCode != null  and waybillCode != ''">
         and waybill_code like concat('%', #{waybillCode}, '%')
       </if>
       <if test="destination != null">
-        and destination &gt;= #{destination}
+        and destination = #{destination}
       </if>
       <if test="departure != null">
-        and departure &gt;= #{departure}
+        and departure = #{departure}
       </if>
       <if test="transitPlace != null  and transitPlace != ''">
         and transit_place like concat('%', #{transitPlace}, '%')
@@ -609,6 +624,73 @@
       <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''">
         and create_time between #{params.beginCreateTime} and #{params.endCreateTime}
       </if>
+<!--      and del_flag = '0'-->
+    </where>
+  </select>
+  <select id="selectWmsWaybillVOListByIds" parameterType="com.kaiyu56.wms.api.domain.vo.WmsWaybillVO"
+          resultMap="WmsWaybillVOResult">
+    select waybill_id,
+    waybill_code,
+    destination,
+    departure,
+    transit_place,
+    csr_id,
+    csr_code,
+    csr_order_number,
+    deliver_co_id,
+    deliver_co_name,
+    consignor_name,
+    consignor_mobile,
+    consignor_telephone,
+    receiving_co_id,
+    receiving_co_name,
+    consignee_name,
+    consignee_mobile,
+    consignee_telephone,
+    receiving_province,
+    receiving_city,
+    receiving_district,
+    receiving_street,
+    receiving_address,
+    dept_id,
+    stowage_id,
+    destination_node,
+    handover_mode,
+    transport_mode,
+    pay_method,
+    receipt_status,
+    rebate_returned,
+    write_invoice,
+    basic_freight,
+    real_freight,
+    total_freight,
+    delivery_vehicle_id,
+    delivery_vehicle_code,
+    delivery_driver_id,
+    delivery_driver_name,
+    delivery_time,
+    drawer_id,
+    drawer_name,
+    equipment_source,
+    creation_source,
+    waybill_status,
+    ancestor_waybill_id,
+    status,
+    del_flag,
+    create_by,
+    create_time,
+    update_by,
+    update_time,
+    remark
+    from wms_waybill
+    <where>
+      del_flag = '0'
+      <if test="collection != null and collection.size() != 0">
+        and waybill_id in
+        <foreach collection="collection" item="waybillId" index="index" open="(" separator="," close=")">
+          #{waybillId,jdbcType=BIGINT}
+        </foreach>
+      </if>
     </where>
   </select>
 
@@ -616,4 +698,494 @@
     <include refid="selectWmsWaybillBase"/>
     where waybill_id = #{waybillId}
   </select>
+  <insert id="insertWmsWaybill" parameterType="com.kaiyu56.wms.api.domain.WmsWaybill" useGeneratedKeys="true"
+          keyProperty="waybillId">
+    insert into wms_waybill
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      waybill_id,
+      <if test="waybillCode != null and waybillCode != ''">
+        waybill_code,
+      </if>
+      <if test="departure != null">
+        departure,
+      </if>
+      <if test="destination != null">
+        destination,
+      </if>
+      <if test="transitPlace != null">
+        transit_place,
+      </if>
+      <if test="csrId != null">
+        csr_id,
+      </if>
+      <if test="csrCode != null">
+        csr_code,
+      </if>
+      <if test="csrOrderNumber != null">
+        csr_order_number,
+      </if>
+      <if test="deliverCoId != null">
+        deliver_co_id,
+      </if>
+      <if test="deliverCoName != null">
+        deliver_co_name,
+      </if>
+      <if test="consignorName != null">
+        consignor_name,
+      </if>
+      <if test="consignorMobile != null">
+        consignor_mobile,
+      </if>
+      <if test="consignorTelephone != null">
+        consignor_telephone,
+      </if>
+      <if test="receivingCoId != null">
+        receiving_co_id,
+      </if>
+      <if test="receivingCoName != null">
+        receiving_co_name,
+      </if>
+      <if test="consigneeName != null">
+        consignee_name,
+      </if>
+      <if test="consigneeMobile != null">
+        consignee_mobile,
+      </if>
+      <if test="consigneeTelephone != null">
+        consignee_telephone,
+      </if>
+      <if test="receivingProvince != null">
+        receiving_province,
+      </if>
+      <if test="receivingCity != null">
+        receiving_city,
+      </if>
+      <if test="receivingDistrict != null">
+        receiving_district,
+      </if>
+      <if test="receivingStreet != null">
+        receiving_street,
+      </if>
+      <if test="receivingAddress != null">
+        receiving_address,
+      </if>
+      <if test="deptId != null">
+        dept_id,
+      </if>
+      <if test="stowageId != null">
+        stowage_id,
+      </if>
+      <if test="destinationNode != null">
+        destination_node,
+      </if>
+      <if test="handoverMode != null">
+        handover_mode,
+      </if>
+      <if test="transportMode != null">
+        transport_mode,
+      </if>
+      <if test="payMethod != null">
+        pay_method,
+      </if>
+      <if test="receiptStatus != null">
+        receipt_status,
+      </if>
+      <if test="rebateReturned != null">
+        rebate_returned,
+      </if>
+      <if test="writeInvoice != null">
+        write_invoice,
+      </if>
+      <if test="basicFreight != null">
+        basic_freight,
+      </if>
+      <if test="realFreight != null">
+        real_freight,
+      </if>
+      <if test="totalFreight != null">
+        total_freight,
+      </if>
+      <if test="deliveryVehicleId != null">
+        delivery_vehicle_id,
+      </if>
+      <if test="deliveryVehicleCode != null">
+        delivery_vehicle_code,
+      </if>
+      <if test="deliveryDriverId != null">
+        delivery_driver_id,
+      </if>
+      <if test="deliveryDriverName != null">
+        delivery_driver_name,
+      </if>
+      <if test="deliveryTime != null">
+        delivery_time,
+      </if>
+      <if test="drawerId != null">
+        drawer_id,
+      </if>
+      <if test="drawerName != null">
+        drawer_name,
+      </if>
+      <if test="equipmentSource != null">
+        equipment_source,
+      </if>
+      <if test="creationSource != null and creationSource != ''">
+        creation_source,
+      </if>
+      <if test="waybillStatus != null">
+        waybill_status,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{waybillId,jdbcType=BIGINT},
+      <if test="waybillCode != null and waybillCode != ''">
+        #{waybillCode},
+      </if>
+      <if test="departure != null">
+        #{departure},
+      </if>
+      <if test="destination != null">
+        #{destination},
+      </if>
+      <if test="transitPlace != null">
+        #{transitPlace},
+      </if>
+      <if test="csrId != null">
+        #{csrId},
+      </if>
+      <if test="csrCode != null">
+        #{csrCode},
+      </if>
+      <if test="csrOrderNumber != null">
+        #{csrOrderNumber},
+      </if>
+      <if test="deliverCoId != null">
+        #{deliverCoId},
+      </if>
+      <if test="deliverCoName != null">
+        #{deliverCoName},
+      </if>
+      <if test="consignorName != null">
+        #{consignorName},
+      </if>
+      <if test="consignorMobile != null">
+        #{consignorMobile},
+      </if>
+      <if test="consignorTelephone != null">
+        #{consignorTelephone},
+      </if>
+      <if test="receivingCoId != null">
+        #{receivingCoId},
+      </if>
+      <if test="receivingCoName != null">
+        #{receivingCoName},
+      </if>
+      <if test="consigneeName != null">
+        #{consigneeName},
+      </if>
+      <if test="consigneeMobile != null">
+        #{consigneeMobile},
+      </if>
+      <if test="consigneeTelephone != null">
+        #{consigneeTelephone},
+      </if>
+      <if test="receivingProvince != null">
+        #{receivingProvince},
+      </if>
+      <if test="receivingCity != null">
+        #{receivingCity},
+      </if>
+      <if test="receivingDistrict != null">
+        #{receivingDistrict},
+      </if>
+      <if test="receivingStreet != null">
+        #{receivingStreet},
+      </if>
+      <if test="receivingAddress != null">
+        #{receivingAddress},
+      </if>
+      <if test="deptId != null">
+        #{deptId},
+      </if>
+      <if test="stowageId != null">
+        #{stowageId},
+      </if>
+      <if test="destinationNode != null">
+        #{destinationNode},
+      </if>
+      <if test="handoverMode != null">
+        #{handoverMode},
+      </if>
+      <if test="transportMode != null">
+        #{transportMode},
+      </if>
+      <if test="payMethod != null">
+        #{payMethod},
+      </if>
+      <if test="receiptStatus != null">
+        #{receiptStatus},
+      </if>
+      <if test="rebateReturned != null">
+        #{rebateReturned},
+      </if>
+      <if test="writeInvoice != null">
+        #{writeInvoice},
+      </if>
+      <if test="basicFreight != null">
+        #{basicFreight},
+      </if>
+      <if test="realFreight != null">
+        #{realFreight},
+      </if>
+      <if test="totalFreight != null">
+        #{totalFreight},
+      </if>
+      <if test="deliveryVehicleId != null">
+        #{deliveryVehicleId},
+      </if>
+      <if test="deliveryVehicleCode != null">
+        #{deliveryVehicleCode},
+      </if>
+      <if test="deliveryDriverId != null">
+        #{deliveryDriverId},
+      </if>
+      <if test="deliveryDriverName != null">
+        #{deliveryDriverName},
+      </if>
+      <if test="deliveryTime != null">
+        #{deliveryTime},
+      </if>
+      <if test="drawerId != null">
+        #{drawerId},
+      </if>
+      <if test="drawerName != null">
+        #{drawerName},
+      </if>
+      <if test="equipmentSource != null">
+        #{equipmentSource},
+      </if>
+      <if test="creationSource != null and creationSource != ''">
+        #{creationSource},
+      </if>
+      <if test="waybillStatus != null">
+        #{waybillStatus},
+      </if>
+      <if test="status != null">
+        #{status},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag},
+      </if>
+      <if test="createBy != null">
+        #{createBy},
+      </if>
+      <if test="createTime != null">
+        #{createTime},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime},
+      </if>
+      <if test="remark != null">
+        #{remark},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateWmsWaybill" parameterType="com.kaiyu56.wms.api.domain.WmsWaybill">
+    update wms_waybill
+    <trim prefix="SET" suffixOverrides=",">
+      <if test="waybillCode != null and waybillCode != ''">
+        waybill_code = #{waybillCode},
+      </if>
+      <if test="departure != null">
+        departure = #{departure},
+      </if>
+      <if test="destination != null">
+        destination = #{destination},
+      </if>
+      <if test="transitPlace != null">
+        transit_place = #{transitPlace},
+      </if>
+      <if test="csrId != null">
+        csr_id = #{csrId},
+      </if>
+      <if test="csrCode != null">
+        csr_code = #{csrCode},
+      </if>
+      <if test="csrOrderNumber != null">
+        csr_order_number = #{csrOrderNumber},
+      </if>
+      <if test="deliverCoId != null">
+        deliver_co_id = #{deliverCoId},
+      </if>
+      <if test="deliverCoName != null">
+        deliver_co_name = #{deliverCoName},
+      </if>
+      <if test="consignorName != null">
+        consignor_name = #{consignorName},
+      </if>
+      <if test="consignorMobile != null">
+        consignor_mobile = #{consignorMobile},
+      </if>
+      <if test="consignorTelephone != null">
+        consignor_telephone = #{consignorTelephone},
+      </if>
+      <if test="receivingCoId != null">
+        receiving_co_id = #{receivingCoId},
+      </if>
+      <if test="receivingCoName != null">
+        receiving_co_name = #{receivingCoName},
+      </if>
+      <if test="consigneeName != null">
+        consignee_name = #{consigneeName},
+      </if>
+      <if test="consigneeMobile != null">
+        consignee_mobile = #{consigneeMobile},
+      </if>
+      <if test="consigneeTelephone != null">
+        consignee_telephone = #{consigneeTelephone},
+      </if>
+      <if test="receivingProvince != null">
+        receiving_province = #{receivingProvince},
+      </if>
+      <if test="receivingCity != null">
+        receiving_city = #{receivingCity},
+      </if>
+      <if test="receivingDistrict != null">
+        receiving_district = #{receivingDistrict},
+      </if>
+      <if test="receivingStreet != null">
+        receiving_street = #{receivingStreet},
+      </if>
+      <if test="receivingAddress != null">
+        receiving_address = #{receivingAddress},
+      </if>
+      <if test="deptId != null">
+        dept_id = #{deptId},
+      </if>
+      <if test="stowageId != null">
+        stowage_id = #{stowageId},
+      </if>
+      <if test="destinationNode != null">
+        destination_node = #{destinationNode},
+      </if>
+      <if test="handoverMode != null">
+        handover_mode = #{handoverMode},
+      </if>
+      <if test="transportMode != null">
+        transport_mode = #{transportMode},
+      </if>
+      <if test="payMethod != null">
+        pay_method = #{payMethod},
+      </if>
+      <if test="receiptStatus != null">
+        receipt_status = #{receiptStatus},
+      </if>
+      <if test="rebateReturned != null">
+        rebate_returned = #{rebateReturned},
+      </if>
+      <if test="writeInvoice != null">
+        write_invoice = #{writeInvoice},
+      </if>
+      <if test="basicFreight != null">
+        basic_freight = #{basicFreight},
+      </if>
+      <if test="realFreight != null">
+        real_freight = #{realFreight},
+      </if>
+      <if test="totalFreight != null">
+        total_freight = #{totalFreight},
+      </if>
+      <if test="deliveryVehicleId != null">
+        delivery_vehicle_id = #{deliveryVehicleId},
+      </if>
+      <if test="deliveryVehicleCode != null">
+        delivery_vehicle_code = #{deliveryVehicleCode},
+      </if>
+      <if test="deliveryDriverId != null">
+        delivery_driver_id = #{deliveryDriverId},
+      </if>
+      <if test="deliveryDriverName != null">
+        delivery_driver_name = #{deliveryDriverName},
+      </if>
+      <if test="deliveryTime != null">
+        delivery_time = #{deliveryTime},
+      </if>
+      <if test="drawerId != null">
+        drawer_id = #{drawerId},
+      </if>
+      <if test="drawerName != null">
+        drawer_name = #{drawerName},
+      </if>
+      <if test="equipmentSource != null">
+        equipment_source = #{equipmentSource},
+      </if>
+      <if test="creationSource != null and creationSource != ''">
+        creation_source = #{creationSource},
+      </if>
+      <if test="waybillStatus != null">
+        waybill_status = #{waybillStatus},
+      </if>
+      <if test="status != null">
+        status = #{status},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+      <if test="remark != null">
+        remark = #{remark},
+      </if>
+    </trim>
+    where waybill_id = #{waybillId}
+  </update>
+
+  <delete id="deleteWmsWaybillById" parameterType="Long">
+    delete
+    from wms_waybill
+    where waybill_id = #{waybillId}
+  </delete>
+
+  <delete id="deleteWmsWaybillByIds" parameterType="String">
+    delete
+    from wms_waybill where waybill_id in
+    <foreach item="waybillId" collection="array" open="(" separator="," close=")">
+      #{waybillId}
+    </foreach>
+  </delete>
 </mapper>

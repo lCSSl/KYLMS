@@ -1,32 +1,27 @@
 package com.kaiyu56.wms.controller;
 
-import java.util.List;
-import java.io.IOException;
-import javax.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import com.kaiyu56.wms.domain.WmsStowage;
-import com.kaiyu56.wms.service.IWmsStowageService;
+import com.kaiyu56.common.core.utils.poi.ExcelUtil;
+import com.kaiyu56.common.core.web.controller.BaseController;
+import com.kaiyu56.common.core.web.domain.AjaxResult;
+import com.kaiyu56.common.core.web.page.TableDataInfo;
 import com.kaiyu56.common.log.annotation.Log;
 import com.kaiyu56.common.log.enums.BusinessType;
 import com.kaiyu56.common.security.annotation.PreAuthorize;
-import com.kaiyu56.common.core.web.controller.BaseController;
-import com.kaiyu56.common.core.web.domain.AjaxResult;
-import com.kaiyu56.common.core.utils.poi.ExcelUtil;
-import com.kaiyu56.common.core.web.page.TableDataInfo;
+import com.kaiyu56.wms.domain.WmsStowage;
+import com.kaiyu56.wms.service.IWmsStowageService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 运单配载Controller
- * 
+ *
  * @author css
- * @date 2021-03-24
+ * @date 2021-04-08
  */
 @RestController
 @RequestMapping("/WmsStowage")
@@ -37,10 +32,9 @@ public class WmsStowageController extends BaseController {
     /**
      * 查询运单配载列表
      */
-    @PreAuthorize(hasPermi = "wms:WmsStowage:list")
+    @PreAuthorize(hasPermi = "wms:stowage:list")
     @GetMapping("/list")
-    public TableDataInfo list(WmsStowage wmsStowage)
-    {
+    public TableDataInfo list(WmsStowage wmsStowage) {
         startPage();
         List<WmsStowage> list = wmsStowageService.selectWmsStowageList(wmsStowage);
         return getDataTable(list);
@@ -49,56 +43,76 @@ public class WmsStowageController extends BaseController {
     /**
      * 导出运单配载列表
      */
-    @PreAuthorize(hasPermi = "wms:WmsStowage:export")
+    @PreAuthorize(hasPermi = "wms:stowage:export")
     @Log(title = "运单配载", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, WmsStowage wmsStowage) throws IOException
-    {
+    public void export(HttpServletResponse response, WmsStowage wmsStowage) throws IOException {
         List<WmsStowage> list = wmsStowageService.selectWmsStowageList(wmsStowage);
         ExcelUtil<WmsStowage> util = new ExcelUtil<WmsStowage>(WmsStowage.class);
-        util.exportExcel(response, list, "WmsStowage");
+        util.exportExcel(response, list, "stowage");
     }
 
     /**
      * 获取运单配载详细信息
      */
-    @PreAuthorize(hasPermi = "wms:WmsStowage:query")
+    @PreAuthorize(hasPermi = "wms:stowage:query")
     @GetMapping(value = "/{stowageId}")
-    public AjaxResult getInfo(@PathVariable("stowageId") Long stowageId)
-    {
+    public AjaxResult getInfo(@PathVariable("stowageId") Long stowageId) {
         return AjaxResult.success(wmsStowageService.selectWmsStowageById(stowageId));
     }
 
     /**
      * 新增运单配载
      */
-    @PreAuthorize(hasPermi = "wms:WmsStowage:add")
+    @PreAuthorize(hasPermi = "wms:stowage:add")
     @Log(title = "运单配载", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody WmsStowage wmsStowage)
-    {
-        return toAjax(wmsStowageService.insertWmsStowage(wmsStowage));
+    public AjaxResult add(@RequestBody Map<String, Object> map) {
+        return AjaxResult.success(wmsStowageService.insertWmsStowage(map));
     }
 
     /**
      * 修改运单配载
      */
-    @PreAuthorize(hasPermi = "wms:WmsStowage:edit")
+    @PreAuthorize(hasPermi = "wms:stowage:edit")
     @Log(title = "运单配载", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody WmsStowage wmsStowage)
-    {
+    public AjaxResult edit(@RequestBody WmsStowage wmsStowage) {
         return toAjax(wmsStowageService.updateWmsStowage(wmsStowage));
     }
 
     /**
      * 删除运单配载
      */
-    @PreAuthorize(hasPermi = "wms:WmsStowage:remove")
+    @PreAuthorize(hasPermi = "wms:stowage:remove")
     @Log(title = "运单配载", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{stowageIds}")
-    public AjaxResult remove(@PathVariable Long[] stowageIds)
-    {
+    @DeleteMapping("/{stowageIds}")
+    public AjaxResult remove(@PathVariable Long[] stowageIds) {
+        if (stowageIds.length == 1) {
+            return toAjax(wmsStowageService.deleteWmsStowageById(stowageIds[0]));
+        }
         return toAjax(wmsStowageService.deleteWmsStowageByIds(stowageIds));
+    }
+
+    /**
+     * 运单配载结束
+     */
+    @PreAuthorize(hasPermi = "wms:stowage:remove")
+    @Log(title = "运单配载", businessType = BusinessType.UPDATE)
+    @PostMapping("/endStowage/{stowageId}")
+    public AjaxResult endStowage(@PathVariable Long stowageId) {
+
+        return toAjax(wmsStowageService.endStowage(stowageId));
+    }
+
+    /**
+     * 发车！
+     */
+    @PreAuthorize(hasPermi = "wms:stowage:remove")
+    @Log(title = "运单配载", businessType = BusinessType.UPDATE)
+    @PostMapping("/departure/{stowageId}")
+    public AjaxResult departure(@PathVariable Long stowageId) {
+
+        return toAjax(wmsStowageService.departure(stowageId));
     }
 }

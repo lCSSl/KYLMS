@@ -3,6 +3,7 @@ package com.kaiyu56.wms.controller;
 import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +25,7 @@ import com.kaiyu56.common.core.web.page.TableDataInfo;
 
 /**
  * 运输工具信息主Controller
- * 
+ *
  * @author css
  * @date 2021-03-24
  */
@@ -39,8 +40,7 @@ public class WmsVehicleController extends BaseController {
      */
     @PreAuthorize(hasPermi = "wms:WmsVehicle:list")
     @GetMapping("/list")
-    public TableDataInfo list(WmsVehicle wmsVehicle)
-    {
+    public TableDataInfo list(WmsVehicle wmsVehicle) {
         startPage();
         List<WmsVehicle> list = wmsVehicleService.selectWmsVehicleList(wmsVehicle);
         return getDataTable(list);
@@ -52,8 +52,7 @@ public class WmsVehicleController extends BaseController {
     @PreAuthorize(hasPermi = "wms:WmsVehicle:export")
     @Log(title = "运输工具信息主", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, WmsVehicle wmsVehicle) throws IOException
-    {
+    public void export(HttpServletResponse response, WmsVehicle wmsVehicle) throws IOException {
         List<WmsVehicle> list = wmsVehicleService.selectWmsVehicleList(wmsVehicle);
         ExcelUtil<WmsVehicle> util = new ExcelUtil<WmsVehicle>(WmsVehicle.class);
         util.exportExcel(response, list, "WmsVehicle");
@@ -64,8 +63,7 @@ public class WmsVehicleController extends BaseController {
      */
     @PreAuthorize(hasPermi = "wms:WmsVehicle:query")
     @GetMapping(value = "/{vehicleId}")
-    public AjaxResult getInfo(@PathVariable("vehicleId") Long vehicleId)
-    {
+    public AjaxResult getInfo(@PathVariable("vehicleId") Long vehicleId) {
         return AjaxResult.success(wmsVehicleService.selectWmsVehicleById(vehicleId));
     }
 
@@ -75,8 +73,7 @@ public class WmsVehicleController extends BaseController {
     @PreAuthorize(hasPermi = "wms:WmsVehicle:add")
     @Log(title = "运输工具信息主", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody WmsVehicle wmsVehicle)
-    {
+    public AjaxResult add(@RequestBody WmsVehicle wmsVehicle) {
         return toAjax(wmsVehicleService.insertWmsVehicle(wmsVehicle));
     }
 
@@ -86,8 +83,7 @@ public class WmsVehicleController extends BaseController {
     @PreAuthorize(hasPermi = "wms:WmsVehicle:edit")
     @Log(title = "运输工具信息主", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody WmsVehicle wmsVehicle)
-    {
+    public AjaxResult edit(@RequestBody WmsVehicle wmsVehicle) {
         return toAjax(wmsVehicleService.updateWmsVehicle(wmsVehicle));
     }
 
@@ -96,9 +92,17 @@ public class WmsVehicleController extends BaseController {
      */
     @PreAuthorize(hasPermi = "wms:WmsVehicle:remove")
     @Log(title = "运输工具信息主", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{vehicleIds}")
-    public AjaxResult remove(@PathVariable Long[] vehicleIds)
-    {
+    @DeleteMapping("/{vehicleIds}")
+    public AjaxResult remove(@PathVariable Long[] vehicleIds) {
         return toAjax(wmsVehicleService.deleteWmsVehicleByIds(vehicleIds));
+    }
+
+    /**
+     * 获取车辆定位
+     */
+    @PreAuthorize(hasPermi = "wms:WmsVehicle:query")
+    @GetMapping("/getLocationById/{vehicleId}")
+    public AjaxResult getLocationById(@PathVariable Long vehicleId) {
+        return AjaxResult.success(wmsVehicleService.getLocationById(vehicleId));
     }
 }

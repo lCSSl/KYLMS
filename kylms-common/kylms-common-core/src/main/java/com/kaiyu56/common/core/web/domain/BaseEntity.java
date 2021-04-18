@@ -8,6 +8,10 @@ import java.util.Map;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.kaiyu56.common.core.utils.DateUtils;
+import com.kaiyu56.common.core.utils.SecurityUtils;
+import com.kaiyu56.common.core.utils.StringUtils;
+import org.apache.commons.lang3.ObjectUtils;
 
 /**
  * Entity基类
@@ -117,5 +121,16 @@ public class BaseEntity implements Serializable {
 
     public void setParams(Map<String, Object> params) {
         this.params = params;
+    }
+
+    public void fillBasicAttributes(int type) {
+        String username = SecurityUtils.getUsername();
+        Date nowDate = DateUtils.getNowDate();
+        if (type == 0) {
+            this.createBy = username;
+            this.createTime = nowDate;
+        }
+        this.updateBy = username;
+        this.updateTime = nowDate;
     }
 }

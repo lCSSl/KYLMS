@@ -1,6 +1,12 @@
 package com.kaiyu56.wms.domain;
 
 import java.math.BigDecimal;
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import io.micrometer.core.instrument.Meter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.kaiyu56.common.core.annotation.Excel;
@@ -10,12 +16,13 @@ import com.kaiyu56.common.core.web.domain.BaseEntity;
  * 货物对象 wms_cargo
  * 
  * @author css
- * @date 2021-03-24
+ * @date 2021-04-01
  */
 public class WmsCargo extends BaseEntity{
     private static final long serialVersionUID = 1L;
 
-    /** 主键ID */
+    /** 主键ID--序号 */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long cargoId;
 
     /** 编码 */
@@ -26,13 +33,17 @@ public class WmsCargo extends BaseEntity{
     @Excel(name = "品名")
     private String cargoName;
 
-    /** 单件重量 */
-    @Excel(name = "单件重量")
-    private BigDecimal cargoWeight;
+    /** 包装方式 */
+    @Excel(name = "包装方式")
+    private String packageType;
 
-    /** 单件重量 */
-    @Excel(name = "单件重量")
-    private BigDecimal cargoVolume;
+    /** 计价方式 */
+    @Excel(name = "计价方式")
+    private String valuationType;
+
+    /** 计价值 */
+    @Excel(name = "计价值")
+    private BigDecimal valuationValue;
 
     /** 贵重货物 */
     @Excel(name = "贵重货物")
@@ -46,16 +57,12 @@ public class WmsCargo extends BaseEntity{
     @Excel(name = "货物单据")
     private String documents;
 
-    /** 包装方式 */
-    @Excel(name = "包装方式")
-    private String packageType;
-
     /** 客户ID */
     @Excel(name = "客户ID")
     private Long csrId;
 
-    /** 部门ID-客户公司 */
-    @Excel(name = "部门ID-客户公司")
+    /** 客户公司ID */
+    @Excel(name = "客户公司ID")
     private Long deptId;
 
     /** 状态 */
@@ -92,23 +99,32 @@ public class WmsCargo extends BaseEntity{
     {
         return cargoName;
     }
-    public void setCargoWeight(BigDecimal cargoWeight) 
+    public void setPackageType(String packageType) 
     {
-        this.cargoWeight = cargoWeight;
+        this.packageType = packageType;
     }
 
-    public BigDecimal getCargoWeight() 
+    public String getPackageType() 
     {
-        return cargoWeight;
+        return packageType;
     }
-    public void setCargoVolume(BigDecimal cargoVolume) 
+    public void setValuationType(String valuationType) 
     {
-        this.cargoVolume = cargoVolume;
+        this.valuationType = valuationType;
     }
 
-    public BigDecimal getCargoVolume() 
+    public String getValuationType() 
     {
-        return cargoVolume;
+        return valuationType;
+    }
+    public void setValuationValue(BigDecimal valuationValue) 
+    {
+        this.valuationValue = valuationValue;
+    }
+
+    public BigDecimal getValuationValue() 
+    {
+        return valuationValue;
     }
     public void setValuable(String valuable) 
     {
@@ -136,15 +152,6 @@ public class WmsCargo extends BaseEntity{
     public String getDocuments() 
     {
         return documents;
-    }
-    public void setPackageType(String packageType) 
-    {
-        this.packageType = packageType;
-    }
-
-    public String getPackageType() 
-    {
-        return packageType;
     }
     public void setCsrId(Long csrId) 
     {
@@ -189,12 +196,12 @@ public class WmsCargo extends BaseEntity{
             .append("cargoId", getCargoId())
             .append("cargoCode", getCargoCode())
             .append("cargoName", getCargoName())
-            .append("cargoWeight", getCargoWeight())
-            .append("cargoVolume", getCargoVolume())
+            .append("packageType", getPackageType())
+            .append("valuationType", getValuationType())
+            .append("valuationValue", getValuationValue())
             .append("valuable", getValuable())
             .append("irregular", getIrregular())
             .append("documents", getDocuments())
-            .append("packageType", getPackageType())
             .append("csrId", getCsrId())
             .append("deptId", getDeptId())
             .append("status", getStatus())

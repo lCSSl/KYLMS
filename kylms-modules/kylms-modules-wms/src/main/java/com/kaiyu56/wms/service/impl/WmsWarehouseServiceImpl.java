@@ -1,8 +1,16 @@
 package com.kaiyu56.wms.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.kaiyu56.common.core.domain.R;
+import com.kaiyu56.common.core.exception.BaseException;
+import com.kaiyu56.common.core.utils.SecurityUtils;
+import com.kaiyu56.system.api.RemoteDeptService;
 import com.kaiyu56.system.api.RemoteDictService;
+import com.kaiyu56.system.api.RemoteUserService;
+import com.kaiyu56.system.api.domain.SysDept;
 import com.kaiyu56.system.api.domain.SysDictData;
+import com.kaiyu56.system.api.model.LoginUser;
 import com.kaiyu56.wms.api.domain.WmsWarehouse;
 import com.kaiyu56.wms.api.domain.vo.WmsWarehouseVO;
 import com.kaiyu56.wms.domain.WmsWarehouseExtItem;
@@ -18,6 +26,7 @@ import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 站点(仓库)信息Service业务层处理
@@ -29,6 +38,10 @@ import java.util.List;
 @Service
 public class WmsWarehouseServiceImpl extends ServiceImpl<WmsWarehouseMapper, WmsWarehouse> implements IWmsWarehouseService {
 
+    @Autowired
+    private RemoteUserService remoteUserService;
+    @Autowired
+    private RemoteDeptService remoteDeptService;
     @Autowired
     private RemoteDictService remoteDictService;
     @Autowired
@@ -56,6 +69,27 @@ public class WmsWarehouseServiceImpl extends ServiceImpl<WmsWarehouseMapper, Wms
         return baseMapper.selectWmsWarehouseList(wmsWarehouse);
     }
 
+    /**
+     * 查询默认站点
+     *
+     * @return 站点(仓库)信息集合
+     */
+    @Override
+    public WmsWarehouse selectDefaultWmsWarehouse() {
+        LoginUser data = remoteUserService.getUserInfo(SecurityUtils.getUsername()).getData();
+        R<List<SysDept>> r = remoteDeptService.feignList(new SysDept());
+        List<SysDept> list = r.getData();
+        Long deptId = data.getSysUser().getDept().getDeptId();
+        if (deptId != null) {
+            List<Long> deptIds = list.stream().map(i -> i.getAncestors().contains(deptId.toString()) ? i.getDeptId() : null).collect(Collectors.toList());
+            deptIds.add(deptId);
+            List<WmsWarehouse> wmsWarehouses = baseMapper.selectDefaultWmsWarehouseList(deptIds);
+            WmsWarehouse wmsWarehouse = wmsWarehouses.get(0);
+            return wmsWarehouse != null ? wmsWarehouse : null;
+        }
+        return null;
+    }
+
     @Override
     public List<WmsWarehouseVO> selectWmsWarehouseVOList(WmsWarehouse wmsWarehouse) {
         return baseMapper.selectWmsWarehouseVOList(wmsWarehouse);
@@ -79,6 +113,9 @@ public class WmsWarehouseServiceImpl extends ServiceImpl<WmsWarehouseMapper, Wms
      */
     @Override
     public int insertWmsWarehouse(WmsWarehouse wmsWarehouse) {
+
+        wmsWarehouse.setWarehouseCode("KY-WH-" + IdWorker.get32UUID().toUpperCase());
+
         BigDecimal areaX = wmsWarehouse.getWarehouseAreaX();
         BigDecimal areaY = wmsWarehouse.getWarehouseAreaY();
         BigDecimal warehouseArea = wmsWarehouse.getWarehouseArea();
@@ -147,6 +184,10 @@ public class WmsWarehouseServiceImpl extends ServiceImpl<WmsWarehouseMapper, Wms
      */
     @Override
     public int initWmsWarehouseExtItem(Long warehouseId, Long dictCode, String trayType, BigDecimal trayInterval) {
+        int size = wmsWarehouseExtItemService.selectWmsWarehouseExtItemList(new WmsWarehouseExtItem(warehouseId)).size();
+        if (size > 0) {
+            throw new BaseException("已初始化完毕。请勿重复初始化");
+        }
         if (trayInterval.compareTo(new BigDecimal(10)) < 0) {
             trayInterval = new BigDecimal(10);
             log.warn("params['trayInterval'] is violation trayInterval must more than the :{}", trayInterval);
@@ -181,18 +222,18 @@ public class WmsWarehouseServiceImpl extends ServiceImpl<WmsWarehouseMapper, Wms
                 ? areaYMM.divide(trayLengthMM, 2, RoundingMode.FLOOR)
                 : areaYMM.divide(trayWidthMM, 2, RoundingMode.FLOOR)).toBigInteger();
         log.error("total: Array[Y:{}][X:{}]", itemXTotal, itemYTotal);
-        int batchTotals=0;
+        int batchTotals = 0;
         for (long i = 0l; i < itemYTotal.longValue(); i++) {
             List<WmsWarehouseExtItem> list = new ArrayList<>();
             for (long j = 0l; j < itemXTotal.longValue(); j++) {
-                list.add(new WmsWarehouseExtItem(warehouseId, j, i, "0"));
+                list.add(new WmsWarehouseExtItem(warehouseId, j, i, "1"));
             }
-            batchTotals+=wmsWarehouseExtItemService.batchInsertWmsWarehouseExtItem(list);
+            batchTotals += wmsWarehouseExtItemService.batchInsertWmsWarehouseExtItem(list);
         }
-        wmsWarehouse.setWarehouseMaxX(itemXTotal.intValue());
-        wmsWarehouse.setWarehouseMaxY(itemYTotal.intValue());
+        wmsWarehouse.setWarehouseMaxX(itemXTotal.longValue());
+        wmsWarehouse.setWarehouseMaxY(itemYTotal.longValue());
         baseMapper.updateWmsWarehouse(wmsWarehouse);
-        log.error("batchTotals: {}",batchTotals);
+        log.error("batchTotals: {}", batchTotals);
         return batchTotals;
     }
 }

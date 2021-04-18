@@ -20,7 +20,6 @@ public class ShardingJDBCTest {
     @Test
     public void addWC() {
         for (int i = 10; i > 0; i--) {
-            mapper.insert(new WaybillCargo().setWaybillId(10240512L).setWaybillCargoName("垃圾").setWaybillCargoCount(1));
         }
     }
 }

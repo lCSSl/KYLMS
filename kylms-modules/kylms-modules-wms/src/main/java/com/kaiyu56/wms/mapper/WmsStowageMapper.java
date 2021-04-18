@@ -1,19 +1,20 @@
 package com.kaiyu56.wms.mapper;
 
 import java.util.List;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.kaiyu56.wms.domain.WmsStowage;
 
 /**
  * 运单配载Mapper接口
- * 
+ *
  * @author css
- * @date 2021-03-24
+ * @date 2021-04-08
  */
-public interface WmsStowageMapper 
-{
+public interface WmsStowageMapper extends BaseMapper<WmsStowage> {
     /**
      * 查询运单配载
-     * 
+     *
      * @param stowageId 运单配载ID
      * @return 运单配载
      */
@@ -21,7 +22,7 @@ public interface WmsStowageMapper
 
     /**
      * 查询运单配载列表
-     * 
+     *
      * @param wmsStowage 运单配载
      * @return 运单配载集合
      */
@@ -29,7 +30,7 @@ public interface WmsStowageMapper
 
     /**
      * 新增运单配载
-     * 
+     *
      * @param wmsStowage 运单配载
      * @return 结果
      */
@@ -37,7 +38,7 @@ public interface WmsStowageMapper
 
     /**
      * 修改运单配载
-     * 
+     *
      * @param wmsStowage 运单配载
      * @return 结果
      */
@@ -45,7 +46,7 @@ public interface WmsStowageMapper
 
     /**
      * 删除运单配载
-     * 
+     *
      * @param stowageId 运单配载ID
      * @return 结果
      */
@@ -53,9 +54,11 @@ public interface WmsStowageMapper
 
     /**
      * 批量删除运单配载
-     * 
+     *
      * @param stowageIds 需要删除的数据ID
      * @return 结果
      */
     public int deleteWmsStowageByIds(Long[] stowageIds);
+
+    List<Long> selectWorkingDriver(Long[] userIds);
 }

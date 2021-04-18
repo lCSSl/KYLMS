@@ -1,239 +1,160 @@
 package com.kaiyu56.wms.domain;
 
 import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.kaiyu56.common.core.utils.DateUtils;
+import com.kaiyu56.wms.api.domain.vo.WmsVehicleLL;
+import com.kaiyu56.wms.enums.WmsStowageStatus;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.kaiyu56.common.core.annotation.Excel;
 import com.kaiyu56.common.core.web.domain.BaseEntity;
 
+
 /**
  * 运单配载对象 wms_stowage
- * 
+ *
  * @author css
- * @date 2021-03-24
+ * @date 2021-04-08
  */
-public class WmsStowage extends BaseEntity{
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class WmsStowage extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
-    /** 主键ID--序号 */
+    /**
+     * 序号
+     */
+    @TableId(value = "stowage_id", type = IdType.ASSIGN_ID)
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long stowageId;
 
-    /** 运单ID */
-    @Excel(name = "运单ID")
-    private Long waybillId;
-
-    /** 部门ID */
-    @Excel(name = "部门ID")
-    private Long deptId;
-
-    /** 配载编码 */
+    /**
+     * 配载编码
+     */
     @Excel(name = "配载编码")
     private String stowageCode;
 
-    /** 配载站点名 */
+    /**
+     * 配载站点名
+     */
     @Excel(name = "配载站点名")
-    private Long stowageName;
+    private String stowageWarehouseName;
 
-    /** 配载目的网点 */
-    @Excel(name = "配载目的网点")
-    private String stowageDestinationNode;
+    /**
+     * 发出站点
+     */
+    @Excel(name = "发出站点")
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long departure;
 
-    /** 发车批次 */
+    /**
+     * 发出站点名
+     */
+    @Excel(name = "发出站点名")
+    private String departureName;
+
+    /**
+     * 发车批次
+     */
     @Excel(name = "发车批次")
     private String departureCode;
 
-    /** 发车司机ID */
+    /**
+     * 发车司机ID
+     */
     @Excel(name = "发车司机ID")
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long departureDriverId;
 
-    /** 发车司机名 */
+    /**
+     * 发车司机名
+     */
     @Excel(name = "发车司机名")
     private String departureDriverName;
 
-    /** 发车车ID */
+    /**
+     * 发车车ID
+     */
     @Excel(name = "发车车ID")
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long departureVehicleId;
 
-    /** 发车车编码 */
+    /**
+     * 发车车编码
+     */
     @Excel(name = "发车车编码")
     private String departureVehicleCode;
 
-    /** 发车车牌号 */
+    /**
+     * 发车车牌号
+     */
     @Excel(name = "发车车牌号")
     private String departureVehiclePlate;
 
-    /** 发车时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "发车时间", width = 30, dateFormat = "yyyy-MM-dd")
+    /**
+     * 发车时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @Excel(name = "发车时间", width = 30, dateFormat = "yyyy-MM-dd hh:mm:ss")
     private Date departureTime;
 
-    /** 状态（0正常 1停用） */
-    @Excel(name = "状态", readConverterExp = "0=正常,1=停用")
+    /**
+     * 目的地站点
+     */
+    @Excel(name = "目的地站点")
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long destination;
+
+    /**
+     * 目的地站点名
+     */
+    @Excel(name = "目的地站点名")
+    private String destinationName;
+
+    /**
+     * 部门ID
+     */
+    @Excel(name = "部门ID")
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long deptId;
+
+    @Excel(name = "配载状态")
+    private String stowageStatus;
+
+    /**
+     * 状态
+     */
     private String status;
 
-    /** 删除标志（0代表存在 2代表删除） */
+    /**
+     * 删除标志
+     */
     private String delFlag;
 
-    public void setStowageId(Long stowageId) 
-    {
-        this.stowageId = stowageId;
-    }
+    private WmsVehicleLL ll;
 
-    public Long getStowageId() 
-    {
-        return stowageId;
-    }
-    public void setWaybillId(Long waybillId) 
-    {
-        this.waybillId = waybillId;
-    }
-
-    public Long getWaybillId() 
-    {
-        return waybillId;
-    }
-    public void setDeptId(Long deptId) 
-    {
-        this.deptId = deptId;
-    }
-
-    public Long getDeptId() 
-    {
-        return deptId;
-    }
-    public void setStowageCode(String stowageCode) 
-    {
-        this.stowageCode = stowageCode;
-    }
-
-    public String getStowageCode() 
-    {
-        return stowageCode;
-    }
-    public void setStowageName(Long stowageName) 
-    {
-        this.stowageName = stowageName;
-    }
-
-    public Long getStowageName() 
-    {
-        return stowageName;
-    }
-    public void setStowageDestinationNode(String stowageDestinationNode) 
-    {
-        this.stowageDestinationNode = stowageDestinationNode;
-    }
-
-    public String getStowageDestinationNode() 
-    {
-        return stowageDestinationNode;
-    }
-    public void setDepartureCode(String departureCode) 
-    {
-        this.departureCode = departureCode;
-    }
-
-    public String getDepartureCode() 
-    {
-        return departureCode;
-    }
-    public void setDepartureDriverId(Long departureDriverId) 
-    {
-        this.departureDriverId = departureDriverId;
-    }
-
-    public Long getDepartureDriverId() 
-    {
-        return departureDriverId;
-    }
-    public void setDepartureDriverName(String departureDriverName) 
-    {
-        this.departureDriverName = departureDriverName;
-    }
-
-    public String getDepartureDriverName() 
-    {
-        return departureDriverName;
-    }
-    public void setDepartureVehicleId(Long departureVehicleId) 
-    {
-        this.departureVehicleId = departureVehicleId;
-    }
-
-    public Long getDepartureVehicleId() 
-    {
-        return departureVehicleId;
-    }
-    public void setDepartureVehicleCode(String departureVehicleCode) 
-    {
-        this.departureVehicleCode = departureVehicleCode;
-    }
-
-    public String getDepartureVehicleCode() 
-    {
-        return departureVehicleCode;
-    }
-    public void setDepartureVehiclePlate(String departureVehiclePlate) 
-    {
-        this.departureVehiclePlate = departureVehiclePlate;
-    }
-
-    public String getDepartureVehiclePlate() 
-    {
-        return departureVehiclePlate;
-    }
-    public void setDepartureTime(Date departureTime) 
-    {
-        this.departureTime = departureTime;
-    }
-
-    public Date getDepartureTime() 
-    {
-        return departureTime;
-    }
-    public void setStatus(String status) 
-    {
-        this.status = status;
-    }
-
-    public String getStatus() 
-    {
-        return status;
-    }
-    public void setDelFlag(String delFlag) 
-    {
-        this.delFlag = delFlag;
-    }
-
-    public String getDelFlag() 
-    {
-        return delFlag;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("stowageId", getStowageId())
-            .append("waybillId", getWaybillId())
-            .append("deptId", getDeptId())
-            .append("stowageCode", getStowageCode())
-            .append("stowageName", getStowageName())
-            .append("stowageDestinationNode", getStowageDestinationNode())
-            .append("departureCode", getDepartureCode())
-            .append("departureDriverId", getDepartureDriverId())
-            .append("departureDriverName", getDepartureDriverName())
-            .append("departureVehicleId", getDepartureVehicleId())
-            .append("departureVehicleCode", getDepartureVehicleCode())
-            .append("departureVehiclePlate", getDepartureVehiclePlate())
-            .append("departureTime", getDepartureTime())
-            .append("status", getStatus())
-            .append("delFlag", getDelFlag())
-            .append("createBy", getCreateBy())
-            .append("createTime", getCreateTime())
-            .append("updateBy", getUpdateBy())
-            .append("updateTime", getUpdateTime())
-            .append("remark", getRemark())
-            .toString();
+    /**
+     * 改变状态
+     * @param stowageId
+     * @param stowageStatus
+     */
+    public WmsStowage(Long stowageId, String stowageStatus) {
+        this(stowageId,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,stowageStatus,null,null);
+        fillBasicAttributes(1);
+        if (WmsStowageStatus.DEPARTED.getCode().equals(stowageStatus)){
+            setDepartureTime(DateUtils.getNowDate());
+        }
     }
 }

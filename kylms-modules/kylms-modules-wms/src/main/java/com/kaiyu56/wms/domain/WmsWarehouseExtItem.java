@@ -1,7 +1,12 @@
 package com.kaiyu56.wms.domain;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.kaiyu56.common.core.annotation.Excel;
 import com.kaiyu56.common.core.web.domain.BaseEntity;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -11,6 +16,11 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @author css
  * @date 2021-03-24
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@TableName(value = "wms_waybill")
+@EqualsAndHashCode(callSuper = true)
 public class WmsWarehouseExtItem extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
@@ -54,7 +64,9 @@ public class WmsWarehouseExtItem extends BaseEntity {
         this.itemY = itemY;
         this.status = status;
     }
-
+    public WmsWarehouseExtItem(Long warehouseId) {
+        this.warehouseId = warehouseId;
+    }
     public void setItemId(Long itemId) {
         this.itemId = itemId;
     }

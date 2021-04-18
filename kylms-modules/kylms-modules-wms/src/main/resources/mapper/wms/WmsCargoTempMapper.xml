@@ -1,109 +1,342 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kaiyu56.wms.mapper.WmsCargoTempMapper">
+  <resultMap type="com.kaiyu56.wms.domain.WmsCargoTemp" id="WmsCargoTempResult">
+    <result property="id" column="id"/>
+    <result property="TCargoName" column="t_cargo_name"/>
+    <result property="packageType" column="package_type"/>
+    <result property="TCargoCount" column="t_cargo_count"/>
+    <result property="valuationType" column="valuation_type"/>
+    <result property="valuationValue" column="valuation_value"/>
+    <result property="valuationCount" column="valuation_count"/>
+    <result property="TCargoTotalFee" column="t_cargo_total_fee"/>
+    <result property="valuable" column="valuable"/>
+    <result property="irregular" column="irregular"/>
+    <result property="documents" column="documents"/>
+    <result property="cargoId" column="cargo_id"/>
+    <result property="waybillId" column="waybill_id"/>
+    <result property="status" column="status"/>
+    <result property="delFlag" column="del_flag"/>
+    <result property="createBy" column="create_by"/>
+    <result property="createTime" column="create_time"/>
+    <result property="updateBy" column="update_by"/>
+    <result property="updateTime" column="update_time"/>
+    <result property="remark" column="remark"/>
+  </resultMap>
 
-    <resultMap type="com.kaiyu56.wms.domain.WmsCargoTemp" id="WmsCargoTempResult">
-        <result property="id"    column="id"    />
-        <result property="waybillId"    column="waybill_id"    />
-        <result property="cargoId"    column="cargo_id"    />
-        <result property="tCargoName"    column="t_cargo_name"    />
-        <result property="tCargoNumber"    column="t_cargo_number"    />
-        <result property="tCargoTotalWeight"    column="t_cargo_total_weight"    />
-        <result property="tCargoTotalVolume"    column="t_cargo_total_volume"    />
-        <result property="valuable"    column="valuable"    />
-        <result property="irregular"    column="irregular"    />
-        <result property="documents"    column="documents"    />
-        <result property="packageType"    column="package_type"    />
-    </resultMap>
+  <sql id="selectWmsCargoTempVo">
+    select id,
+           t_cargo_name,
+           package_type,
+           t_cargo_count,
+           valuation_type,
+           valuation_value,
+           valuation_count,
+           t_cargo_total_fee,
+           valuable,
+           irregular,
+           documents,
+           cargo_id,
+           waybill_id,
+           status,
+           del_flag,
+           create_by,
+           create_time,
+           update_by,
+           update_time,
+           remark
+    from wms_cargo_temp
+  </sql>
 
-    <sql id="selectWmsCargoTempVo">
-        select id, waybill_id, cargo_id, t_cargo_name, t_cargo_number, t_cargo_total_weight, t_cargo_total_volume, valuable, irregular, documents, package_type from wms_cargo_temp
-    </sql>
+  <select id="selectWmsCargoTempList" parameterType="com.kaiyu56.wms.domain.WmsCargoTemp"
+          resultMap="WmsCargoTempResult">
+    <include refid="selectWmsCargoTempVo"/>
+    <where>
+      <if test="TCargoName != null  and TCargoName != ''">
+        and t_cargo_name like concat('%', #{TCargoName}, '%')
+      </if>
+      <if test="packageType != null  and packageType != ''">
+        and package_type = #{packageType}
+      </if>
 
-    <select id="selectWmsCargoTempList" parameterType="com.kaiyu56.wms.domain.WmsCargoTemp" resultMap="WmsCargoTempResult">
-        <include refid="selectWmsCargoTempVo"/>
-        <where>  
-            <if test="waybillId != null "> and waybill_id = #{waybillId}</if>
-    
-            <if test="cargoId != null "> and cargo_id = #{cargoId}</if>
-    
-            <if test="tCargoName != null  and tCargoName != ''"> and t_cargo_name like concat('%', #{tCargoName}, '%')</if>
-            <if test="tCargoNumber != null "> and t_cargo_number &gt;= #{tCargoNumber}</if>
-            <if test="tCargoTotalWeight != null "> and t_cargo_total_weight = #{tCargoTotalWeight}</if>
-    
-            <if test="tCargoTotalVolume != null "> and t_cargo_total_volume = #{tCargoTotalVolume}</if>
-    
-            <if test="valuable != null  and valuable != ''"> and valuable = #{valuable}</if>
-    
-            <if test="irregular != null  and irregular != ''"> and irregular = #{irregular}</if>
-    
-            <if test="documents != null  and documents != ''"> and documents = #{documents}</if>
-    
-            <if test="packageType != null  and packageType != ''"> and package_type = #{packageType}</if>
-    
-        </where>
-    </select>
-    
-    <select id="selectWmsCargoTempById" parameterType="Long" resultMap="WmsCargoTempResult">
-        <include refid="selectWmsCargoTempVo"/>
-        where id = #{id}
-    </select>
-        
-    <insert id="insertWmsCargoTemp" parameterType="WmsCargoTemp" useGeneratedKeys="true" keyProperty="id">
-        insert into wms_cargo_temp
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="waybillId != null">waybill_id,</if>
-            <if test="cargoId != null">cargo_id,</if>
-            <if test="tCargoName != null">t_cargo_name,</if>
-            <if test="tCargoNumber != null">t_cargo_number,</if>
-            <if test="tCargoTotalWeight != null">t_cargo_total_weight,</if>
-            <if test="tCargoTotalVolume != null">t_cargo_total_volume,</if>
-            <if test="valuable != null">valuable,</if>
-            <if test="irregular != null">irregular,</if>
-            <if test="documents != null">documents,</if>
-            <if test="packageType != null">package_type,</if>
-         </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="waybillId != null">#{waybillId},</if>
-            <if test="cargoId != null">#{cargoId},</if>
-            <if test="tCargoName != null">#{tCargoName},</if>
-            <if test="tCargoNumber != null">#{tCargoNumber},</if>
-            <if test="tCargoTotalWeight != null">#{tCargoTotalWeight},</if>
-            <if test="tCargoTotalVolume != null">#{tCargoTotalVolume},</if>
-            <if test="valuable != null">#{valuable},</if>
-            <if test="irregular != null">#{irregular},</if>
-            <if test="documents != null">#{documents},</if>
-            <if test="packageType != null">#{packageType},</if>
-         </trim>
-    </insert>
+      <if test="TCargoCount != null">
+        and t_cargo_count &gt;= #{TCargoCount}
+      </if>
+      <if test="valuationType != null  and valuationType != ''">
+        and valuation_type = #{valuationType}
+      </if>
 
-    <update id="updateWmsCargoTemp" parameterType="WmsCargoTemp">
-        update wms_cargo_temp
-        <trim prefix="SET" suffixOverrides=",">
-            <if test="waybillId != null">waybill_id = #{waybillId},</if>
-            <if test="cargoId != null">cargo_id = #{cargoId},</if>
-            <if test="tCargoName != null">t_cargo_name = #{tCargoName},</if>
-            <if test="tCargoNumber != null">t_cargo_number = #{tCargoNumber},</if>
-            <if test="tCargoTotalWeight != null">t_cargo_total_weight = #{tCargoTotalWeight},</if>
-            <if test="tCargoTotalVolume != null">t_cargo_total_volume = #{tCargoTotalVolume},</if>
-            <if test="valuable != null">valuable = #{valuable},</if>
-            <if test="irregular != null">irregular = #{irregular},</if>
-            <if test="documents != null">documents = #{documents},</if>
-            <if test="packageType != null">package_type = #{packageType},</if>
-        </trim>
-        where id = #{id}
-    </update>
+      <if test="valuationValue != null">
+        and valuation_value = #{valuationValue}
+      </if>
 
-    <delete id="deleteWmsCargoTempById" parameterType="Long">
-        delete from wms_cargo_temp where id = #{id}
-    </delete>
+      <if test="valuationCount != null">
+        and valuation_count = #{valuationCount}
+      </if>
 
-    <delete id="deleteWmsCargoTempByIds" parameterType="String">
-        delete from wms_cargo_temp where id in 
-        <foreach item="id" collection="array" open="(" separator="," close=")">
-            #{id}
-        </foreach>
-    </delete>
+      <if test="TCargoTotalFee != null">
+        and t_cargo_total_fee = #{TCargoTotalFee}
+      </if>
+
+      <if test="valuable != null  and valuable != ''">
+        and valuable = #{valuable}
+      </if>
+
+      <if test="irregular != null  and irregular != ''">
+        and irregular = #{irregular}
+      </if>
+
+      <if test="documents != null  and documents != ''">
+        and documents = #{documents}
+      </if>
+
+      <if test="cargoId != null">
+        and cargo_id = #{cargoId}
+      </if>
+
+      <if test="waybillId != null">
+        and waybill_id = #{waybillId}
+      </if>
+
+      <if test="status != null  and status != ''">
+        and status = #{status}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectWmsCargoTempById" parameterType="Long" resultMap="WmsCargoTempResult">
+    <include refid="selectWmsCargoTempVo"/>
+    where id = #{id}
+  </select>
+
+  <insert id="insertWmsCargoTemp" parameterType="com.kaiyu56.wms.domain.WmsCargoTemp" useGeneratedKeys="true" keyProperty="id">
+    insert into wms_cargo_temp
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="TCargoName != null">
+        t_cargo_name,
+      </if>
+      <if test="packageType != null">
+        package_type,
+      </if>
+      <if test="TCargoCount != null">
+        t_cargo_count,
+      </if>
+      <if test="valuationType != null and valuationType != ''">
+        valuation_type,
+      </if>
+      <if test="valuationValue != null">
+        valuation_value,
+      </if>
+      <if test="valuationCount != null">
+        valuation_count,
+      </if>
+      <if test="TCargoTotalFee != null">
+        t_cargo_total_fee,
+      </if>
+      <if test="valuable != null">
+        valuable,
+      </if>
+      <if test="irregular != null">
+        irregular,
+      </if>
+      <if test="documents != null">
+        documents,
+      </if>
+      <if test="cargoId != null">
+        cargo_id,
+      </if>
+      <if test="waybillId != null">
+        waybill_id,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="TCargoName != null">
+        #{TCargoName},
+      </if>
+      <if test="packageType != null">
+        #{packageType},
+      </if>
+      <if test="TCargoCount != null">
+        #{TCargoCount},
+      </if>
+      <if test="valuationType != null and valuationType != ''">
+        #{valuationType},
+      </if>
+      <if test="valuationValue != null">
+        #{valuationValue},
+      </if>
+      <if test="valuationCount != null">
+        #{valuationCount},
+      </if>
+      <if test="TCargoTotalFee != null">
+        #{TCargoTotalFee},
+      </if>
+      <if test="valuable != null">
+        #{valuable},
+      </if>
+      <if test="irregular != null">
+        #{irregular},
+      </if>
+      <if test="documents != null">
+        #{documents},
+      </if>
+      <if test="cargoId != null">
+        #{cargoId},
+      </if>
+      <if test="waybillId != null">
+        #{waybillId},
+      </if>
+      <if test="status != null">
+        #{status},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag},
+      </if>
+      <if test="createBy != null">
+        #{createBy},
+      </if>
+      <if test="createTime != null">
+        #{createTime},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime},
+      </if>
+      <if test="remark != null">
+        #{remark},
+      </if>
+    </trim>
+  </insert>
+  <insert id="batchInsertCargoTemp" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    insert into wms_cargo_temp
+        (id,t_cargo_name, package_type, t_cargo_count, valuation_type, valuation_value, valuation_count, t_cargo_total_fee,
+         valuable, irregular, documents, cargo_id, waybill_id, status, del_flag, create_by, create_time, update_by,
+         update_time, remark)
+        values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=BIGINT},
+      #{item.TCargoName,jdbcType=VARCHAR},
+      #{item.packageType,jdbcType=VARCHAR},
+      #{item.TCargoCount,jdbcType=BIGINT},
+      #{item.valuationType,jdbcType=VARCHAR},
+      #{item.valuationValue,jdbcType=DECIMAL},
+      #{item.valuationCount,jdbcType=DECIMAL},
+      #{item.TCargoTotalFee,jdbcType=DECIMAL},
+      #{item.valuable,jdbcType=VARCHAR},
+      #{item.irregular,jdbcType=VARCHAR},
+      #{item.documents,jdbcType=VARCHAR},
+      #{item.cargoId,jdbcType=BIGINT},
+      #{item.waybillId,jdbcType=BIGINT},
+      '0',
+      '0',
+      #{item.createBy,jdbcType=VARCHAR},
+      #{item.createTime,jdbcType=TIMESTAMP},
+      #{item.updateBy,jdbcType=VARCHAR},
+      #{item.updateTime,jdbcType=TIMESTAMP},
+      #{item.remark,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+
+  <update id="updateWmsCargoTemp" parameterType="com.kaiyu56.wms.domain.WmsCargoTemp">
+    update wms_cargo_temp
+    <trim prefix="SET" suffixOverrides=",">
+      <if test="TCargoName != null">
+        t_cargo_name = #{TCargoName},
+      </if>
+      <if test="packageType != null">
+        package_type = #{packageType},
+      </if>
+      <if test="TCargoCount != null">
+        t_cargo_count = #{TCargoCount},
+      </if>
+      <if test="valuationType != null and valuationType != ''">
+        valuation_type = #{valuationType},
+      </if>
+      <if test="valuationValue != null">
+        valuation_value = #{valuationValue},
+      </if>
+      <if test="valuationCount != null">
+        valuation_count = #{valuationCount},
+      </if>
+      <if test="TCargoTotalFee != null">
+        t_cargo_total_fee = #{TCargoTotalFee},
+      </if>
+      <if test="valuable != null">
+        valuable = #{valuable},
+      </if>
+      <if test="irregular != null">
+        irregular = #{irregular},
+      </if>
+      <if test="documents != null">
+        documents = #{documents},
+      </if>
+      <if test="cargoId != null">
+        cargo_id = #{cargoId},
+      </if>
+      <if test="waybillId != null">
+        waybill_id = #{waybillId},
+      </if>
+      <if test="status != null">
+        status = #{status},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+      <if test="remark != null">
+        remark = #{remark},
+      </if>
+    </trim>
+    where id = #{id}
+  </update>
+
+  <delete id="deleteWmsCargoTempById" parameterType="Long">
+    delete
+    from wms_cargo_temp
+    where id = #{id}
+  </delete>
+
+  <delete id="deleteWmsCargoTempByIds" parameterType="String">
+    delete
+    from wms_cargo_temp where id in
+    <foreach item="id" collection="array" open="(" separator="," close=")">
+      #{id}
+    </foreach>
+  </delete>
 </mapper>

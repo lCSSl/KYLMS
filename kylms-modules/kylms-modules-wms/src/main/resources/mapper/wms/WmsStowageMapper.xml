@@ -3,14 +3,12 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kaiyu56.wms.mapper.WmsStowageMapper">
-
     <resultMap type="com.kaiyu56.wms.domain.WmsStowage" id="WmsStowageResult">
         <result property="stowageId"    column="stowage_id"    />
-        <result property="waybillId"    column="waybill_id"    />
-        <result property="deptId"    column="dept_id"    />
         <result property="stowageCode"    column="stowage_code"    />
-        <result property="stowageName"    column="stowage_name"    />
-        <result property="stowageDestinationNode"    column="stowage_destination_node"    />
+        <result property="stowageWarehouseName"    column="stowage_warehouse_name"    />
+        <result property="departure"    column="departure"    />
+        <result property="departureName"    column="departure_name"    />
         <result property="departureCode"    column="departure_code"    />
         <result property="departureDriverId"    column="departure_driver_id"    />
         <result property="departureDriverName"    column="departure_driver_name"    />
@@ -18,6 +16,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="departureVehicleCode"    column="departure_vehicle_code"    />
         <result property="departureVehiclePlate"    column="departure_vehicle_plate"    />
         <result property="departureTime"    column="departure_time"    />
+        <result property="destination"    column="destination"    />
+        <result property="destinationName"    column="destination_name"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="stowageStatus"    column="stowage_status"    />
         <result property="status"    column="status"    />
         <result property="delFlag"    column="del_flag"    />
         <result property="createBy"    column="create_by"    />
@@ -25,58 +27,67 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateBy"    column="update_by"    />
         <result property="updateTime"    column="update_time"    />
         <result property="remark"    column="remark"    />
+        <association property="ll" column="departure_vehicle_id" select="com.kaiyu56.wms.mapper.WmsVehicleMapper.selectLngAndLatById"/>
     </resultMap>
 
     <sql id="selectWmsStowageVo">
-        select stowage_id, waybill_id, dept_id, stowage_code, stowage_name, stowage_destination_node, departure_code, departure_driver_id, departure_driver_name, departure_vehicle_id, departure_vehicle_code, departure_vehicle_plate, departure_time, status, del_flag, create_by, create_time, update_by, update_time, remark from wms_stowage
+        select stowage_id, stowage_code, stowage_warehouse_name, departure, departure_name, departure_code, departure_driver_id, departure_driver_name, departure_vehicle_id, departure_vehicle_code, departure_vehicle_plate, departure_time, destination, destination_name, dept_id, stowage_status,status, del_flag, create_by, create_time, update_by, update_time, remark from wms_stowage
     </sql>
 
     <select id="selectWmsStowageList" parameterType="com.kaiyu56.wms.domain.WmsStowage" resultMap="WmsStowageResult">
         <include refid="selectWmsStowageVo"/>
-        <where>  
-            <if test="waybillId != null "> and waybill_id = #{waybillId}</if>
-    
-            <if test="deptId != null "> and dept_id = #{deptId}</if>
-    
-            <if test="stowageCode != null  and stowageCode != ''"> and stowage_code like concat('%', #{stowageCode}, '%')</if>
-            <if test="stowageName != null "> and stowage_name like concat('%', #{stowageName}, '%')</if>
-            <if test="stowageDestinationNode != null  and stowageDestinationNode != ''"> and stowage_destination_node = #{stowageDestinationNode}</if>
-    
-            <if test="departureCode != null  and departureCode != ''"> and departure_code like concat('%', #{departureCode}, '%')</if>
+        <where>
+            <if test="stowageCode != null  and stowageCode != ''"> and stowage_code = #{stowageCode}</if>
+
+            <if test="stowageWarehouseName != null  and stowageWarehouseName != ''"> and stowage_warehouse_name like concat('%', #{stowageWarehouseName}, '%')</if>
+            <if test="departure != null "> and departure = #{departure}</if>
+
+            <if test="departureName != null  and departureName != ''"> and departure_name like concat('%', #{departureName}, '%')</if>
+            <if test="departureCode != null  and departureCode != ''"> and departure_code = #{departureCode}</if>
+
             <if test="departureDriverId != null "> and departure_driver_id = #{departureDriverId}</if>
-    
+
             <if test="departureDriverName != null  and departureDriverName != ''"> and departure_driver_name like concat('%', #{departureDriverName}, '%')</if>
             <if test="departureVehicleId != null "> and departure_vehicle_id = #{departureVehicleId}</if>
-    
-            <if test="departureVehicleCode != null  and departureVehicleCode != ''"> and departure_vehicle_code like concat('%', #{departureVehicleCode}, '%')</if>
-            <if test="departureVehiclePlate != null  and departureVehiclePlate != ''"> and departure_vehicle_plate like concat('%', #{departureVehiclePlate}, '%')</if>
+
+            <if test="departureVehicleCode != null  and departureVehicleCode != ''"> and departure_vehicle_code = #{departureVehicleCode}</if>
+
+            <if test="departureVehiclePlate != null  and departureVehiclePlate != ''"> and departure_vehicle_plate = #{departureVehiclePlate}</if>
+
             <if test="departureTime != null "> and departure_time = #{departureTime}</if>
-    
-            <if test="status != null  and status != ''"> and status = #{status}</if>
-    
+
+            <if test="destination != null "> and destination = #{destination}</if>
+
+            <if test="destinationName != null  and destinationName != ''"> and destination_name like concat('%', #{destinationName}, '%')</if>
+            <if test="deptId != null "> and dept_id = #{deptId}</if>
+
         </where>
     </select>
-    
+
     <select id="selectWmsStowageById" parameterType="Long" resultMap="WmsStowageResult">
         <include refid="selectWmsStowageVo"/>
         where stowage_id = #{stowageId}
     </select>
-        
-    <insert id="insertWmsStowage" parameterType="WmsStowage" useGeneratedKeys="true" keyProperty="stowageId">
+
+    <insert id="insertWmsStowage" parameterType="com.kaiyu56.wms.domain.WmsStowage" useGeneratedKeys="true" keyColumn="stowage_id" keyProperty="stowageId">
         insert into wms_stowage
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="waybillId != null">waybill_id,</if>
-            <if test="deptId != null">dept_id,</if>
-            <if test="stowageCode != null">stowage_code,</if>
-            <if test="stowageName != null">stowage_name,</if>
-            <if test="stowageDestinationNode != null">stowage_destination_node,</if>
-            <if test="departureCode != null">departure_code,</if>
+            stowage_id,
+            <if test="stowageCode != null and stowageCode != ''">stowage_code,</if>
+            <if test="stowageWarehouseName != null">stowage_warehouse_name,</if>
+            <if test="departure != null">departure,</if>
+            <if test="departureName != null and departureName != ''">departure_name,</if>
+            <if test="departureCode != null and departureCode != ''">departure_code,</if>
             <if test="departureDriverId != null">departure_driver_id,</if>
             <if test="departureDriverName != null">departure_driver_name,</if>
             <if test="departureVehicleId != null">departure_vehicle_id,</if>
             <if test="departureVehicleCode != null">departure_vehicle_code,</if>
             <if test="departureVehiclePlate != null">departure_vehicle_plate,</if>
             <if test="departureTime != null">departure_time,</if>
+            <if test="destination != null">destination,</if>
+            <if test="destinationName != null and destinationName != ''">destination_name,</if>
+            <if test="deptId != null">dept_id,</if>
+            <if test="stowageStatus != null">stowage_status,</if>
             <if test="status != null">status,</if>
             <if test="delFlag != null">del_flag,</if>
             <if test="createBy != null">create_by,</if>
@@ -86,18 +97,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark != null">remark,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="waybillId != null">#{waybillId},</if>
-            <if test="deptId != null">#{deptId},</if>
-            <if test="stowageCode != null">#{stowageCode},</if>
-            <if test="stowageName != null">#{stowageName},</if>
-            <if test="stowageDestinationNode != null">#{stowageDestinationNode},</if>
-            <if test="departureCode != null">#{departureCode},</if>
+            #{stowageId,jdbcType=BIGINT},
+            <if test="stowageCode != null and stowageCode != ''">#{stowageCode},</if>
+            <if test="stowageWarehouseName != null">#{stowageWarehouseName},</if>
+            <if test="departure != null">#{departure},</if>
+            <if test="departureName != null and departureName != ''">#{departureName},</if>
+            <if test="departureCode != null and departureCode != ''">#{departureCode},</if>
             <if test="departureDriverId != null">#{departureDriverId},</if>
             <if test="departureDriverName != null">#{departureDriverName},</if>
             <if test="departureVehicleId != null">#{departureVehicleId},</if>
             <if test="departureVehicleCode != null">#{departureVehicleCode},</if>
             <if test="departureVehiclePlate != null">#{departureVehiclePlate},</if>
             <if test="departureTime != null">#{departureTime},</if>
+            <if test="destination != null">#{destination},</if>
+            <if test="destinationName != null and destinationName != ''">#{destinationName},</if>
+            <if test="deptId != null">#{deptId},</if>
+            <if test="stowageStatus != null">#{stowageStatus},</if>
             <if test="status != null">#{status},</if>
             <if test="delFlag != null">#{delFlag},</if>
             <if test="createBy != null">#{createBy},</if>
@@ -108,21 +123,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateWmsStowage" parameterType="WmsStowage">
+    <update id="updateWmsStowage" parameterType="com.kaiyu56.wms.domain.WmsStowage">
         update wms_stowage
         <trim prefix="SET" suffixOverrides=",">
-            <if test="waybillId != null">waybill_id = #{waybillId},</if>
-            <if test="deptId != null">dept_id = #{deptId},</if>
-            <if test="stowageCode != null">stowage_code = #{stowageCode},</if>
-            <if test="stowageName != null">stowage_name = #{stowageName},</if>
-            <if test="stowageDestinationNode != null">stowage_destination_node = #{stowageDestinationNode},</if>
-            <if test="departureCode != null">departure_code = #{departureCode},</if>
+            <if test="stowageCode != null and stowageCode != ''">stowage_code = #{stowageCode},</if>
+            <if test="stowageWarehouseName != null">stowage_warehouse_name = #{stowageWarehouseName},</if>
+            <if test="departure != null">departure = #{departure},</if>
+            <if test="departureName != null and departureName != ''">departure_name = #{departureName},</if>
+            <if test="departureCode != null and departureCode != ''">departure_code = #{departureCode},</if>
             <if test="departureDriverId != null">departure_driver_id = #{departureDriverId},</if>
             <if test="departureDriverName != null">departure_driver_name = #{departureDriverName},</if>
             <if test="departureVehicleId != null">departure_vehicle_id = #{departureVehicleId},</if>
             <if test="departureVehicleCode != null">departure_vehicle_code = #{departureVehicleCode},</if>
             <if test="departureVehiclePlate != null">departure_vehicle_plate = #{departureVehiclePlate},</if>
             <if test="departureTime != null">departure_time = #{departureTime},</if>
+            <if test="destination != null">destination = #{destination},</if>
+            <if test="destinationName != null and destinationName != ''">destination_name = #{destinationName},</if>
+            <if test="deptId != null">dept_id = #{deptId},</if>
+            <if test="stowageStatus != null">stowage_status = #{stowageStatus},</if>
             <if test="status != null">status = #{status},</if>
             <if test="delFlag != null">del_flag = #{delFlag},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
@@ -139,9 +157,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteWmsStowageByIds" parameterType="String">
-        delete from wms_stowage where stowage_id in 
+        delete from wms_stowage where stowage_id in
         <foreach item="stowageId" collection="array" open="(" separator="," close=")">
             #{stowageId}
         </foreach>
     </delete>
+
 </mapper>

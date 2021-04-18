@@ -1,19 +1,21 @@
 package com.kaiyu56.system.api.domain;
 
-import java.util.Date;
-import java.util.List;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.kaiyu56.common.core.annotation.Excel;
 import com.kaiyu56.common.core.annotation.Excel.ColumnType;
 import com.kaiyu56.common.core.annotation.Excel.Type;
 import com.kaiyu56.common.core.annotation.Excels;
 import com.kaiyu56.common.core.web.domain.BaseEntity;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 用户对象 sys_user
@@ -27,12 +29,14 @@ public class SysUser extends BaseEntity {
      * 用户ID
      */
     @Excel(name = "用户序号", cellType = ColumnType.NUMERIC, prompt = "用户编号")
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long userId;
 
     /**
      * 部门ID
      */
     @Excel(name = "部门编号", type = Type.IMPORT)
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long deptId;
 
     /**
@@ -120,11 +124,13 @@ public class SysUser extends BaseEntity {
     /**
      * 角色组
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long[] roleIds;
 
     /**
      * 岗位组
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long[] postIds;
 
     public SysUser() {

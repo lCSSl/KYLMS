@@ -124,4 +124,5 @@ public interface SysDeptMapper
      * @return 结果
      */
     public int deleteDeptById(Long deptId);
+    public int countDeptByName(@Param("deptName") String deptName);
 }

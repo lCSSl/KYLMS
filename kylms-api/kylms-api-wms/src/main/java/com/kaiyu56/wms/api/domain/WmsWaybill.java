@@ -1,9 +1,11 @@
 package com.kaiyu56.wms.api.domain;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.kaiyu56.common.core.annotation.Excel;
+import com.kaiyu56.common.core.utils.StringUtils;
 import com.kaiyu56.common.core.web.domain.BaseEntity;
 
 import lombok.Data;
@@ -79,6 +81,24 @@ public class WmsWaybill extends BaseEntity {
     @TableField(value = "csr_order_number")
     private String csrOrderNumber;
     /**
+     * 发货公司ID
+     */
+    @Excel(name = "发货公司ID")
+    @TableField(value = "deliver_co_id")
+    private String deliverCoId;
+    /**
+     * 发货公司名称
+     */
+    @Excel(name = "发货公司名称")
+    @TableField(value = "deliver_co_name")
+    private String deliverCoName;
+    /**
+     * 发货联系人
+     */
+    @Excel(name = "发货联系人")
+    @TableField(value = "consignor_name")
+    private String consignorName;
+    /**
      * 发货人手机
      */
     @Excel(name = "发货人手机")
@@ -91,17 +111,23 @@ public class WmsWaybill extends BaseEntity {
     @TableField(value = "consignor_telephone")
     private String consignorTelephone;
     /**
-     * 发货联系人
+     * 收货公司ID
      */
-    @Excel(name = "发货联系人")
-    @TableField(value = "consignor_name")
-    private String consignorName;
+    @Excel(name = "收货公司ID")
+    @TableField(value = "receiving_co_id")
+    private String receivingCoId;
     /**
-     * 发货公司名称
+     * 收货公司名称
      */
-    @Excel(name = "发货公司名称")
-    @TableField(value = "deliver_co_name")
-    private String deliverCoName;
+    @Excel(name = "收货公司名称")
+    @TableField(value = "receiving_co_name")
+    private String receivingCoName;
+    /**
+     * 收货联系人
+     */
+    @Excel(name = "收货联系人")
+    @TableField(value = "consignee_name")
+    private String consigneeName;
     /**
      * 收货人手机
      */
@@ -114,18 +140,6 @@ public class WmsWaybill extends BaseEntity {
     @Excel(name = "收货人座机")
     @TableField(value = "consignee_telephone")
     private String consigneeTelephone;
-    /**
-     * 收货联系人
-     */
-    @Excel(name = "收货联系人")
-    @TableField(value = "consignee_name")
-    private String consigneeName;
-    /**
-     * 收货公司名称
-     */
-    @Excel(name = "收货公司名称")
-    @TableField(value = "receiving_co_name")
-    private String receivingCoName;
     /**
      * 收货省
      */
@@ -223,21 +237,21 @@ public class WmsWaybill extends BaseEntity {
     @Excel(name = "基本运费")
     @TableField(value = "basic_freight")
     @JsonSerialize(using = ToStringSerializer.class)
-    private Long basicFreight;
+    private BigDecimal basicFreight;
     /**
      * 实收运费
      */
     @Excel(name = "实收运费")
     @TableField(value = "real_freight")
     @JsonSerialize(using = ToStringSerializer.class)
-    private Long realFreight;
+    private BigDecimal realFreight;
     /**
      * 总运费
      */
     @Excel(name = "总运费")
     @TableField(value = "total_freight")
     @JsonSerialize(using = ToStringSerializer.class)
-    private Long totalFreight;
+    private BigDecimal totalFreight;
     /**
      * 送货车号
      */
@@ -303,6 +317,12 @@ public class WmsWaybill extends BaseEntity {
     @TableField(value = "waybill_status")
     private String waybillStatus;
     /**
+     * 运单祖先ID
+     */
+    @Excel(name = "运单祖先ID")
+    @TableField(value = "ancestor_waybill_id")
+    private Long ancestorWaybillId;
+    /**
      * 状态
      */
     @Excel(name = "状态")
@@ -314,4 +334,16 @@ public class WmsWaybill extends BaseEntity {
     @TableLogic
     @TableField(value = "del_flag")
     private String delFlag;
+
+    /**
+     * 改变状态
+     * @param waybillId
+     * @param waybillStatus
+     */
+    public WmsWaybill(Long waybillId, String waybillStatus) {
+        this(waybillId,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,waybillStatus,null,null,null);
+        if (StringUtils.isNotNull(waybillId)&&waybillId.compareTo(0l)>=0){
+            fillBasicAttributes(1);
+        }
+    }
 }

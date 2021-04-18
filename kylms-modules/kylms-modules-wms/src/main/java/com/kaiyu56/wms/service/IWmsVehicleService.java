@@ -1,6 +1,9 @@
 package com.kaiyu56.wms.service;
 
 import java.util.List;
+
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.kaiyu56.wms.api.domain.vo.WmsVehicleLL;
 import com.kaiyu56.wms.domain.WmsVehicle;
 
 /**
@@ -9,7 +12,7 @@ import com.kaiyu56.wms.domain.WmsVehicle;
  * @author css
  * @date 2021-03-24
  */
-public interface IWmsVehicleService 
+public interface IWmsVehicleService extends IService<WmsVehicle>
 {
     /**
      * 查询运输工具信息主
@@ -58,4 +61,6 @@ public interface IWmsVehicleService
      * @return 结果
      */
     public int deleteWmsVehicleById(Long vehicleId);
+
+    WmsVehicleLL getLocationById(Long vehicleId);
 }

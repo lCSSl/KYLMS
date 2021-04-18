@@ -1,5 +1,7 @@
 package com.kaiyu56.wms.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.kaiyu56.common.core.annotation.Excel;
@@ -11,6 +13,8 @@ import com.kaiyu56.common.core.web.domain.BaseEntity;
  * @author css
  * @date 2021-03-24
  */
+@NoArgsConstructor
+@AllArgsConstructor
 public class WmsWaybillMdWarehouseExtItem extends BaseEntity{
     private static final long serialVersionUID = 1L;
 
@@ -25,6 +29,14 @@ public class WmsWaybillMdWarehouseExtItem extends BaseEntity{
     @Excel(name = "运单ID")
     private Long waybillId;
 
+    public WmsWaybillMdWarehouseExtItem(Long itemId) {
+        this.itemId = itemId;
+    }
+
+    public WmsWaybillMdWarehouseExtItem(Long itemId,Long waybillId) {
+        this.itemId = itemId;
+        this.waybillId = waybillId;
+    }
     public void setId(Long id) 
     {
         this.id = id;

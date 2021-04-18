@@ -26,7 +26,7 @@ import com.kaiyu56.common.core.web.page.TableDataInfo;
  * 货物Controller
  * 
  * @author css
- * @date 2021-03-24
+ * @date 2021-04-01
  */
 @RestController
 @RequestMapping("/cargo")

@@ -1,177 +1,132 @@
 package com.kaiyu56.wms.domain;
 
-import java.math.BigDecimal;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.kaiyu56.common.core.annotation.Excel;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import com.kaiyu56.common.core.annotation.Excel;
-import com.kaiyu56.common.core.web.domain.BaseEntity;
+
+import java.math.BigDecimal;
 
 /**
- * 运单货物临时对象 wms_cargo_temp
- * 
+ * 运单货物临时表对象 wms_cargo_temp
+ *
  * @author css
- * @date 2021-03-24
+ * @date 2021-04-01
  */
-public class WmsCargoTemp extends BaseEntity{
+public class WmsCargoTemp extends WmsCargo {
     private static final long serialVersionUID = 1L;
 
-    /** 主键ID--序号 */
+    /**
+     * 主键ID--序号
+     */
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
-    /** 运单ID */
-    @Excel(name = "运单ID")
-    private Long waybillId;
-
-    /** 货物ID */
-    @Excel(name = "货物ID")
-    private Long cargoId;
-
-    /** 品名 */
+    /**
+     * 品名
+     */
     @Excel(name = "品名")
     private String tCargoName;
 
-    /** 件数 */
+    /**
+     * 件数
+     */
     @Excel(name = "件数")
-    private Integer tCargoNumber;
+    private Long tCargoCount;
 
-    /** 重量 */
-    @Excel(name = "重量")
-    private BigDecimal tCargoTotalWeight;
+    /**
+     * 计量数
+     */
+    @Excel(name = "计量数")
+    private BigDecimal valuationCount;
 
-    /** 体积 */
-    @Excel(name = "体积")
-    private BigDecimal tCargoTotalVolume;
+    /**
+     * 基础运费
+     */
+    @Excel(name = "基础运费")
+    private BigDecimal tCargoTotalFee;
 
-    /** 贵重货物 */
-    @Excel(name = "贵重货物")
-    private String valuable;
+    /**
+     * 运单ID
+     */
+    @Excel(name = "运单ID")
+    private Long waybillId;
 
-    /** 异形货物 */
-    @Excel(name = "异形货物")
-    private String irregular;
-
-    /** 货物单据 */
-    @Excel(name = "货物单据")
-    private String documents;
-
-    /** 包装方式 */
-    @Excel(name = "包装方式")
-    private String packageType;
-
-    public void setId(Long id) 
-    {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Long getId() 
-    {
+    public Long getId() {
         return id;
     }
-    public void setWaybillId(Long waybillId) 
-    {
-        this.waybillId = waybillId;
-    }
 
-    public Long getWaybillId() 
-    {
-        return waybillId;
-    }
-    public void setCargoId(Long cargoId) 
-    {
-        this.cargoId = cargoId;
-    }
-
-    public Long getCargoId() 
-    {
-        return cargoId;
-    }
-    public void settCargoName(String tCargoName) 
-    {
+    public void setTCargoName(String tCargoName) {
         this.tCargoName = tCargoName;
     }
 
-    public String gettCargoName() 
-    {
+    public String getTCargoName() {
         return tCargoName;
     }
-    public void settCargoNumber(Integer tCargoNumber) 
-    {
-        this.tCargoNumber = tCargoNumber;
+
+    public void setTCargoCount(Long tCargoCount) {
+        this.tCargoCount = tCargoCount;
     }
 
-    public Integer gettCargoNumber() 
-    {
-        return tCargoNumber;
-    }
-    public void settCargoTotalWeight(BigDecimal tCargoTotalWeight) 
-    {
-        this.tCargoTotalWeight = tCargoTotalWeight;
+    public Long getTCargoCount() {
+        return tCargoCount;
     }
 
-    public BigDecimal gettCargoTotalWeight() 
-    {
-        return tCargoTotalWeight;
-    }
-    public void settCargoTotalVolume(BigDecimal tCargoTotalVolume) 
-    {
-        this.tCargoTotalVolume = tCargoTotalVolume;
+    public void setValuationCount(BigDecimal valuationCount) {
+        this.valuationCount = valuationCount;
     }
 
-    public BigDecimal gettCargoTotalVolume() 
-    {
-        return tCargoTotalVolume;
-    }
-    public void setValuable(String valuable) 
-    {
-        this.valuable = valuable;
+    public BigDecimal getValuationCount() {
+        return valuationCount;
     }
 
-    public String getValuable() 
-    {
-        return valuable;
-    }
-    public void setIrregular(String irregular) 
-    {
-        this.irregular = irregular;
+    public void setTCargoTotalFee(BigDecimal tCargoTotalFee) {
+        this.tCargoTotalFee = tCargoTotalFee;
     }
 
-    public String getIrregular() 
-    {
-        return irregular;
-    }
-    public void setDocuments(String documents) 
-    {
-        this.documents = documents;
+    public BigDecimal getTCargoTotalFee() {
+        return tCargoTotalFee;
     }
 
-    public String getDocuments() 
-    {
-        return documents;
-    }
-    public void setPackageType(String packageType) 
-    {
-        this.packageType = packageType;
+    public void setWaybillId(Long waybillId) {
+        this.waybillId = waybillId;
     }
 
-    public String getPackageType() 
-    {
-        return packageType;
+    public Long getWaybillId() {
+        return waybillId;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("waybillId", getWaybillId())
-            .append("cargoId", getCargoId())
-            .append("tCargoName", gettCargoName())
-            .append("tCargoNumber", gettCargoNumber())
-            .append("tCargoTotalWeight", gettCargoTotalWeight())
-            .append("tCargoTotalVolume", gettCargoTotalVolume())
-            .append("valuable", getValuable())
-            .append("irregular", getIrregular())
-            .append("documents", getDocuments())
-            .append("packageType", getPackageType())
-            .toString();
+        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
+                .append("id", getId())
+                .append("tCargoName", getTCargoName())
+                .append("packageType", getPackageType())
+                .append("tCargoCount", getTCargoCount())
+                .append("valuationType", getValuationType())
+                .append("valuationValue", getValuationValue())
+                .append("valuationCount", getValuationCount())
+                .append("tCargoTotalFee", getTCargoTotalFee())
+                .append("valuable", getValuable())
+                .append("irregular", getIrregular())
+                .append("documents", getDocuments())
+                .append("cargoId", getCargoId())
+                .append("waybillId", getWaybillId())
+                .append("status", getStatus())
+                .append("delFlag", getDelFlag())
+                .append("createBy", getCreateBy())
+                .append("createTime", getCreateTime())
+                .append("updateBy", getUpdateBy())
+                .append("updateTime", getUpdateTime())
+                .append("remark", getRemark())
+                .toString();
     }
 }

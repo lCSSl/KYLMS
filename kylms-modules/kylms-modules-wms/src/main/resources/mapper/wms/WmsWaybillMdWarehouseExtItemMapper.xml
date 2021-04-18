@@ -13,7 +13,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <sql id="selectWmsWaybillMdWarehouseExtItemVo">
         select id, item_id, waybill_id from wms_waybill_md_warehouse_ext_item
     </sql>
-
     <select id="selectWmsWaybillMdWarehouseExtItemList" parameterType="com.kaiyu56.wms.domain.WmsWaybillMdWarehouseExtItem" resultMap="WmsWaybillMdWarehouseExtItemResult">
         <include refid="selectWmsWaybillMdWarehouseExtItemVo"/>
         <where>  

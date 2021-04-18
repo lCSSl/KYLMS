@@ -37,8 +37,9 @@ public class AuthFilter implements GlobalFilter, Ordered {
     private static final Logger log = LoggerFactory.getLogger(AuthFilter.class);
 
     private final static long EXPIRE_TIME = Constants.TOKEN_EXPIRE * 60;
-
-    // 排除过滤的 uri 地址，nacos自行添加
+    /**
+     * 白名单
+     */
     @Autowired
     private IgnoreWhiteProperties ignoreWhite;
 
@@ -64,7 +65,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
             return setUnauthorizedResponse(exchange, "登录状态已过期");
         }
         JSONObject obj = JSONObject.parseObject(userStr);
-        String userid = obj.getString("userid");
+        String userid = obj.getString("userId");
         String username = obj.getString("username");
         if (StringUtils.isBlank(userid) || StringUtils.isBlank(username)) {
             return setUnauthorizedResponse(exchange, "令牌验证失败");

@@ -1,12 +1,9 @@
 package com.kaiyu56.system.mapper;
 
-import java.util.List;
-import java.util.Set;
-
-import com.kaiyu56.common.datasource.annotation.Slave;
+import com.kaiyu56.system.api.domain.SysUser;
 import org.apache.ibatis.annotations.Param;
 
-import com.kaiyu56.system.api.domain.SysUser;
+import java.util.List;
 
 /**
  * 用户表 数据层
@@ -21,13 +18,14 @@ public interface SysUserMapper {
      * @return 用户信息集合信息
      */
     public List<SysUser> selectUserList(SysUser sysUser);
+
     /**
      * 根据IDS查询用户列表
      *
      * @param userIds 用户IDS列表
      * @return 用户信息集合信息
      */
-    public List<SysUser> selectByIds(Long[] userIds);
+    public List<SysUser> selectByIds(String nickName, List<Long> userIds);
 
     /**
      * 通过用户名查询用户
@@ -118,4 +116,6 @@ public interface SysUserMapper {
      * @return 结果
      */
     public SysUser checkEmailUnique(String email);
+
+    List<Long> selectWorkingDriver();
 }

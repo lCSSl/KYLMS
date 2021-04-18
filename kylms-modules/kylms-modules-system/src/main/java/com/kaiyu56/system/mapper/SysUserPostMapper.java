@@ -26,6 +26,13 @@ public interface SysUserPostMapper
      * @return 结果
      */
     public int countUserPostById(Long postId);
+    /**
+     * 通过岗位ID查询岗位用户ID列表
+     *
+     * @param postId 岗位ID
+     * @return 结果
+     */
+    public List<Long> getUserIdsByPostId(Long postId,List<Long> userIds);
 
     /**
      * 批量删除用户和岗位关联

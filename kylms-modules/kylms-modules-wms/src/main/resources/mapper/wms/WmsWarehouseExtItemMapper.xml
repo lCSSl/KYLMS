@@ -58,6 +58,10 @@
     <include refid="selectWmsWarehouseExtItemVo"/>
     where item_id = #{itemId}
   </select>
+  <select id="selectWmsWarehouseExtItemByXY" parameterType="com.kaiyu56.wms.domain.WmsWarehouseExtItem" resultMap="WmsWarehouseExtItemResult">
+    <include refid="selectWmsWarehouseExtItemVo"/>
+    where warehouse_id = #{warehouseId,jdbcType=BIGINT} and item_x = #{itemX,jdbcType=BIGINT} and item_y = #{itemY,jdbcType=BIGINT}
+  </select>
 
   <insert id="insertWmsWarehouseExtItem" parameterType="WmsWarehouseExtItem" useGeneratedKeys="true"
           keyProperty="itemId">

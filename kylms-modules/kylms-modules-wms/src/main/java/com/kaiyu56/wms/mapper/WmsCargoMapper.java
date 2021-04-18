@@ -7,7 +7,7 @@ import com.kaiyu56.wms.domain.WmsCargo;
  * 货物Mapper接口
  * 
  * @author css
- * @date 2021-03-24
+ * @date 2021-04-01
  */
 public interface WmsCargoMapper 
 {

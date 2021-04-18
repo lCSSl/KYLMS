@@ -2,6 +2,7 @@ package com.kaiyu56.wms.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.kaiyu56.wms.api.domain.WmsWarehouse;
+import com.kaiyu56.wms.api.domain.vo.WmsWarehouseLL;
 import com.kaiyu56.wms.api.domain.vo.WmsWarehouseVO;
 
 import java.util.List;
@@ -28,6 +29,14 @@ public interface WmsWarehouseMapper extends BaseMapper<WmsWarehouse> {
      * @return 站点(仓库)信息集合
      */
     public List<WmsWarehouse> selectWmsWarehouseList(WmsWarehouse wmsWarehouse);
+
+    /**
+     * 查询默认站点
+     *
+     * @return 站点(仓库)信息集合
+     */
+    public List<WmsWarehouse> selectDefaultWmsWarehouseList(List<Long> deptIds);
+
     /**
      * 查询站点(仓库)信息列表
      *
@@ -74,4 +83,6 @@ public interface WmsWarehouseMapper extends BaseMapper<WmsWarehouse> {
      * @return 结果
      */
     public int deleteWmsWarehouseByIds(Long[] warehouseIds);
+
+    WmsWarehouseLL selectLngAndLatWmsWarehouseById(Long warehouseId);
 }

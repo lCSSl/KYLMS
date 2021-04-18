@@ -1,11 +1,14 @@
 package com.kaiyu56.wms.api.domain.vo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.kaiyu56.common.core.annotation.Excel;
 import com.kaiyu56.wms.api.domain.WmsWaybill;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 /**
  * @author: cssly
@@ -28,4 +31,7 @@ public class WmsWaybillVO extends WmsWaybill {
      */
     @Excel(name = "始发站名")
     private String departureName;
+
+    @TableField(exist = false)
+    private List<Long> notInKeys;
 }

@@ -3,6 +3,7 @@ package com.kaiyu56.system.service.impl;
 import com.kaiyu56.common.core.constant.UserConstants;
 import com.kaiyu56.common.core.exception.CustomException;
 import com.kaiyu56.common.core.utils.StringUtils;
+import com.kaiyu56.common.core.web.domain.AjaxResult;
 import com.kaiyu56.common.datascope.annotation.DataScope;
 import com.kaiyu56.system.api.domain.SysDept;
 import com.kaiyu56.system.api.domain.SysRole;
@@ -246,6 +247,10 @@ public class SysDeptServiceImpl implements ISysDeptService {
     @Override
     public int deleteDeptById(Long deptId) {
         return deptMapper.deleteDeptById(deptId);
+    }
+    @Override
+    public int countDeptByName(String deptName) {
+        return deptMapper.countDeptByName(StringUtils.trim(deptName));
     }
 
     /**
