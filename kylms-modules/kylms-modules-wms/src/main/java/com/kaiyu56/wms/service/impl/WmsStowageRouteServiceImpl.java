@@ -30,6 +30,7 @@ public class WmsStowageRouteServiceImpl extends ServiceImpl<WmsStowageRouteMappe
 
     @Autowired
     private WmsWarehouseMapper wmsWarehouseMapper;
+
     /**
      * 查询运单配载线路
      *
@@ -55,10 +56,12 @@ public class WmsStowageRouteServiceImpl extends ServiceImpl<WmsStowageRouteMappe
         checkNext(list, first.getRouteNext());
         return list;
     }
+
     @Override
-    public List<Long> selectRouteIdsByStowageIdWithStartNode(Long stowageId){
+    public List<Long> selectRouteIdsByStowageIdWithStartNode(Long stowageId) {
         return baseMapper.selectRouteIdsByStowageIdWithStartNode(stowageId);
     }
+
     private void checkNext(List list, Long next) {
         if (next != null && next.compareTo(0l) > 0) {
             WmsStowageRoute wmsStowageRoute = baseMapper.selectWmsStowageRouteById(next);
@@ -97,14 +100,14 @@ public class WmsStowageRouteServiceImpl extends ServiceImpl<WmsStowageRouteMappe
         if (routeId == null && routeId.compareTo(0l) <= 0) {
             throw new BaseException("参数有误");
         }
-        if (prevRoute.getStowageId().compareTo(wmsStowageRoute.getStowageId())!=0){
+        if (prevRoute.getStowageId().compareTo(wmsStowageRoute.getStowageId()) != 0) {
             throw new BaseException();
         }
-        if (baseMapper.selectWmsStowageRouteByStowageWarehouseId(wmsStowageRoute.getStowageId(),wmsStowageRoute.getStowageWarehouseId())>0){
+        if (baseMapper.selectWmsStowageRouteByStowageWarehouseId(wmsStowageRoute.getStowageId(), wmsStowageRoute.getStowageWarehouseId()) > 0) {
             throw new BaseException("已有此节点");
         }
         wmsStowageRoute.setRouteNext(prevRoute.getRouteNext());
-        wmsStowageRoute.setRouteSort(prevRoute.getRouteSort()+1);
+        wmsStowageRoute.setRouteSort(prevRoute.getRouteSort() + 1);
         baseMapper.insertWmsStowageRoute(wmsStowageRoute);
         prevRoute.setRouteNext(wmsStowageRoute.getRouteId());
         return updateWmsStowageRoute(prevRoute);

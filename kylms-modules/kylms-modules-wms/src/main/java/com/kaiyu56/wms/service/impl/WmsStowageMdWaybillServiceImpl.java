@@ -162,7 +162,7 @@ public class WmsStowageMdWaybillServiceImpl extends ServiceImpl<WmsStowageMdWayb
             }
         });
         for (int i = 0; i < waybillIds.length; i++) {
-            wmsWaybillService.updateWmsWaybill(new WmsWaybill(waybillIds[i], WmsWaybillStatus.LOADING.getCode()));
+            wmsWaybillService.updateWmsWaybill(new WmsWaybill(waybillIds[i], WmsWaybillStatus.PRE_LOADING.getCode()));
         }
         return insertBatchWmsStowageMdWaybill(routeId, stowageId, waybillIds);
     }

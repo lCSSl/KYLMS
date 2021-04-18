@@ -128,14 +128,14 @@ public class WmsStowageServiceImpl extends ServiceImpl<WmsStowageMapper, WmsStow
             stowageRouteService.initWmsStowageRoute(new WmsStowageRoute(stowageId, wmsStowage.getDeparture(), wmsStowage.getDepartureName(), 0, WmsStowageRouteStatus.ARRIVED.getCode(), finalRoute.getRouteId()));
             stowageRouteService.initWmsStowageRoute(finalRoute);
             stowageMdWaybillService.insertBatchWmsStowageMdWaybill(finalRoute.getRouteId(), stowageId, waybillVOList);
-//            waybillVOList.forEach(item -> {
-//                wmsWaybillService.updateWmsWaybill(new WmsWaybill(item.getWaybillId(), WmsWaybillStatus.LOADING.getCode()));
-//            });
+            waybillVOList.forEach(item -> {
+                wmsWaybillService.updateWmsWaybill(new WmsWaybill(item.getWaybillId(), WmsWaybillStatus.PRE_LOADING.getCode()));
+            });
         } else {
             baseMapper.insertWmsStowage(wmsStowage);
             Long stowageId = wmsStowage.getStowageId();
             WmsStowageRoute finalRoute = new WmsStowageRoute(IdWorker.getId(), stowageId, destination, wmsStowage.getDestinationName(), 127, WmsStowageRouteStatus.NOT_ARRIVED.getCode(), null);
-            stowageRouteService.initWmsStowageRoute(new WmsStowageRoute(stowageId, destination, wmsStowage.getDestinationName(), 127, WmsStowageRouteStatus.NOT_ARRIVED.getCode(), finalRoute.getRouteId()));
+            stowageRouteService.initWmsStowageRoute(new WmsStowageRoute(stowageId, wmsStowage.getDeparture(), wmsStowage.getDepartureName(), 0, WmsStowageRouteStatus.ARRIVED.getCode(), finalRoute.getRouteId()));
             stowageRouteService.initWmsStowageRoute(finalRoute);
         }
 
@@ -247,6 +247,7 @@ public class WmsStowageServiceImpl extends ServiceImpl<WmsStowageMapper, WmsStow
                 throw new BaseException("配载参数有误");
             }
             wmsStowage.setStowageStatus(WmsStowageStatus.DEPARTED.getCode());
+            wmsStowage.setDepartureTime(DateUtils.getNowDate());
             List<Long> waybillIds = stowageMdWaybillService.selectWaybillIdsByStowageId(stowageId);
             waybillIds.forEach(item -> wmsWaybillService.updateWmsWaybill(new WmsWaybill(item, WmsWaybillStatus.DEPARTURE.getCode())));
             vehicleService.updateWmsVehicle(new WmsVehicle(departureVehicleId, WmsVehicleStatus.TRANSIT.getCode()));
