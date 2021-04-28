@@ -5,6 +5,7 @@ import java.util.List;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.kaiyu56.wms.api.domain.vo.WmsVehicleLL;
 import com.kaiyu56.wms.domain.WmsVehicle;
+import com.kaiyu56.wms.domain.vo.driverapp.LocationTicket;
 
 /**
  * 运输工具信息主Service接口
@@ -63,4 +64,8 @@ public interface IWmsVehicleService extends IService<WmsVehicle>
     public int deleteWmsVehicleById(Long vehicleId);
 
     WmsVehicleLL getLocationById(Long vehicleId);
+
+    WmsVehicleLL getLocationByStowageId(Long stowageId);
+
+    int updateLocation(LocationTicket ticket);
 }

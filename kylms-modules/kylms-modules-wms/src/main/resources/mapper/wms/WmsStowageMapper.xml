@@ -29,6 +29,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="remark"    column="remark"    />
         <association property="ll" column="departure_vehicle_id" select="com.kaiyu56.wms.mapper.WmsVehicleMapper.selectLngAndLatById"/>
     </resultMap>
+    <resultMap type="com.kaiyu56.wms.domain.vo.WmsStowageVO" id="WmsStowageVOResult">
+        <result property="stowageId"    column="stowage_id"    />
+        <result property="stowageCode"    column="stowage_code"    />
+        <result property="stowageWarehouseName"    column="stowage_warehouse_name"    />
+        <result property="departure"    column="departure"    />
+        <result property="departureName"    column="departure_name"    />
+        <result property="departureCode"    column="departure_code"    />
+        <result property="departureDriverId"    column="departure_driver_id"    />
+        <result property="departureDriverName"    column="departure_driver_name"    />
+        <result property="departureVehicleId"    column="departure_vehicle_id"    />
+        <result property="departureVehicleCode"    column="departure_vehicle_code"    />
+        <result property="departureVehiclePlate"    column="departure_vehicle_plate"    />
+        <result property="departureTime"    column="departure_time"    />
+        <result property="destination"    column="destination"    />
+        <result property="destinationName"    column="destination_name"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="stowageStatus"    column="stowage_status"    />
+        <result property="status"    column="status"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <association property="routeCount" column="stowage_id" select="com.kaiyu56.wms.mapper.WmsStowageRouteMapper.countRouteByStowageId"/>
+        <association property="departureAddress" javaType="com.kaiyu56.wms.api.domain.vo.AddressVO" column="departure" select="com.kaiyu56.wms.mapper.WmsWarehouseMapper.selectWmsWarehouseAddressById"/>
+        <association property="destinationAddress" javaType="com.kaiyu56.wms.api.domain.vo.AddressVO" column="destination" select="com.kaiyu56.wms.mapper.WmsWarehouseMapper.selectWmsWarehouseAddressById"/>
+        <association property="ll" column="departure_vehicle_id" select="com.kaiyu56.wms.mapper.WmsVehicleMapper.selectLngAndLatById"/>
+    </resultMap>
 
     <sql id="selectWmsStowageVo">
         select stowage_id, stowage_code, stowage_warehouse_name, departure, departure_name, departure_code, departure_driver_id, departure_driver_name, departure_vehicle_id, departure_vehicle_code, departure_vehicle_plate, departure_time, destination, destination_name, dept_id, stowage_status,status, del_flag, create_by, create_time, update_by, update_time, remark from wms_stowage
@@ -62,6 +91,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deptId != null "> and dept_id = #{deptId}</if>
 
         </where>
+    </select>
+
+    <select id="selectDriverWmsStowage" parameterType="com.kaiyu56.wms.domain.WmsStowage" resultMap="WmsStowageVOResult">
+        select stowage_id, stowage_code, stowage_warehouse_name, departure, departure_name, departure_code, departure_driver_id, departure_driver_name, departure_vehicle_id, departure_vehicle_code, departure_vehicle_plate, departure_time, destination, destination_name, dept_id, stowage_status,status, del_flag, create_by, create_time, update_by, update_time, remark from wms_stowage
+        <where>
+            <if test="param1 != null "> and departure_driver_id = #{param1}</if>
+            <if test="param2 != null and !param2.isEmpty()">
+              and stowage_status in
+                <foreach collection="param2" item="status" open="(" separator="," close=")">
+                    #{status,jdbcType=VARCHAR}
+                </foreach>
+            </if>
+        </where>
+    </select>
+    <select id="selectOneDriverWmsStowage" parameterType="com.kaiyu56.wms.domain.WmsStowage" resultMap="WmsStowageVOResult">
+        select stowage_id, stowage_code, stowage_warehouse_name, departure, departure_name, departure_code, departure_driver_id, departure_driver_name, departure_vehicle_id, departure_vehicle_code, departure_vehicle_plate, departure_time, destination, destination_name, dept_id, stowage_status,status, del_flag, create_by, create_time, update_by, update_time, remark from wms_stowage
+        <where>
+            <if test="param1 != null "> and departure_driver_id = #{param1}</if>
+            <if test="param2 != null and !param2.isEmpty()">
+              and stowage_status in
+                <foreach collection="param2" item="status" open="(" separator="," close=")">
+                    #{status,jdbcType=VARCHAR}
+                </foreach>
+            </if>
+        </where>
+        limit 1
     </select>
 
     <select id="selectWmsStowageById" parameterType="Long" resultMap="WmsStowageResult">

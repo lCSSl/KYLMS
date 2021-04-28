@@ -68,4 +68,5 @@ public interface WmsStowageRouteMapper extends BaseMapper<WmsStowageRoute> {
     WmsStowageRoute selectFirstWmsStowageRoute(Long stowageId);
     int selectWmsStowageRouteByStowageWarehouseId(@Param("stowageId") Long stowageId,@Param("stowageWarehouseId") Long stowageWarehouseId);
     List<Long> selectRouteIdsByStowageIdWithStartNode(@Param("stowageId") Long stowageId);
+    int countRouteByStowageId(@Param("stowageId") Long stowageId);
 }

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.kaiyu56.wms.domain.WmsStowage;
+import com.kaiyu56.wms.domain.vo.WmsStowageVO;
 
 /**
  * 运单配载Service接口
@@ -62,9 +63,13 @@ public interface IWmsStowageService extends IService<WmsStowage> {
      */
     public int deleteWmsStowageById(Long stowageId);
 
-    List<Long> selectWorkingDriver(Long[] userIds);
-
     int endStowage(Long stowageId);
 
+    int preDeparture(Long stowageId);
+
     int departure(Long stowageId);
+
+    List<WmsStowageVO> getDriverMission(String missionStatus);
+
+    WmsStowageVO checkDriverMission(String missionStatus);
 }

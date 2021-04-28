@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kaiyu56.wms.mapper.WmsCargoMapper">
 
-    <resultMap type="com.kaiyu56.wms.domain.WmsCargo" id="WmsCargoResult">
+    <resultMap type="com.kaiyu56.wms.api.domain.WmsCargo" id="WmsCargoResult">
         <result property="cargoId"    column="cargo_id"    />
         <result property="cargoCode"    column="cargo_code"    />
         <result property="cargoName"    column="cargo_name"    />
@@ -29,7 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select cargo_id, cargo_code, cargo_name, package_type, valuation_type, valuation_value, valuable, irregular, documents, csr_id, dept_id, status, del_flag, create_by, create_time, update_by, update_time, remark from wms_cargo
     </sql>
 
-    <select id="selectWmsCargoList" parameterType="com.kaiyu56.wms.domain.WmsCargo" resultMap="WmsCargoResult">
+    <select id="selectWmsCargoList" parameterType="com.kaiyu56.wms.api.domain.WmsCargo" resultMap="WmsCargoResult">
         <include refid="selectWmsCargoVo"/>
         <where>  
             <if test="cargoCode != null  and cargoCode != ''"> and cargo_code like concat('%', #{cargoCode}, '%')</if>
@@ -59,7 +59,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where cargo_id = #{cargoId}
     </select>
         
-    <insert id="insertWmsCargo" parameterType="com.kaiyu56.wms.domain.WmsCargo" useGeneratedKeys="true" keyProperty="cargoId">
+    <insert id="insertWmsCargo" parameterType="com.kaiyu56.wms.api.domain.WmsCargo" useGeneratedKeys="true" keyProperty="cargoId">
         insert into wms_cargo
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="cargoId != null">cargo_id,</if>
@@ -103,7 +103,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateWmsCargo" parameterType="com.kaiyu56.wms.domain.WmsCargo">
+    <update id="updateWmsCargo" parameterType="com.kaiyu56.wms.api.domain.WmsCargo">
         update wms_cargo
         <trim prefix="SET" suffixOverrides=",">
             <if test="cargoCode != null and cargoCode != ''">cargo_code = #{cargoCode},</if>

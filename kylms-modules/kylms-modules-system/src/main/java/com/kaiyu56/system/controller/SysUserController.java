@@ -242,4 +242,14 @@ public class SysUserController extends BaseController {
         List<SysUser> list = userService.getDriver(map);
         return getDataTable(list);
     }
+
+    /**
+     * 司机确认
+     *
+     * @return 用户信息
+     */
+    @GetMapping("getDriverInfo")
+    public AjaxResult getDriverInfo() {
+        return AjaxResult.success(userService.getDriverInfo());
+    }
 }

@@ -28,6 +28,7 @@ public class MinioSysFileServiceImpl implements ISysFileService {
      * @return 访问地址
      * @throws Exception
      */
+    @Override
     public String uploadFile(MultipartFile file) throws Exception {
         String fileName = FileUploadUtils.extractFilename(file);
         PutObjectArgs args = PutObjectArgs.builder()
@@ -37,6 +38,6 @@ public class MinioSysFileServiceImpl implements ISysFileService {
                 .contentType(file.getContentType())
                 .build();
         client.putObject(args);
-        return minioConfig.getUrl() + "/" + minioConfig.getBucketName() + "/" + fileName;
+        return minioConfig.getShowUrl() + "/" + minioConfig.getBucketName() + "/" + fileName;
     }
 }

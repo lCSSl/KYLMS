@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.kaiyu56.wms.domain.WmsStowage;
+import com.kaiyu56.wms.domain.vo.WmsStowageVO;
+import com.kaiyu56.wms.enums.vo.driverapp.MissionStatus;
 
 /**
  * 运单配载Mapper接口
@@ -60,5 +62,7 @@ public interface WmsStowageMapper extends BaseMapper<WmsStowage> {
      */
     public int deleteWmsStowageByIds(Long[] stowageIds);
 
-    List<Long> selectWorkingDriver(Long[] userIds);
+    List<WmsStowageVO> selectDriverWmsStowage(Long driverId, List<String> missionStatus);
+
+    WmsStowageVO selectOneDriverWmsStowage(Long driverId, List<String> missionStatus);
 }

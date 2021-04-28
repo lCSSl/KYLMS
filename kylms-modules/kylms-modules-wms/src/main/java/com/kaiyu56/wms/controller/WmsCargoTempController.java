@@ -7,7 +7,7 @@ import com.kaiyu56.common.core.web.page.TableDataInfo;
 import com.kaiyu56.common.log.annotation.Log;
 import com.kaiyu56.common.log.enums.BusinessType;
 import com.kaiyu56.common.security.annotation.PreAuthorize;
-import com.kaiyu56.wms.domain.WmsCargoTemp;
+import com.kaiyu56.wms.api.domain.WmsCargoTemp;
 import com.kaiyu56.wms.service.IWmsCargoTempService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

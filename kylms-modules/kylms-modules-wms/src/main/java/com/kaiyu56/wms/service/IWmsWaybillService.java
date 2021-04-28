@@ -36,4 +36,5 @@ public interface IWmsWaybillService extends IService<WmsWaybill> {
 
     public List<WmsWaybillVO> selectWmsWaybillVOListByIds(List<Long> ids);
 
+    Object getPrintData(Long waybillId);
 }

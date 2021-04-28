@@ -90,8 +90,8 @@ public class WmsStowageRoute extends BaseEntity {
     }
 
     public WmsStowageRoute(Long routeId, Long stowageId, Long stowageWarehouseId, String stowageWarehouseName, int routeSort, String routeStatus, Long routeNext) {
-
         this(routeId, stowageId, stowageWarehouseId,null, stowageWarehouseName, routeSort, routeStatus, routeNext, null, null);
+        fillBasicAttributes(0);
     }
 
     public WmsStowageRoute(Long routeId, int routeSort, String routeStatus, Long routeNext) {

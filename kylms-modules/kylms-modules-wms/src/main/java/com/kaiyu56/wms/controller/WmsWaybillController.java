@@ -123,4 +123,14 @@ public class WmsWaybillController extends BaseController {
     public AjaxResult remove(@PathVariable List<Long> waybillIds) {
         return toAjax(wmsWaybillService.removeByIds(waybillIds) ? 1 : 0);
     }
+
+    /**
+     * 获取打印信息
+     */
+    @PreAuthorize(hasPermi = "wms:waybill:query")
+    @Log(title = "运单信息", businessType = BusinessType.DELETE)
+    @GetMapping("/getPrintData/{waybillId}")
+    public AjaxResult getPrintData(@PathVariable Long waybillId) {
+        return AjaxResult.success(wmsWaybillService.getPrintData(waybillId));
+    }
 }

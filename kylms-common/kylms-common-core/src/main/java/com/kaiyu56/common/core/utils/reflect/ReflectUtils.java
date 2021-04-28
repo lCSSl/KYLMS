@@ -248,7 +248,7 @@ public class ReflectUtils {
      */
     public static void makeAccessible(Method method) {
         if ((!Modifier.isPublic(method.getModifiers()) || !Modifier.isPublic(method.getDeclaringClass().getModifiers()))
-                && !method.isAccessible()) {
+                && !method.canAccess(null)) {
             method.setAccessible(true);
         }
     }
@@ -258,7 +258,7 @@ public class ReflectUtils {
      */
     public static void makeAccessible(Field field) {
         if ((!Modifier.isPublic(field.getModifiers()) || !Modifier.isPublic(field.getDeclaringClass().getModifiers())
-                || Modifier.isFinal(field.getModifiers())) && !field.isAccessible()) {
+                || Modifier.isFinal(field.getModifiers())) && !field.canAccess(null)) {
             field.setAccessible(true);
         }
     }

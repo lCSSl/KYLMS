@@ -3,7 +3,7 @@ package com.kaiyu56.wms.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.kaiyu56.common.core.utils.DateUtils;
 import com.kaiyu56.common.core.utils.SecurityUtils;
-import com.kaiyu56.wms.domain.WmsCargo;
+import com.kaiyu56.wms.api.domain.WmsCargo;
 import com.kaiyu56.wms.mapper.WmsCargoMapper;
 import com.kaiyu56.wms.service.IWmsCargoService;
 import org.springframework.beans.factory.annotation.Autowired;

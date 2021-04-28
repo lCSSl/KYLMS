@@ -4,6 +4,7 @@ import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
+import com.kaiyu56.wms.domain.vo.ArrivalTicket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -95,5 +96,15 @@ public class WmsStowageRouteController extends BaseController {
     @DeleteMapping("/{routeIds}")
     public AjaxResult remove(@PathVariable Long[] routeIds) {
         return toAjax(wmsStowageRouteService.deleteWmsStowageRouteById(routeIds[0]));
+    }
+
+    /**
+     * 抵达站点
+     */
+    @PreAuthorize(hasPermi = "wms:WmsStowageRoute:edit")
+    @Log(title = "运单配载线路", businessType = BusinessType.UPDATE)
+    @PostMapping("/driver/arrivalSite")
+    public AjaxResult arrivalSite(@RequestBody ArrivalTicket ticket) {
+        return toAjax(wmsStowageRouteService.arrivalSite(ticket));
     }
 }

@@ -2,6 +2,7 @@ package com.kaiyu56.wms.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.kaiyu56.wms.api.domain.WmsWarehouse;
+import com.kaiyu56.wms.api.domain.vo.AddressVO;
 import com.kaiyu56.wms.api.domain.vo.WmsWarehouseLL;
 import com.kaiyu56.wms.api.domain.vo.WmsWarehouseVO;
 
@@ -85,4 +86,6 @@ public interface WmsWarehouseMapper extends BaseMapper<WmsWarehouse> {
     public int deleteWmsWarehouseByIds(Long[] warehouseIds);
 
     WmsWarehouseLL selectLngAndLatWmsWarehouseById(Long warehouseId);
+
+    AddressVO selectWmsWarehouseAddressById(Long warehouseId);
 }

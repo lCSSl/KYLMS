@@ -1,5 +1,6 @@
 package com.kaiyu56.wms.api.domain.vo;
 
+import com.kaiyu56.common.core.domain.Geo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,8 +17,5 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-public class WmsWarehouseLL {
-    private BigDecimal lng;
-    private BigDecimal lat;
+public class WmsWarehouseLL extends Geo {
 }

@@ -3,7 +3,7 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kaiyu56.wms.mapper.WmsCargoTempMapper">
-  <resultMap type="com.kaiyu56.wms.domain.WmsCargoTemp" id="WmsCargoTempResult">
+  <resultMap type="com.kaiyu56.wms.api.domain.WmsCargoTemp" id="WmsCargoTempResult">
     <result property="id" column="id"/>
     <result property="TCargoName" column="t_cargo_name"/>
     <result property="packageType" column="package_type"/>
@@ -50,7 +50,7 @@
     from wms_cargo_temp
   </sql>
 
-  <select id="selectWmsCargoTempList" parameterType="com.kaiyu56.wms.domain.WmsCargoTemp"
+  <select id="selectWmsCargoTempList" parameterType="com.kaiyu56.wms.api.domain.WmsCargoTemp"
           resultMap="WmsCargoTempResult">
     <include refid="selectWmsCargoTempVo"/>
     <where>
@@ -111,7 +111,7 @@
     where id = #{id}
   </select>
 
-  <insert id="insertWmsCargoTemp" parameterType="com.kaiyu56.wms.domain.WmsCargoTemp" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertWmsCargoTemp" parameterType="com.kaiyu56.wms.api.domain.WmsCargoTemp" useGeneratedKeys="true" keyProperty="id">
     insert into wms_cargo_temp
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="TCargoName != null">
@@ -262,7 +262,7 @@
     </foreach>
   </insert>
 
-  <update id="updateWmsCargoTemp" parameterType="com.kaiyu56.wms.domain.WmsCargoTemp">
+  <update id="updateWmsCargoTemp" parameterType="com.kaiyu56.wms.api.domain.WmsCargoTemp">
     update wms_cargo_temp
     <trim prefix="SET" suffixOverrides=",">
       <if test="TCargoName != null">

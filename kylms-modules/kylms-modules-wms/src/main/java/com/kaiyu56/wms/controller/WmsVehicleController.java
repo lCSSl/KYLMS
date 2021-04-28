@@ -4,6 +4,7 @@ import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
+import com.kaiyu56.wms.domain.vo.driverapp.LocationTicket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -104,5 +105,14 @@ public class WmsVehicleController extends BaseController {
     @GetMapping("/getLocationById/{vehicleId}")
     public AjaxResult getLocationById(@PathVariable Long vehicleId) {
         return AjaxResult.success(wmsVehicleService.getLocationById(vehicleId));
+    }
+
+    /**
+     * 获取车辆定位
+     */
+    @PreAuthorize(hasPermi = "wms:WmsVehicle:query")
+    @PutMapping("/updateLocation")
+    public AjaxResult updateLocation(@RequestBody LocationTicket ticket) {
+        return toAjax(wmsVehicleService.updateLocation(ticket));
     }
 }

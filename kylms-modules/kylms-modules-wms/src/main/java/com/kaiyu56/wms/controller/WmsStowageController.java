@@ -32,7 +32,7 @@ public class WmsStowageController extends BaseController {
     /**
      * 查询运单配载列表
      */
-    @PreAuthorize(hasPermi = "wms:stowage:list")
+    @PreAuthorize(hasPermi = "wms:WmsStowage:list")
     @GetMapping("/list")
     public TableDataInfo list(WmsStowage wmsStowage) {
         startPage();
@@ -43,19 +43,19 @@ public class WmsStowageController extends BaseController {
     /**
      * 导出运单配载列表
      */
-    @PreAuthorize(hasPermi = "wms:stowage:export")
+    @PreAuthorize(hasPermi = "wms:WmsStowage:export")
     @Log(title = "运单配载", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, WmsStowage wmsStowage) throws IOException {
         List<WmsStowage> list = wmsStowageService.selectWmsStowageList(wmsStowage);
         ExcelUtil<WmsStowage> util = new ExcelUtil<WmsStowage>(WmsStowage.class);
-        util.exportExcel(response, list, "stowage");
+        util.exportExcel(response, list, "WmsStowage");
     }
 
     /**
      * 获取运单配载详细信息
      */
-    @PreAuthorize(hasPermi = "wms:stowage:query")
+    @PreAuthorize(hasPermi = "wms:WmsStowage:query")
     @GetMapping(value = "/{stowageId}")
     public AjaxResult getInfo(@PathVariable("stowageId") Long stowageId) {
         return AjaxResult.success(wmsStowageService.selectWmsStowageById(stowageId));
@@ -64,7 +64,7 @@ public class WmsStowageController extends BaseController {
     /**
      * 新增运单配载
      */
-    @PreAuthorize(hasPermi = "wms:stowage:add")
+    @PreAuthorize(hasPermi = "wms:WmsStowage:add")
     @Log(title = "运单配载", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody Map<String, Object> map) {
@@ -74,7 +74,7 @@ public class WmsStowageController extends BaseController {
     /**
      * 修改运单配载
      */
-    @PreAuthorize(hasPermi = "wms:stowage:edit")
+    @PreAuthorize(hasPermi = "wms:WmsStowage:edit")
     @Log(title = "运单配载", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody WmsStowage wmsStowage) {
@@ -84,7 +84,7 @@ public class WmsStowageController extends BaseController {
     /**
      * 删除运单配载
      */
-    @PreAuthorize(hasPermi = "wms:stowage:remove")
+    @PreAuthorize(hasPermi = "wms:WmsStowage:remove")
     @Log(title = "运单配载", businessType = BusinessType.DELETE)
     @DeleteMapping("/{stowageIds}")
     public AjaxResult remove(@PathVariable Long[] stowageIds) {
@@ -97,7 +97,7 @@ public class WmsStowageController extends BaseController {
     /**
      * 运单配载结束
      */
-    @PreAuthorize(hasPermi = "wms:stowage:remove")
+    @PreAuthorize(hasPermi = "wms:WmsStowage:edit")
     @Log(title = "运单配载", businessType = BusinessType.UPDATE)
     @PostMapping("/endStowage/{stowageId}")
     public AjaxResult endStowage(@PathVariable Long stowageId) {
@@ -106,13 +106,40 @@ public class WmsStowageController extends BaseController {
     }
 
     /**
+     * 预发车！
+     */
+    @PreAuthorize(hasPermi = "wms:WmsStowage:edit")
+    @Log(title = "运单配载", businessType = BusinessType.UPDATE)
+    @PostMapping("/preDeparture/{stowageId}")
+    public AjaxResult preDeparture(@PathVariable Long stowageId) {
+        return toAjax(wmsStowageService.preDeparture(stowageId));
+    }
+
+    /**
      * 发车！
      */
-    @PreAuthorize(hasPermi = "wms:stowage:remove")
+    @PreAuthorize(hasPermi = "wms:WmsStowage:edit")
     @Log(title = "运单配载", businessType = BusinessType.UPDATE)
     @PostMapping("/departure/{stowageId}")
     public AjaxResult departure(@PathVariable Long stowageId) {
-
         return toAjax(wmsStowageService.departure(stowageId));
+    }
+
+    /**
+     * 获取司机任务
+     */
+    @PreAuthorize(hasPermi = "wms:WmsStowage:query")
+    @GetMapping("/getDriverMission/{missionStatus}")
+    public AjaxResult getDriverMission(@PathVariable String missionStatus) {
+        return AjaxResult.success(wmsStowageService.getDriverMission(missionStatus));
+    }
+
+    /**
+     * 获取司机任务
+     */
+    @PreAuthorize(hasPermi = "wms:WmsStowage:query")
+    @GetMapping("/checkDriverMission/{missionStatus}")
+    public AjaxResult checkDriverMission(@PathVariable String missionStatus) {
+        return AjaxResult.success(wmsStowageService.checkDriverMission(missionStatus));
     }
 }

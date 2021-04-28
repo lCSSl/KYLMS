@@ -223,9 +223,9 @@ public class WmsWarehouseServiceImpl extends ServiceImpl<WmsWarehouseMapper, Wms
                 : areaYMM.divide(trayWidthMM, 2, RoundingMode.FLOOR)).toBigInteger();
         log.error("total: Array[Y:{}][X:{}]", itemXTotal, itemYTotal);
         int batchTotals = 0;
-        for (long i = 0l; i < itemYTotal.longValue(); i++) {
+        for (long i = 0L; i < itemYTotal.longValue(); i++) {
             List<WmsWarehouseExtItem> list = new ArrayList<>();
-            for (long j = 0l; j < itemXTotal.longValue(); j++) {
+            for (long j = 0L; j < itemXTotal.longValue(); j++) {
                 list.add(new WmsWarehouseExtItem(warehouseId, j, i, "1"));
             }
             batchTotals += wmsWarehouseExtItemService.batchInsertWmsWarehouseExtItem(list);

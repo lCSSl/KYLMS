@@ -12,7 +12,8 @@ VOLUME /tmp
 # nacos服务器地址
 ENV NACOS_SERVER_ADDR=wsl.kaiyu.work:8848
 # 项目环境变量
-ENV SPRING_PROFILES_ACTIVE=dev
+ENV SPRING_PROFILES_ACTIVE=prod
+ENV SERVER_PORT=80
 
 # 复制文件
 ADD *.jar app.jar
@@ -20,5 +21,6 @@ ADD *.jar app.jar
 # Docker容器启动时执行的命令，注意：是 -D 开头。如果有换行，后面要加上英文状态的 \ 进行连接
 ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar", \
     "-Dspring.cloud.nacos.discovery.serverAddr=${NACOS_SERVER_ADDR}", \
+    "-Dserver.port=${SERVER_PORT}", \
     "-Dspring.cloud.nacos.config.serverAddr=${NACOS_SERVER_ADDR}", \
     "-Dspring.profiles.active=${SPRING_PROFILES_ACTIVE}", "/app.jar"]

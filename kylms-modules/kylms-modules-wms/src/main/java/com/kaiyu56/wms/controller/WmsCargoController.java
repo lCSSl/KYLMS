@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.kaiyu56.wms.domain.WmsCargo;
+import com.kaiyu56.wms.api.domain.WmsCargo;
 import com.kaiyu56.wms.service.IWmsCargoService;
 import com.kaiyu56.common.log.annotation.Log;
 import com.kaiyu56.common.log.enums.BusinessType;

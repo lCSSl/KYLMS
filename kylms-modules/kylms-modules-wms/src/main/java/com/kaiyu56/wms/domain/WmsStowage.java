@@ -151,7 +151,7 @@ public class WmsStowage extends BaseEntity {
      * @param stowageStatus
      */
     public WmsStowage(Long stowageId, String stowageStatus) {
-        this(stowageId,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,stowageStatus,null,null);
+        this(stowageId,null,null,null,null,null,null,null,null,null,null,null,null,null,null,stowageStatus,null,null,null);
         fillBasicAttributes(1);
         if (WmsStowageStatus.DEPARTED.getCode().equals(stowageStatus)){
             setDepartureTime(DateUtils.getNowDate());

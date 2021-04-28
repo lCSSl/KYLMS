@@ -16,10 +16,12 @@ spring:
         # 服务注册地址
                 #server-addr: wsl.kaiyu.work:8848
         server-addr: server.kaiyu.work:8848
+        namespace: 824d8801-0540-4293-8f30-0e33cfa5daf7
       config:
         # 配置中心地址
                 #server-addr: wsl.kaiyu.work:8848
         server-addr: server.kaiyu.work:8848
+        namespace: 824d8801-0540-4293-8f30-0e33cfa5daf7
         # 配置文件格式
         file-extension: yml
         # 共享配置

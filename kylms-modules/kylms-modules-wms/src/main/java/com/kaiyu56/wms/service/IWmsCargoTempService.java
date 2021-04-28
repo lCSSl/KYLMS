@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.kaiyu56.wms.domain.WmsCargoTemp;
+import com.kaiyu56.wms.api.domain.WmsCargoTemp;
 
 /**
  * 运单货物临时表Service接口

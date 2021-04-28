@@ -17,6 +17,10 @@ public class MinioConfig {
      * 服务地址
      */
     private String url;
+    /**
+     * 显示地址
+     */
+    private String showUrl;
 
     /**
      * 用户名
@@ -40,7 +44,13 @@ public class MinioConfig {
     public void setUrl(String url) {
         this.url = url;
     }
+    public String getShowUrl() {
+        return showUrl;
+    }
 
+    public void setShowUrl(String showUrl) {
+        this.showUrl = showUrl;
+    }
     public String getAccessKey() {
         return accessKey;
     }

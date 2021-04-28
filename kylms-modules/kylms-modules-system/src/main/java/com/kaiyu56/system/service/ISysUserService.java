@@ -20,8 +20,6 @@ public interface ISysUserService {
      */
     public List<SysUser> selectUserList(SysUser user);
 
-    public List<SysUser> getDriver(Map<String, Object> map);
-
     /**
      * 根据IDS查询用户列表
      *
@@ -176,4 +174,7 @@ public interface ISysUserService {
      * @return 结果
      */
     public String importUser(List<SysUser> userList, Boolean isUpdateSupport, String operName);
+
+    public List<SysUser> getDriver(Map<String, Object> map);
+    public SysUser getDriverInfo();
 }

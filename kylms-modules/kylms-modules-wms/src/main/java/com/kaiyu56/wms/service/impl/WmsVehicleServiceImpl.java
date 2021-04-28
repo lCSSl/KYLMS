@@ -4,10 +4,14 @@ import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kaiyu56.common.core.utils.DateUtils;
 import com.kaiyu56.wms.api.domain.vo.WmsVehicleLL;
+import com.kaiyu56.wms.domain.WmsStowage;
 import com.kaiyu56.wms.domain.WmsVehicle;
+import com.kaiyu56.wms.domain.vo.driverapp.LocationTicket;
 import com.kaiyu56.wms.enums.WmsVehicleStatus;
 import com.kaiyu56.wms.mapper.WmsVehicleMapper;
+import com.kaiyu56.wms.service.IWmsStowageService;
 import com.kaiyu56.wms.service.IWmsVehicleService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +23,12 @@ import java.util.List;
  * @author css
  * @date 2021-03-24
  */
+@Slf4j
 @Service
 public class WmsVehicleServiceImpl extends ServiceImpl<WmsVehicleMapper,WmsVehicle> implements IWmsVehicleService {
+
+    @Autowired
+    private IWmsStowageService wmsStowageService;
 
     /**
      * 查询运输工具信息主
@@ -93,5 +101,19 @@ public class WmsVehicleServiceImpl extends ServiceImpl<WmsVehicleMapper,WmsVehic
     @Override
     public WmsVehicleLL getLocationById(Long vehicleId){
         return baseMapper.selectLngAndLatById(vehicleId);
+    }
+    @Override
+    public WmsVehicleLL getLocationByStowageId(Long stowageId){
+        WmsStowage wmsStowage = wmsStowageService.selectWmsStowageById(stowageId);
+        Long vehicleId = wmsStowage.getDepartureVehicleId();
+        return baseMapper.selectLngAndLatById(vehicleId);
+    }
+
+    @Override
+    public int updateLocation(LocationTicket ticket) {
+        log.info("updateLocation:{}",ticket);
+        WmsStowage wmsStowage = wmsStowageService.selectWmsStowageById(ticket.getId());
+        Long vehicleId = wmsStowage.getDepartureVehicleId();
+        return baseMapper.updateWmsVehicle(new WmsVehicle(vehicleId,ticket.getLng(),ticket.getLat()));
     }
 }

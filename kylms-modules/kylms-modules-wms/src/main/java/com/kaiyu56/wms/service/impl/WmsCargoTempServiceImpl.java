@@ -5,8 +5,8 @@ import com.kaiyu56.common.core.exception.BaseException;
 import com.kaiyu56.common.core.utils.DateUtils;
 import com.kaiyu56.common.core.utils.SecurityUtils;
 import com.kaiyu56.common.core.utils.StringUtils;
-import com.kaiyu56.wms.domain.WmsCargo;
-import com.kaiyu56.wms.domain.WmsCargoTemp;
+import com.kaiyu56.wms.api.domain.WmsCargo;
+import com.kaiyu56.wms.api.domain.WmsCargoTemp;
 import com.kaiyu56.wms.mapper.WmsCargoTempMapper;
 import com.kaiyu56.wms.service.IWmsCargoService;
 import com.kaiyu56.wms.service.IWmsCargoTempService;
@@ -85,9 +85,9 @@ public class WmsCargoTempServiceImpl extends ServiceImpl<WmsCargoTempMapper, Wms
         }
         wmsCargoTempSet.stream().forEach(item -> {
             Long id = item.getId();
-            if (id.compareTo(0l) == 0) {
+            if (id.compareTo(0L) == 0) {
                 throw new BaseException("Error Input");
-            } else if (id.compareTo(0l) > 0) {
+            } else if (id.compareTo(0L) > 0) {
                 log.error("Update Action");
                 baseMapper.updateWmsCargoTemp(item);
             } else {

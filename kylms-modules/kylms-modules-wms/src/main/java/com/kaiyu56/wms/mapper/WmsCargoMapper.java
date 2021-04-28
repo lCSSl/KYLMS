@@ -1,7 +1,7 @@
 package com.kaiyu56.wms.mapper;
 
 import java.util.List;
-import com.kaiyu56.wms.domain.WmsCargo;
+import com.kaiyu56.wms.api.domain.WmsCargo;
 
 /**
  * 货物Mapper接口

@@ -1,6 +1,8 @@
 package com.kaiyu56.system.service.impl;
 
+import com.kaiyu56.common.core.constant.HttpStatus;
 import com.kaiyu56.common.core.constant.UserConstants;
+import com.kaiyu56.common.core.exception.BaseException;
 import com.kaiyu56.common.core.exception.CustomException;
 import com.kaiyu56.common.core.utils.SecurityUtils;
 import com.kaiyu56.common.core.utils.StringUtils;
@@ -14,6 +16,7 @@ import com.kaiyu56.system.mapper.*;
 import com.kaiyu56.system.service.ISysConfigService;
 import com.kaiyu56.system.service.ISysPostService;
 import com.kaiyu56.system.service.ISysUserService;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +24,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -67,31 +69,6 @@ public class SysUserServiceImpl implements ISysUserService {
         return userMapper.selectUserList(user);
     }
 
-    /**
-     * 根据条件分页查询用户列表
-     *
-     * @param map
-     * @return 用户信息集合信息
-     */
-    @Override
-    @DataScope(deptAlias = "d", userAlias = "u")
-    public List<SysUser> getDriver(Map<String, Object> map) {
-        if (StringUtils.isEmpty(map)) {
-            List<Long> userIds = userPostMapper.getUserIdsByPostId(5l,null);
-            return selectByIds(null, userIds);
-        }
-        Boolean idle = Boolean.valueOf(map.get("idle").toString());
-        if (idle) {
-            List<Long> workingDriver = userMapper.selectWorkingDriver();
-            List<Long> userIds = userPostMapper.getUserIdsByPostId(5l,workingDriver);
-            String nickName = map.get("nickName") != null ? map.get("nickName").toString() : "";
-            return selectByIds(nickName, userIds);
-        }else {
-            List<Long> userIds = userPostMapper.getUserIdsByPostId(5l,null);
-            String nickName = map.get("nickName") != null ? map.get("nickName").toString() : "";
-            return selectByIds(nickName, userIds);
-        }
-    }
 
     @Override
     public List<SysUser> selectByIds(String nickName, List<Long> userIds) {
@@ -445,4 +422,40 @@ public class SysUserServiceImpl implements ISysUserService {
         return successMsg.toString();
     }
 
+    /**
+     * 根据条件分页查询用户列表
+     *
+     * @param map
+     * @return 用户信息集合信息
+     */
+    @Override
+    @DataScope(deptAlias = "d", userAlias = "u")
+    public List<SysUser> getDriver(Map<String, Object> map) {
+        if (StringUtils.isEmpty(map)) {
+            List<Long> userIds = userPostMapper.getUserIdsByPostId(5l, null);
+            return selectByIds(null, userIds);
+        }
+        Boolean idle = Boolean.valueOf(map.get("idle").toString());
+        if (idle) {
+            List<Long> workingDriver = userMapper.selectWorkingDriver();
+            List<Long> userIds = userPostMapper.getUserIdsByPostId(5l, workingDriver);
+            String nickName = map.get("nickName") != null ? map.get("nickName").toString() : "";
+            return selectByIds(nickName, userIds);
+        } else {
+            List<Long> userIds = userPostMapper.getUserIdsByPostId(5l, null);
+            String nickName = map.get("nickName") != null ? map.get("nickName").toString() : "";
+            return selectByIds(nickName, userIds);
+        }
+    }
+
+    @Override
+    public SysUser getDriverInfo() {
+        Long userId = SecurityUtils.getUserId();
+        List<Long> userIdsByPostId = userPostMapper.getUserIdsByPostId(5l, null);
+        List<Long> userIdsByRoleId = userRoleMapper.getUserIdsByRoleId(5l, null);
+        if (userIdsByPostId.indexOf(userId)<0||userIdsByRoleId.indexOf(userId)<0){
+            throw new CustomException("当前用户无司机身份", HttpStatus.FORBIDDEN);
+        }
+        return selectUserById(userId);
+    }
 }

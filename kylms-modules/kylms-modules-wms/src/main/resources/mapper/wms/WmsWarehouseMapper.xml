@@ -65,6 +65,17 @@
     <result property="updateTime" column="update_time"/>
     <result property="remark" column="remark"/>
   </resultMap>
+  <resultMap type="com.kaiyu56.wms.api.domain.vo.AddressVO" id="AddressVOResult">
+    <result property="provinceCode" column="province_code"/>
+    <result property="cityCode" column="city_code"/>
+    <result property="districtCode" column="district_code"/>
+    <result property="streetCode" column="street_code"/>
+    <result property="warehouseAddress" column="warehouse_address"/>
+    <association property="province" javaType="java.lang.String" column="province_code" select="selectSysAreaNameByCode"/>
+    <association property="city" javaType="java.lang.String" column="city_code" select="selectSysAreaNameByCode"/>
+    <association property="district" javaType="java.lang.String" column="district_code" select="selectSysAreaNameByCode"/>
+    <association property="street" javaType="java.lang.String" column="street_code" select="selectSysAreaNameByCode"/>
+  </resultMap>
 
   <sql id="selectBaseWmsWarehouse">
     select warehouse_id,
@@ -279,6 +290,14 @@
     select warehouse_name
     from wms_warehouse
     where warehouse_id = #{warehouseId}
+  </select>
+
+  <select id="selectWmsWarehouseAddressById" parameterType="java.lang.Long" resultMap="AddressVOResult">
+    select province_code,city_code,district_code,street_code,warehouse_address from wms_warehouse where warehouse_id=#{warehouseId,jdbcType=BIGINT};
+  </select>
+  <select id="selectSysAreaNameByCode" parameterType="Long" resultType="java.lang.String">
+    select name from sys_area
+    where code = #{code}
   </select>
 
   <insert id="insertWmsWarehouse" parameterType="com.kaiyu56.wms.api.domain.WmsWarehouse" useGeneratedKeys="true"

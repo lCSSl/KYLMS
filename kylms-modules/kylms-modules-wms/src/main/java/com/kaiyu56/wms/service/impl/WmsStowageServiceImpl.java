@@ -18,10 +18,12 @@ import com.kaiyu56.wms.api.domain.vo.WmsWaybillVO;
 import com.kaiyu56.wms.domain.WmsStowage;
 import com.kaiyu56.wms.domain.WmsStowageRoute;
 import com.kaiyu56.wms.domain.WmsVehicle;
+import com.kaiyu56.wms.domain.vo.WmsStowageVO;
 import com.kaiyu56.wms.enums.WmsStowageRouteStatus;
 import com.kaiyu56.wms.enums.WmsStowageStatus;
 import com.kaiyu56.wms.enums.WmsVehicleStatus;
 import com.kaiyu56.wms.enums.WmsWaybillStatus;
+import com.kaiyu56.wms.enums.vo.driverapp.MissionStatus;
 import com.kaiyu56.wms.mapper.WmsStowageMapper;
 import com.kaiyu56.wms.mapper.WmsWarehouseMapper;
 import com.kaiyu56.wms.service.*;
@@ -29,6 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -157,7 +160,7 @@ public class WmsStowageServiceImpl extends ServiceImpl<WmsStowageMapper, WmsStow
             WmsStowage prev = jsonObject.toJavaObject(WmsStowage.class);
             Long prevVehicleId = prev.getDepartureVehicleId();
             Long departureVehicleId = wmsStowage.getDepartureVehicleId();
-            if (prevVehicleId != null && prevVehicleId.compareTo(0l) > 0) {
+            if (prevVehicleId != null && prevVehicleId.compareTo(0L) > 0) {
                 if (prevVehicleId.compareTo(departureVehicleId) != 0) {
                     vehicleService.updateWmsVehicle(new WmsVehicle(prevVehicleId, WmsVehicleStatus.IDLE.getCode()));
                     vehicleService.updateWmsVehicle(new WmsVehicle(departureVehicleId, WmsVehicleStatus.USING.getCode()));
@@ -212,11 +215,6 @@ public class WmsStowageServiceImpl extends ServiceImpl<WmsStowageMapper, WmsStow
 
 
     @Override
-    public List<Long> selectWorkingDriver(Long[] userIds) {
-        return baseMapper.selectWorkingDriver(userIds);
-    }
-
-    @Override
     public int endStowage(Long stowageId) {
         WmsStowage wmsStowage = selectWmsStowageById(stowageId);
         if (StringUtils.isNotNull(wmsStowage) && WmsStowageStatus.CREATED.getCode().equals(wmsStowage.getStowageStatus())) {
@@ -239,21 +237,46 @@ public class WmsStowageServiceImpl extends ServiceImpl<WmsStowageMapper, WmsStow
     }
 
     @Override
-    public int departure(Long stowageId) {
+    public int preDeparture(Long stowageId) {
         WmsStowage wmsStowage = selectWmsStowageById(stowageId);
         if (StringUtils.isNotNull(wmsStowage) && WmsStowageStatus.STOWAGE.getCode().equals(wmsStowage.getStowageStatus())) {
-            Long departureVehicleId = wmsStowage.getDepartureVehicleId();
-            if (!(StringUtils.checkLongKey(departureVehicleId) && StringUtils.checkLongKey(wmsStowage.getDepartureDriverId()))) {
+            if (!(StringUtils.checkLongKey(wmsStowage.getDepartureVehicleId()) && StringUtils.checkLongKey(wmsStowage.getDepartureDriverId()))) {
                 throw new BaseException("配载参数有误");
             }
-            wmsStowage.setStowageStatus(WmsStowageStatus.DEPARTED.getCode());
-            wmsStowage.setDepartureTime(DateUtils.getNowDate());
-            List<Long> waybillIds = stowageMdWaybillService.selectWaybillIdsByStowageId(stowageId);
-            waybillIds.forEach(item -> wmsWaybillService.updateWmsWaybill(new WmsWaybill(item, WmsWaybillStatus.DEPARTURE.getCode())));
-            vehicleService.updateWmsVehicle(new WmsVehicle(departureVehicleId, WmsVehicleStatus.TRANSIT.getCode()));
+            wmsStowage.setStowageStatus(WmsStowageStatus.PRE_DEPARTED.getCode());
             return baseMapper.updateWmsStowage(wmsStowage);
         } else {
             throw new BaseException("配载状态有误");
         }
+    }
+
+    @Override
+    public int departure(Long stowageId) {
+        Long userId = SecurityUtils.getUserId();
+        WmsStowage wmsStowage = selectWmsStowageById(stowageId);
+        if (wmsStowage.getDepartureDriverId().compareTo(userId)!=0){
+            throw new BaseException("操作人有误");
+        }
+        if (StringUtils.isNotNull(wmsStowage) && WmsStowageStatus.PRE_DEPARTED.getCode().equals(wmsStowage.getStowageStatus())) {
+            wmsStowage.setStowageStatus(WmsStowageStatus.DEPARTED.getCode());
+            wmsStowage.setDepartureTime(DateUtils.getNowDate());
+            List<Long> waybillIds = stowageMdWaybillService.selectWaybillIdsByStowageId(stowageId);
+            waybillIds.forEach(item -> wmsWaybillService.updateWmsWaybill(new WmsWaybill(item, WmsWaybillStatus.DEPARTURE.getCode())));
+            vehicleService.updateWmsVehicle(new WmsVehicle(wmsStowage.getDepartureVehicleId(), WmsVehicleStatus.TRANSIT.getCode()));
+            return baseMapper.updateWmsStowage(wmsStowage);
+        } else {
+            throw new BaseException("配载状态有误");
+        }
+    }
+
+    @Override
+    public List<WmsStowageVO> getDriverMission(String missionStatus) {
+        Long userId = SecurityUtils.getUserId();
+        return baseMapper.selectDriverWmsStowage(userId,null);
+    }
+    @Override
+    public WmsStowageVO checkDriverMission(String missionStatus) {
+        Long userId = SecurityUtils.getUserId();
+        return baseMapper.selectOneDriverWmsStowage(userId, Arrays.asList(new String[]{"3"}));
     }
 }

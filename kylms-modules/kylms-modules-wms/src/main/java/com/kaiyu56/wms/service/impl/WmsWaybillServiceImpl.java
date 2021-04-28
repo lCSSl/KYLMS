@@ -106,4 +106,9 @@ public class WmsWaybillServiceImpl extends ServiceImpl<WmsWaybillMapper, WmsWayb
         return baseMapper.selectWmsWaybillVOListByIds(ids);
     }
 
+    @Override
+    public Object getPrintData(Long waybillId) {
+        return null;
+    }
+
 }

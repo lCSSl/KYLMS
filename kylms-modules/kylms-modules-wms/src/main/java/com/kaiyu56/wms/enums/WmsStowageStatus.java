@@ -13,8 +13,9 @@ public enum WmsStowageStatus implements BaseEnum {
     ABANDON("-1", "废弃"),
     CREATED("0", "创建"),
     STOWAGE("1", "已配载"),
-    DEPARTED("2", "已发车"),
-    COMPLETE("3", "完成"),
+    PRE_DEPARTED("2", "待发车"),
+    DEPARTED("3", "已发车"),
+    COMPLETE("4", "完成"),
     ;
 
     private final String code;

@@ -52,7 +52,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectSysAreaVo"/>
         where id = #{id}
     </select>
-        
+    <select id="selectSysAreaByCode" parameterType="Long" resultMap="SysAreaResult">
+        <include refid="selectSysAreaVo"/>
+        where code = #{code}
+    </select>
+    <select id="selectSysAreaNameByCode" parameterType="Long" resultType="java.lang.String">
+        select name from sys_area
+        where code = #{code}
+    </select>
     <insert id="insertSysArea" parameterType="com.kaiyu56.system.domain.SysArea" useGeneratedKeys="true" keyProperty="id">
         insert into sys_area
         <trim prefix="(" suffix=")" suffixOverrides=",">

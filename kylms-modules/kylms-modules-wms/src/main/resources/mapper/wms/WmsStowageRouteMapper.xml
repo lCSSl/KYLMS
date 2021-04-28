@@ -131,4 +131,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where route_sort != 0
         and stowage_id = #{stowageId,jdbcType=BIGINT}
   </select>
+    <select id="countRouteByStowageId" resultType="int">
+        select count(route_id) from wms_stowage_route
+        where route_sort != 0
+        and stowage_id = #{stowageId,jdbcType=BIGINT}
+  </select>
 </mapper>

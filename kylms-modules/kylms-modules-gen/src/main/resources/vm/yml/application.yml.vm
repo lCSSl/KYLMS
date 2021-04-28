@@ -79,7 +79,9 @@ seata:
     nacos:
       application: seata-server
               #server-addr: server.kaiyu.work:8848
+        namespace: 824d8801-0540-4293-8f30-0e33cfa5daf7
         server-addr: server.kaiyu.work:8848
+        namespace: 824d8801-0540-4293-8f30-0e33cfa5daf7
       namespace:
 
 # mybatis配置

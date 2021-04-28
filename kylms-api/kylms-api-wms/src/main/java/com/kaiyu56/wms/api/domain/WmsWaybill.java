@@ -342,7 +342,7 @@ public class WmsWaybill extends BaseEntity {
      */
     public WmsWaybill(Long waybillId, String waybillStatus) {
         this(waybillId,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,waybillStatus,null,null,null);
-        if (StringUtils.isNotNull(waybillId)&&waybillId.compareTo(0l)>=0){
+        if (StringUtils.isNotNull(waybillId)&&waybillId.compareTo(0L)>=0){
             fillBasicAttributes(1);
         }
     }

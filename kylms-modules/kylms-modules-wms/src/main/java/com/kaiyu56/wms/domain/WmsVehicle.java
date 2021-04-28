@@ -118,7 +118,7 @@ public class WmsVehicle extends BaseEntity {
      * @param vehicleLatitude
      */
     public WmsVehicle(Long vehicleId, BigDecimal vehicleLongitude,BigDecimal vehicleLatitude) {
-        this(vehicleId, null, null, null, null, null,null,null,null, null, null, null, null, null, null);
+        this(vehicleId, null, null, null, null, null,null,vehicleLongitude,vehicleLatitude, null, null, null, null, null, null);
         fillBasicAttributes(1);
     }
 }

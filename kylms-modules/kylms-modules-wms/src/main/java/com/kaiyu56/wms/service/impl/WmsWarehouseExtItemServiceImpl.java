@@ -168,12 +168,12 @@ public class WmsWarehouseExtItemServiceImpl extends ServiceImpl<WmsWarehouseExtI
 
     @Override
     public int loadWaybill(Long waybillId, WmsWarehouseExtItem wmsWarehouseExtItem) {
-        if (!(StringUtils.isNotNull(waybillId)&&waybillId.compareTo(0l)>0)){
+        if (!(StringUtils.isNotNull(waybillId)&&waybillId.compareTo(0L)>0)){
             log.error("waybillId is no available:{}",waybillId);
             throw new BaseException("输入信息有误");
         }
         Long itemId = wmsWarehouseExtItem.getItemId();
-        if (!(StringUtils.isNotNull(itemId)&& itemId.compareTo(0l)>0)){
+        if (!(StringUtils.isNotNull(itemId)&& itemId.compareTo(0L)>0)){
             log.error("wmsWarehouseExtItem is no available:{}",wmsWarehouseExtItem);
             throw new BaseException("输入信息有误");
         }

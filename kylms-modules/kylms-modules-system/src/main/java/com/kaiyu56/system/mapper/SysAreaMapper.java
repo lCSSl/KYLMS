@@ -19,6 +19,7 @@ public interface SysAreaMapper {
      * @return 行政区
      */
     public SysArea selectSysAreaById(Long id);
+
     /**
      * 查询行政区单个树
      *
@@ -66,4 +67,7 @@ public interface SysAreaMapper {
      * @return 结果
      */
     public int deleteSysAreaByIds(Long[] ids);
+
+    SysArea selectSysAreaByCode(Long code);
+    String selectSysAreaNameByCode(Long code);
 }

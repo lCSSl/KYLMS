@@ -3,6 +3,7 @@ package com.kaiyu56.wms.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.kaiyu56.wms.domain.WmsStowage;
 import com.kaiyu56.wms.domain.WmsStowageRoute;
+import com.kaiyu56.wms.domain.vo.ArrivalTicket;
 
 import java.util.List;
 
@@ -70,5 +71,17 @@ public interface IWmsStowageRouteService extends IService<WmsStowageRoute> {
      * @return 结果
      */
     public int deleteWmsStowageRouteById(Long routeId);
+    /**
+     * d
+     * @param routeId
+     * @return
+     */
     public int deleteWmsStowageRouteByStowageId(Long routeId);
+
+    /**
+     * d
+     * @param ticket
+     * @return
+     */
+    int arrivalSite(ArrivalTicket ticket);
 }
