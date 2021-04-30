@@ -25,6 +25,5 @@ ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar", \
     "-Dserver.port=${SERVER_PORT}", \
     "-Dspring.cloud.nacos.discovery.namespace=${PROD_NAMESPACE}", \
     "-Dspring.cloud.nacos.config.namespace=${PROD_NAMESPACE}", \
-    "-Dspring.cloud.sentinel.datasource.ds1.nacos.namespace=${PROD_NAMESPACE}", \
     "-Dspring.cloud.nacos.config.serverAddr=${NACOS_SERVER_ADDR}", \
     "-Dspring.profiles.active=${SPRING_PROFILES_ACTIVE}", "/app.jar"]

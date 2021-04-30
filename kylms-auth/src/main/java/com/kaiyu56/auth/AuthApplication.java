@@ -1,5 +1,6 @@
 package com.kaiyu56.auth;
 
+import com.kaiyu56.common.swagger.annotation.EnableCustomSwagger2;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,6 +16,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  */
 @EnableBaseFeignClients
 @EnableCircuitBreaker
+@EnableCustomSwagger2
 @EnableDiscoveryClient
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 public class AuthApplication {
