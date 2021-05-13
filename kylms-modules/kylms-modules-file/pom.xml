@@ -107,7 +107,8 @@
                 <artifactId>docker-maven-plugin</artifactId>
                 <configuration>
                     <!-- Docker宿主机地址 -->
-                    <dockerHost>http://server.kaiyu.work:46667</dockerHost>
+                    <dockerHost>http://192.168.224.215:46667</dockerHost>
+          <!--<dockerHost>http://server.kaiyu.work:46667</dockerHost>-->
                     <!-- 镜像名字:版本号 -->
                     <imageName>${project.artifactId}:${project.version}</imageName>
                     <!-- true 会覆盖构建相同标签的镜像 -->

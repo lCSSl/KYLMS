@@ -9,8 +9,7 @@
     <version>2.5.0</version>
 
     <name>kylms</name>
-    <url>http://www.kylms.vip</url>
-    <description>物流生态系统</description>
+    <description>物流管理一体化系统</description>
 
     <properties>
         <kylms.version>2.5.0</kylms.version>
@@ -263,9 +262,6 @@
         <module>kylms-modules</module>
         <module>kylms-api</module>
         <module>kylms-common</module>
-        <module>kylms-modules/kylms-modules-dev</module>
-      <module>kylms-common/kylms-common-sharding-jdbc</module>
-      <module>kylms-modules/kylms-modules-wms</module>
     </modules>
     <packaging>pom</packaging>
 

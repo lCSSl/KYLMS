@@ -14,7 +14,9 @@
         <module>kylms-modules-job</module>
         <module>kylms-modules-file</module>
         <module>kylms-modules-test</module>
+        <module>kylms-modules-wms</module>
         <module>kylms-modules-activiti</module>
+        <module>kylms-modules-dev</module>
     </modules>
 
     <artifactId>kylms-modules</artifactId>

@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>kylms</artifactId>
+        <artifactId>kylms-modules</artifactId>
         <groupId>com.kaiyu56</groupId>
         <version>2.5.0</version>
     </parent>
@@ -74,7 +74,8 @@
                 <artifactId>docker-maven-plugin</artifactId>
                 <configuration>
                     <!-- Docker宿主机地址 -->
-                    <dockerHost>http://server.kaiyu.work:46667</dockerHost>
+                    <dockerHost>http://192.168.224.215:46667</dockerHost>
+          <!--<dockerHost>http://server.kaiyu.work:46667</dockerHost>-->
                     <!-- 镜像名字:版本号 -->
                     <imageName>${project.artifactId}:${project.version}</imageName>
                     <!-- true 会覆盖构建相同标签的镜像 -->

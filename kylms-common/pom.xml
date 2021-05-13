@@ -16,6 +16,7 @@
         <module>kylms-common-security</module>
         <module>kylms-common-datascope</module>
 		<module>kylms-common-datasource</module>
+		<module>kylms-common-sharding-jdbc</module>
     </modules>
 
     <artifactId>kylms-common</artifactId>
