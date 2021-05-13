@@ -12,7 +12,8 @@ public enum WmsExtItemStatus implements BaseEnum {
 
     DISABLED("0", "禁用"),
     ENABLED("1", "启用"),
-    LOAD("2", "装载");
+    LEAVE("2", "正在离开"),
+    LOAD("3", "装载");
 
     private final String code;
     private final String info;

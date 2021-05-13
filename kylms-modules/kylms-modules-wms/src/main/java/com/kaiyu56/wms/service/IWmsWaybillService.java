@@ -1,5 +1,6 @@
 package com.kaiyu56.wms.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.kaiyu56.wms.api.domain.WmsWaybill;
@@ -37,4 +38,6 @@ public interface IWmsWaybillService extends IService<WmsWaybill> {
     public List<WmsWaybillVO> selectWmsWaybillVOListByIds(List<Long> ids);
 
     Object getPrintData(Long waybillId);
+
+    int batchUpdateWaybillStatus(List<Long> waybillIds, String code, Date nowDate);
 }

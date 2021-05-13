@@ -69,4 +69,6 @@ public interface WmsWarehouseExtItemMapper extends BaseMapper<WmsWarehouseExtIte
      * @return
      */
     int batchInsertWmsWarehouseExtItem(List<WmsWarehouseExtItem> batch);
+
+    int batchUpdateWarehouseExtItemStatus(List<Long> itemIds, String status);
 }

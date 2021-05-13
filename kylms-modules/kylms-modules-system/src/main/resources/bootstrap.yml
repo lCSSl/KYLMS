@@ -28,3 +28,7 @@ spring:
           - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
           - application-sharing-jdbc-${spring.profiles.active}.properties
           - application-sharing-jdbc-${spring.application.name}-${spring.profiles.active}.properties
+wx:
+  app-id: wx605fe68d84b1f938
+  appsecret: 53ce4c938625ff597e2eb1628571896f
+

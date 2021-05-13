@@ -14,7 +14,6 @@ import com.kaiyu56.wms.mapper.WmsWarehouseExtItemMapper;
 import com.kaiyu56.wms.service.IWmsWarehouseExtItemService;
 import com.kaiyu56.wms.service.IWmsWaybillMdWarehouseExtItemService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -90,6 +89,7 @@ public class WmsWarehouseExtItemServiceImpl extends ServiceImpl<WmsWarehouseExtI
      * @param wmsWarehouseExtItem 仓库拓展-仓库方格信息
      * @return 仓库拓展-仓库方格信息集合
      */
+    @Override
     public HashMap<String, Object> selectWmsWarehouseExtItemMap(WmsWarehouseExtItem wmsWarehouseExtItem) {
 
         WmsWarehouse wmsWarehouse = wmsWarehouseService.selectWmsWarehouseById(wmsWarehouseExtItem.getWarehouseId());
@@ -168,22 +168,27 @@ public class WmsWarehouseExtItemServiceImpl extends ServiceImpl<WmsWarehouseExtI
 
     @Override
     public int loadWaybill(Long waybillId, WmsWarehouseExtItem wmsWarehouseExtItem) {
-        if (!(StringUtils.isNotNull(waybillId)&&waybillId.compareTo(0L)>0)){
-            log.error("waybillId is no available:{}",waybillId);
+        if (!(StringUtils.isNotNull(waybillId) && waybillId.compareTo(0L) > 0)) {
+            log.error("waybillId is no available:{}", waybillId);
             throw new BaseException("输入信息有误");
         }
         Long itemId = wmsWarehouseExtItem.getItemId();
-        if (!(StringUtils.isNotNull(itemId)&& itemId.compareTo(0L)>0)){
-            log.error("wmsWarehouseExtItem is no available:{}",wmsWarehouseExtItem);
+        if (!(StringUtils.isNotNull(itemId) && itemId.compareTo(0L) > 0)) {
+            log.error("wmsWarehouseExtItem is no available:{}", wmsWarehouseExtItem);
             throw new BaseException("输入信息有误");
         }
         int i = wmsWaybillMdWarehouseExtItemService.insertWmsWaybillMdWarehouseExtItem(new WmsWaybillMdWarehouseExtItem(itemId, waybillId));
-        if (i!=1){
-            log.error("wmsWaybillMdWarehouseExtItemService.insertWmsWaybillMdWarehouseExtItem Affect Rows:{}",i);
+        if (i != 1) {
+            log.error("wmsWaybillMdWarehouseExtItemService.insertWmsWaybillMdWarehouseExtItem Affect Rows:{}", i);
             throw new BaseException();
         }
         wmsWarehouseExtItem.setStatus(WmsExtItemStatus.LOAD.getCode());
         updateWmsWarehouseExtItem(wmsWarehouseExtItem);
-        return wmsWaybillService.saveOrUpdate(new WmsWaybill(waybillId, WmsWaybillStatus.WAREHOUSING.getCode()))?1:0;
+        return wmsWaybillService.saveOrUpdate(new WmsWaybill(waybillId, WmsWaybillStatus.WAREHOUSING.getCode())) ? 1 : 0;
+    }
+
+    @Override
+    public int batchUpdateWarehouseExtItemStatus(List<Long> itemIds, String status) {
+        return baseMapper.batchUpdateWarehouseExtItemStatus(itemIds,status);
     }
 }

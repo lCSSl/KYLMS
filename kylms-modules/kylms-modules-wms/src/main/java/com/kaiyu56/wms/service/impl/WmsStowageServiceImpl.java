@@ -19,18 +19,15 @@ import com.kaiyu56.wms.domain.WmsStowage;
 import com.kaiyu56.wms.domain.WmsStowageRoute;
 import com.kaiyu56.wms.domain.WmsVehicle;
 import com.kaiyu56.wms.domain.vo.WmsStowageVO;
-import com.kaiyu56.wms.enums.WmsStowageRouteStatus;
-import com.kaiyu56.wms.enums.WmsStowageStatus;
-import com.kaiyu56.wms.enums.WmsVehicleStatus;
-import com.kaiyu56.wms.enums.WmsWaybillStatus;
-import com.kaiyu56.wms.enums.vo.driverapp.MissionStatus;
+import com.kaiyu56.wms.enums.*;
 import com.kaiyu56.wms.mapper.WmsStowageMapper;
-import com.kaiyu56.wms.mapper.WmsWarehouseMapper;
 import com.kaiyu56.wms.service.*;
 import lombok.extern.slf4j.Slf4j;
+import org.bouncycastle.util.Longs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -56,6 +53,10 @@ public class WmsStowageServiceImpl extends ServiceImpl<WmsStowageMapper, WmsStow
     private IWmsStowageRouteService stowageRouteService;
     @Autowired
     private IWmsVehicleService vehicleService;
+    @Autowired
+    private IWmsWarehouseExtItemService wmsWarehouseExtItemService;
+    @Autowired
+    private IWmsWaybillMdWarehouseExtItemService wmsWaybillMdWarehouseExtItemService;
 
     /**
      * 查询运单配载
@@ -228,7 +229,18 @@ public class WmsStowageServiceImpl extends ServiceImpl<WmsStowageMapper, WmsStow
                     throw new BaseException("线路参数有误，请检查");
                 }
             });
-            waybillIds.forEach(item -> wmsWaybillService.updateWmsWaybill(new WmsWaybill(item, WmsWaybillStatus.LOADING.getCode())));
+
+            log.warn("forEaching...");
+            List<Long> itemIds = new ArrayList<>(waybillIds.size());
+            waybillIds.forEach(item -> {
+                Long aLong = wmsWaybillMdWarehouseExtItemService.selectItemIdByWaybillId(item);
+                if (StringUtils.isNotNull(aLong) && aLong.compareTo(0L) > 0) {
+                    itemIds.add(aLong);
+                }
+            });
+            wmsWaybillService.batchUpdateWaybillStatus(waybillIds, WmsWaybillStatus.LOADING.getCode(), DateUtils.getNowDate());
+            wmsWarehouseExtItemService.batchUpdateWarehouseExtItemStatus(itemIds, WmsExtItemStatus.LEAVE.getCode());
+            log.warn("...End");
             wmsStowage.setStowageStatus(WmsStowageStatus.STOWAGE.getCode());
             return baseMapper.updateWmsStowage(wmsStowage);
         } else {
@@ -243,6 +255,17 @@ public class WmsStowageServiceImpl extends ServiceImpl<WmsStowageMapper, WmsStow
             if (!(StringUtils.checkLongKey(wmsStowage.getDepartureVehicleId()) && StringUtils.checkLongKey(wmsStowage.getDepartureDriverId()))) {
                 throw new BaseException("配载参数有误");
             }
+            List<Long> waybillIds = stowageMdWaybillService.selectWaybillIdsByStowageId(stowageId);
+            log.warn("forEaching...");
+            List<Long> itemIds = new ArrayList<>(waybillIds.size());
+            waybillIds.forEach(item -> {
+                Long aLong = wmsWaybillMdWarehouseExtItemService.selectItemIdByWaybillId(item);
+                if (StringUtils.isNotNull(aLong) && aLong.compareTo(0L) > 0) {
+                    itemIds.add(aLong);
+                }
+            });
+            wmsWarehouseExtItemService.batchUpdateWarehouseExtItemStatus(itemIds, WmsExtItemStatus.ENABLED.getCode());
+            log.warn("...End");
             wmsStowage.setStowageStatus(WmsStowageStatus.PRE_DEPARTED.getCode());
             return baseMapper.updateWmsStowage(wmsStowage);
         } else {
@@ -254,7 +277,7 @@ public class WmsStowageServiceImpl extends ServiceImpl<WmsStowageMapper, WmsStow
     public int departure(Long stowageId) {
         Long userId = SecurityUtils.getUserId();
         WmsStowage wmsStowage = selectWmsStowageById(stowageId);
-        if (wmsStowage.getDepartureDriverId().compareTo(userId)!=0){
+        if (wmsStowage.getDepartureDriverId().compareTo(userId) != 0) {
             throw new BaseException("操作人有误");
         }
         if (StringUtils.isNotNull(wmsStowage) && WmsStowageStatus.PRE_DEPARTED.getCode().equals(wmsStowage.getStowageStatus())) {
@@ -272,8 +295,9 @@ public class WmsStowageServiceImpl extends ServiceImpl<WmsStowageMapper, WmsStow
     @Override
     public List<WmsStowageVO> getDriverMission(String missionStatus) {
         Long userId = SecurityUtils.getUserId();
-        return baseMapper.selectDriverWmsStowage(userId,null);
+        return baseMapper.selectDriverWmsStowage(userId, null);
     }
+
     @Override
     public WmsStowageVO checkDriverMission(String missionStatus) {
         Long userId = SecurityUtils.getUserId();

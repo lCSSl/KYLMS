@@ -84,4 +84,6 @@ public interface IWmsWarehouseExtItemService extends IService<WmsWarehouseExtIte
     public int batchInsertWmsWarehouseExtItem(List<WmsWarehouseExtItem> batch);
 
     int loadWaybill(Long waybillId,WmsWarehouseExtItem wmsWarehouseExtItem);
+
+    int batchUpdateWarehouseExtItemStatus(List<Long> itemId,String status);
 }

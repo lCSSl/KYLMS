@@ -199,4 +199,11 @@
        #{item.updateTime,jdbcType=TIMESTAMP}, '0')
     </foreach>
   </insert>
+  <update id="batchUpdateWarehouseExtItemStatus" keyColumn="item_id" keyProperty="itemId" parameterType="map">
+    update wms_warehouse_ext_item_batch set status = #{param2,jdbcType=VARCHAR}
+    where item_id in
+    <foreach collection="param1" item="itemId" open="(" separator="," close=")">
+      #{itemId,jdbcType=BIGINT}
+    </foreach>
+  </update>
 </mapper>

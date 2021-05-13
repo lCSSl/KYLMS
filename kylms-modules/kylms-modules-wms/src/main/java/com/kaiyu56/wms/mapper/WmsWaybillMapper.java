@@ -1,5 +1,6 @@
 package com.kaiyu56.wms.mapper;
 
+import java.util.Date;
 import java.util.List;
 
 import com.kaiyu56.wms.api.domain.WmsWaybill;
@@ -41,4 +42,6 @@ public interface WmsWaybillMapper extends BaseMapper<WmsWaybill> {
     public List<WmsWaybillVO> selectWmsWaybillVOListByIds(List<Long> ids);
 
     int insertWmsWaybill(WmsWaybill wmsWaybill);
+
+    int batchUpdateWaybillStatus(List<Long> waybillIds, String code, Date nowDate ,String userName);
 }

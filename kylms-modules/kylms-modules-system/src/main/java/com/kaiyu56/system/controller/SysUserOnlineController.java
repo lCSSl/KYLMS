@@ -63,6 +63,17 @@ public class SysUserOnlineController extends BaseController {
     }
 
     /**
+     * 在线人数
+     * @return
+     */
+    @PreAuthorize(hasPermi = "monitor:online:list")
+    @GetMapping("/count")
+    public AjaxResult count() {
+        Collection<String> keys = redisService.keys(CacheConstants.LOGIN_TOKEN_KEY + "*");
+        return AjaxResult.success(keys.size());
+    }
+
+    /**
      * 强退用户
      */
     @PreAuthorize(hasPermi = "monitor:online:forceLogout")

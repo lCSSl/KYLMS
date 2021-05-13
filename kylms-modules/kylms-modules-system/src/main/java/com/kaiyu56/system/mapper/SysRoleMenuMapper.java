@@ -9,8 +9,7 @@ import com.kaiyu56.system.domain.SysRoleMenu;
  *
  * @author css
  */
-public interface SysRoleMenuMapper
-{
+public interface SysRoleMenuMapper {
     /**
      * 查询菜单使用数量
      *

@@ -59,4 +59,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+
+    <select id="selectItemIdByWaybillId" resultType="java.lang.Long">
+        select item_id from wms_waybill_md_warehouse_ext_item where waybill_id = #{waybillId,jdbcType=BIGINT};
+    </select>
 </mapper>

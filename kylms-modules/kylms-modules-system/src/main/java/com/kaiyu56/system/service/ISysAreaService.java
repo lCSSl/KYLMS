@@ -19,6 +19,7 @@ public interface ISysAreaService {
      * @return 行政区
      */
     public SysArea selectSysAreaById(Long id);
+
     /**
      * 查询行政区单个树
      *

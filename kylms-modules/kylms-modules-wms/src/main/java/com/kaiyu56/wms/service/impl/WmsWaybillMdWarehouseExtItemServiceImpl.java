@@ -84,4 +84,9 @@ public class WmsWaybillMdWarehouseExtItemServiceImpl implements IWmsWaybillMdWar
     public int deleteWmsWaybillMdWarehouseExtItemById(Long id) {
         return wmsWaybillMdWarehouseExtItemMapper.deleteWmsWaybillMdWarehouseExtItemById(id);
     }
+
+    @Override
+    public Long selectItemIdByWaybillId(Long waybillId) {
+        return wmsWaybillMdWarehouseExtItemMapper.selectItemIdByWaybillId(waybillId);
+    }
 }

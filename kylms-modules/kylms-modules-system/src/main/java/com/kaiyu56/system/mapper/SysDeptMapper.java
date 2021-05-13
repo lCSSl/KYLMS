@@ -11,8 +11,7 @@ import com.kaiyu56.system.api.domain.SysDept;
  *
  * @author css
  */
-public interface SysDeptMapper
-{
+public interface SysDeptMapper {
     /**
      * 查询部门管理数据
      *
@@ -24,7 +23,7 @@ public interface SysDeptMapper
     /**
      * 根据角色ID查询部门树信息
      *
-     * @param roleId 角色ID
+     * @param roleId            角色ID
      * @param deptCheckStrictly 部门树选择项是否关联显示
      * @return 选中部门列表
      */
@@ -37,6 +36,7 @@ public interface SysDeptMapper
      * @return 部门信息
      */
     public SysDept selectDeptById(Long deptId);
+
     /**
      * 根据部门ID查询部门名
      *
@@ -124,5 +124,6 @@ public interface SysDeptMapper
      * @return 结果
      */
     public int deleteDeptById(Long deptId);
+
     public int countDeptByName(@Param("deptName") String deptName);
 }

@@ -1188,4 +1188,15 @@
       #{waybillId}
     </foreach>
   </delete>
+
+    <update id="batchUpdateWaybillStatus" keyColumn="item_id" keyProperty="itemId" parameterType="map">
+        update wms_waybill set
+        waybill_status = #{param2,jdbcType=VARCHAR},
+        update_time = #{param3,jdbcType=TIMESTAMP},
+        update_by = #{param4,jdbcType=VARCHAR}
+        where waybill_id in
+        <foreach collection="param1" item="itemId" open="(" separator="," close=")">
+            #{itemId,jdbcType=BIGINT}
+        </foreach>
+    </update>
 </mapper>

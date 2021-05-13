@@ -69,5 +69,6 @@ public interface SysAreaMapper {
     public int deleteSysAreaByIds(Long[] ids);
 
     SysArea selectSysAreaByCode(Long code);
+
     String selectSysAreaNameByCode(Long code);
 }

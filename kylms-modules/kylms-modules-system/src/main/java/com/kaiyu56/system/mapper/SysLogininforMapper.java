@@ -1,6 +1,7 @@
 package com.kaiyu56.system.mapper;
 
 import java.util.List;
+
 import com.kaiyu56.system.domain.SysLogininfor;
 
 /**
@@ -8,8 +9,7 @@ import com.kaiyu56.system.domain.SysLogininfor;
  *
  * @author css
  */
-public interface SysLogininforMapper
-{
+public interface SysLogininforMapper {
     /**
      * 新增系统登录日志
      *

@@ -11,8 +11,7 @@ import com.kaiyu56.system.domain.SysMenu;
  *
  * @author css
  */
-public interface SysMenuMapper
-{
+public interface SysMenuMapper {
     /**
      * 查询系统菜单列表
      *
@@ -62,7 +61,7 @@ public interface SysMenuMapper
     /**
      * 根据角色ID查询菜单树信息
      *
-     * @param roleId 角色ID
+     * @param roleId            角色ID
      * @param menuCheckStrictly 菜单树选择项是否关联显示
      * @return 选中菜单列表
      */

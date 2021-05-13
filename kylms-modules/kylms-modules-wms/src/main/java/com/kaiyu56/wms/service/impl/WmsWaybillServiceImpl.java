@@ -1,6 +1,7 @@
 package com.kaiyu56.wms.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -111,4 +112,8 @@ public class WmsWaybillServiceImpl extends ServiceImpl<WmsWaybillMapper, WmsWayb
         return null;
     }
 
+    @Override
+    public int batchUpdateWaybillStatus(List<Long> waybillIds, String code, Date nowDate) {
+        return baseMapper.batchUpdateWaybillStatus(waybillIds,code,nowDate,SecurityUtils.getUsername());
+    }
 }

@@ -11,8 +11,7 @@ import com.kaiyu56.system.domain.SysUserRole;
  *
  * @author css
  */
-public interface SysUserRoleMapper
-{
+public interface SysUserRoleMapper {
     /**
      * 通过用户ID删除用户和角色关联
      *
@@ -56,11 +55,11 @@ public interface SysUserRoleMapper
     /**
      * 批量取消授权用户角色
      *
-     * @param roleId 角色ID
+     * @param roleId  角色ID
      * @param userIds 需要删除的用户数据ID
      * @return 结果
      */
     public int deleteUserRoleInfos(@Param("roleId") Long roleId, @Param("userIds") Long[] userIds);
 
-    public List<Long> getUserIdsByRoleId(Long postId,List<Long> userIds);
+    public List<Long> getUserIdsByRoleId(Long postId, List<Long> userIds);
 }

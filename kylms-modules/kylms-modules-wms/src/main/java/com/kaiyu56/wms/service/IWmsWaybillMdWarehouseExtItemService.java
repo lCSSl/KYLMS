@@ -58,4 +58,6 @@ public interface IWmsWaybillMdWarehouseExtItemService
      * @return 结果
      */
     public int deleteWmsWaybillMdWarehouseExtItemById(Long id);
+
+    Long selectItemIdByWaybillId(Long waybillId);
 }

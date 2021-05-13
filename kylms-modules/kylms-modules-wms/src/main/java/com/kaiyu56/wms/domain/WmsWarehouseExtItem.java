@@ -67,68 +67,9 @@ public class WmsWarehouseExtItem extends BaseEntity {
     public WmsWarehouseExtItem(Long warehouseId) {
         this.warehouseId = warehouseId;
     }
-    public void setItemId(Long itemId) {
+
+    public WmsWarehouseExtItem(Long itemId,String status) {
         this.itemId = itemId;
-    }
-
-    public Long getItemId() {
-        return itemId;
-    }
-
-    public void setWarehouseId(Long warehouseId) {
-        this.warehouseId = warehouseId;
-    }
-
-    public Long getWarehouseId() {
-        return warehouseId;
-    }
-
-    public void setItemX(Long itemX) {
-        this.itemX = itemX;
-    }
-
-    public Long getItemX() {
-        return itemX;
-    }
-
-    public void setItemY(Long itemY) {
-        this.itemY = itemY;
-    }
-
-    public Long getItemY() {
-        return itemY;
-    }
-
-    public void setStatus(String status) {
         this.status = status;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setDelFlag(String delFlag) {
-        this.delFlag = delFlag;
-    }
-
-    public String getDelFlag() {
-        return delFlag;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("itemId", getItemId())
-                .append("warehouseId", getWarehouseId())
-                .append("itemX", getItemX())
-                .append("itemY", getItemY())
-                .append("status", getStatus())
-                .append("delFlag", getDelFlag())
-                .append("createBy", getCreateBy())
-                .append("createTime", getCreateTime())
-                .append("updateBy", getUpdateBy())
-                .append("updateTime", getUpdateTime())
-                .append("remark", getRemark())
-                .toString();
     }
 }

@@ -9,8 +9,7 @@ import com.kaiyu56.system.domain.SysNotice;
  *
  * @author css
  */
-public interface SysNoticeMapper
-{
+public interface SysNoticeMapper {
     /**
      * 查询公告信息
      *

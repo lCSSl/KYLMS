@@ -106,8 +106,9 @@ public class WmsCargoTempServiceImpl extends ServiceImpl<WmsCargoTempMapper, Wms
 
         });
         log.error("{}", insertList);
-        if (insertList.size() > 0)
+        if (insertList.size() > 0) {
             baseMapper.batchInsertCargoTemp(insertList);
+        }
         return wmsCargoTempSet.size();
     }
 
