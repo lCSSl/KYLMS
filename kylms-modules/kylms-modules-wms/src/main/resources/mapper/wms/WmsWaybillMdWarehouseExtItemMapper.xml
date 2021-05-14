@@ -63,4 +63,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectItemIdByWaybillId" resultType="java.lang.Long">
         select item_id from wms_waybill_md_warehouse_ext_item where waybill_id = #{waybillId,jdbcType=BIGINT};
     </select>
+    <delete id="batchDeleteByWaybillIds">
+        delete from wms_waybill_md_warehouse_ext_item where waybill_id in
+        <foreach item="id" collection="collection" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>

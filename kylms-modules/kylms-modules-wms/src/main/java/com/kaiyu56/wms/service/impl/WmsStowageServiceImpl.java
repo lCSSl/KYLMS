@@ -265,6 +265,7 @@ public class WmsStowageServiceImpl extends ServiceImpl<WmsStowageMapper, WmsStow
                 }
             });
             wmsWarehouseExtItemService.batchUpdateWarehouseExtItemStatus(itemIds, WmsExtItemStatus.ENABLED.getCode());
+            wmsWaybillMdWarehouseExtItemService.batchDeleteByWaybillIds(waybillIds);
             log.warn("...End");
             wmsStowage.setStowageStatus(WmsStowageStatus.PRE_DEPARTED.getCode());
             return baseMapper.updateWmsStowage(wmsStowage);

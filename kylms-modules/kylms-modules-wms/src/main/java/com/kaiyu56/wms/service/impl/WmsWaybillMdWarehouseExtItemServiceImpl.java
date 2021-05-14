@@ -89,4 +89,9 @@ public class WmsWaybillMdWarehouseExtItemServiceImpl implements IWmsWaybillMdWar
     public Long selectItemIdByWaybillId(Long waybillId) {
         return wmsWaybillMdWarehouseExtItemMapper.selectItemIdByWaybillId(waybillId);
     }
+
+    @Override
+    public void batchDeleteByWaybillIds(List<Long> waybillIds) {
+        wmsWaybillMdWarehouseExtItemMapper.batchDeleteByWaybillIds(waybillIds);
+    }
 }

@@ -60,4 +60,6 @@ public interface IWmsWaybillMdWarehouseExtItemService
     public int deleteWmsWaybillMdWarehouseExtItemById(Long id);
 
     Long selectItemIdByWaybillId(Long waybillId);
+
+    void batchDeleteByWaybillIds(List<Long> waybillIds);
 }
