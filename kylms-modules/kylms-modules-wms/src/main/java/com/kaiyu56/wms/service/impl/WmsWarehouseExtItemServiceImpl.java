@@ -184,7 +184,15 @@ public class WmsWarehouseExtItemServiceImpl extends ServiceImpl<WmsWarehouseExtI
         }
         wmsWarehouseExtItem.setStatus(WmsExtItemStatus.LOAD.getCode());
         updateWmsWarehouseExtItem(wmsWarehouseExtItem);
-        return wmsWaybillService.saveOrUpdate(new WmsWaybill(waybillId, WmsWaybillStatus.WAREHOUSING.getCode())) ? 1 : 0;
+        WmsWaybill wmsWaybill = wmsWaybillService.selectWmsWaybillById(waybillId);
+        String waybillStatus = wmsWaybill.getWaybillStatus();
+        if (WmsWaybillStatus.NEW.getCode().equals(waybillStatus)) {
+            return wmsWaybillService.saveOrUpdate(new WmsWaybill(waybillId, WmsWaybillStatus.WAREHOUSING.getCode())) ? 1 : 0;
+        }
+        if (WmsWaybillStatus.ARRIVAL.getCode().equals(waybillStatus)) {
+            return wmsWaybillService.saveOrUpdate(new WmsWaybill(waybillId, WmsWaybillStatus.ARRIVAL_WAREHOUSING.getCode())) ? 1 : 0;
+        }
+        return 0;
     }
 
     @Override

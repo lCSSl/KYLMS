@@ -19,6 +19,7 @@ public enum WmsWaybillStatus implements BaseEnum {
     DEPARTURE_AG("9", "又发"),
     TRANSIT("11", "中转"),
     ARRIVAL("13", "到货"),
+    ARRIVAL_WAREHOUSING("14", "到货入库"),
     DELIVERY("15", "送货"),
     ARRIVAL_AG("17", "又到");
 

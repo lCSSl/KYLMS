@@ -133,4 +133,14 @@ public class WmsWaybillController extends BaseController {
     public AjaxResult getPrintData(@PathVariable Long waybillId) {
         return AjaxResult.success(wmsWaybillService.getPrintData(waybillId));
     }
+
+    /**
+     * 签收运单
+     */
+    @PreAuthorize(hasPermi = "wms:waybill:edit")
+    @Log(title = "运单信息", businessType = BusinessType.UPDATE)
+    @PutMapping("/signFor/{waybillId}")
+    public AjaxResult signFor(@PathVariable Long waybillId) {
+        return AjaxResult.success(wmsWaybillService.signFor(waybillId));
+    }
 }

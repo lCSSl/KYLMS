@@ -131,7 +131,7 @@ public class WmsWarehouseExtItemController extends BaseController {
      */
     @PreAuthorize(hasPermi = "wms:WmsWarehouseExtItem:edit")
     @Log(title = "仓库拓展-仓库方格信息", businessType = BusinessType.UPDATE)
-    @PutMapping("/loadWaybill/{waybillId}")
+    @PutMapping("/loadWaybill/{waybillId}/")
     public AjaxResult loadWaybill(@PathVariable Long waybillId, @RequestBody WmsWarehouseExtItem wmsWarehouseExtItem) {
         return toAjax(wmsWarehouseExtItemService.loadWaybill(waybillId,wmsWarehouseExtItem));
     }

@@ -9,6 +9,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
+import com.kaiyu56.common.core.exception.BaseException;
 import com.kaiyu56.common.core.utils.SecurityUtils;
 import com.kaiyu56.common.core.utils.StringUtils;
 import com.kaiyu56.system.api.RemoteUserService;
@@ -39,6 +40,7 @@ public class WmsWaybillServiceImpl extends ServiceImpl<WmsWaybillMapper, WmsWayb
     private RemoteUserService remoteUserService;
     @Autowired
     private IWmsStowageMdWaybillService wmsStowageMdWaybillService;
+
     /**
      * 查询运单信息主
      *
@@ -69,7 +71,7 @@ public class WmsWaybillServiceImpl extends ServiceImpl<WmsWaybillMapper, WmsWayb
     @Override
     public List<WmsWaybillVO> selectWmsWaybillVOList(Long routeId) {
         List<Long> waybillIds = wmsStowageMdWaybillService.selectWaybillIdsByRouteId(routeId);
-        if (waybillIds.size()<=0){
+        if (waybillIds.size() <= 0) {
             return new ArrayList<>();
         }
         return selectWmsWaybillVOListByIds(waybillIds);
@@ -85,16 +87,17 @@ public class WmsWaybillServiceImpl extends ServiceImpl<WmsWaybillMapper, WmsWayb
         wmsWaybill.setWaybillStatus(WmsWaybillStatus.NEW.getCode());
         return baseMapper.insertWmsWaybill(wmsWaybill);
     }
+
     @Override
     public WmsWaybill updateWmsWaybill(WmsWaybill wmsWaybill) {
         LoginUser data = remoteUserService.getUserInfo(SecurityUtils.getUsername()).getData();
         SysUser sysUser = data.getSysUser();
-        if(!sysUser.getDeptId().equals(wmsWaybill.getDeptId())){
-            log.warn("change DeptId {}--->{}",wmsWaybill.getDeptId(), sysUser.getDeptId());
+        if (!sysUser.getDeptId().equals(wmsWaybill.getDeptId())) {
+            log.warn("change DeptId {}--->{}", wmsWaybill.getDeptId(), sysUser.getDeptId());
             wmsWaybill.setDeptId(sysUser.getDeptId());
         }
-        if (!sysUser.getUserId().equals(wmsWaybill.getDrawerId())){
-            log.warn("change DrawerId {}--->{}",wmsWaybill.getDrawerId(), sysUser.getUserId());
+        if (!sysUser.getUserId().equals(wmsWaybill.getDrawerId())) {
+            log.warn("change DrawerId {}--->{}", wmsWaybill.getDrawerId(), sysUser.getUserId());
             wmsWaybill.setDrawerId(sysUser.getUserId());
             wmsWaybill.setDrawerName(sysUser.getNickName());
         }
@@ -114,6 +117,17 @@ public class WmsWaybillServiceImpl extends ServiceImpl<WmsWaybillMapper, WmsWayb
 
     @Override
     public int batchUpdateWaybillStatus(List<Long> waybillIds, String code, Date nowDate) {
-        return baseMapper.batchUpdateWaybillStatus(waybillIds,code,nowDate,SecurityUtils.getUsername());
+        return baseMapper.batchUpdateWaybillStatus(waybillIds, code, nowDate, SecurityUtils.getUsername());
+    }
+
+    @Override
+    public int signFor(Long waybillId) {
+        WmsWaybill wmsWaybill = baseMapper.selectWmsWaybillById(waybillId);
+        if (WmsWaybillStatus.ARRIVAL_WAREHOUSING.getCode().equals(wmsWaybill.getWaybillStatus())) {
+            wmsWaybill.setWaybillStatus(WmsWaybillStatus.SIGN_FOR.getCode());
+            return saveOrUpdate(wmsWaybill) ? 1 : 0;
+        } else {
+            throw new BaseException("运单状态有误");
+        }
     }
 }

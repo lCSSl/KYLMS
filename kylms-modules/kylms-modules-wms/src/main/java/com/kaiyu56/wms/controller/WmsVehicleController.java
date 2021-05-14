@@ -108,7 +108,7 @@ public class WmsVehicleController extends BaseController {
     }
 
     /**
-     * 获取车辆定位
+     * 更新车辆定位
      */
     @PreAuthorize(hasPermi = "wms:WmsVehicle:query")
     @PutMapping("/updateLocation")

@@ -40,4 +40,6 @@ public interface IWmsWaybillService extends IService<WmsWaybill> {
     Object getPrintData(Long waybillId);
 
     int batchUpdateWaybillStatus(List<Long> waybillIds, String code, Date nowDate);
+
+    int signFor(Long waybillId);
 }
