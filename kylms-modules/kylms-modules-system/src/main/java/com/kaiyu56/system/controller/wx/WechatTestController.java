@@ -24,10 +24,6 @@ public class WechatTestController extends BaseController {
 
     @RequestMapping(value = "/getWechatToken")
     public void get(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-
-        System.out.println("========WechatController========= ");
-
         Enumeration pNames = request.getParameterNames();
         while (pNames.hasMoreElements()) {
             String name = (String) pNames.nextElement();

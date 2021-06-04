@@ -1,5 +1,6 @@
 package com.kaiyu56.system;
 
+import com.alipay.api.DefaultAlipayClient;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
