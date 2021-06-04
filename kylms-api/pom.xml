@@ -11,33 +11,11 @@
   <modules>
     <module>kylms-api-system</module>
     <module>kylms-api-wms</module>
+    <module>kylms-api-wechat</module>
   </modules>
 
   <artifactId>kylms-api</artifactId>
   <packaging>pom</packaging>
-
-  <dependencies>
-    <dependency>
-      <groupId>com.github.binarywang</groupId>
-      <artifactId>weixin-java-mp</artifactId>
-      <version>4.0.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.github.binarywang</groupId>
-      <artifactId>weixin-java-miniapp</artifactId>
-      <version>4.0.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.github.binarywang</groupId>
-      <artifactId>weixin-java-pay</artifactId>
-      <version>4.0.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.github.binarywang</groupId>
-      <artifactId>weixin-java-open</artifactId>
-      <version>4.0.0</version>
-    </dependency>
-  </dependencies>
   <description>
     kylms-api系统接口
   </description>

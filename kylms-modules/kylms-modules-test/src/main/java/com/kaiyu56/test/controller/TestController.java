@@ -2,7 +2,7 @@ package com.kaiyu56.test.controller;
 
 import com.kaiyu56.common.core.utils.SignUtils;
 import com.kaiyu56.common.core.web.controller.BaseController;
-import groovy.util.logging.Slf4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,30 +19,33 @@ import java.util.Enumeration;
  */
 @Slf4j
 @RestController
-@RequestMapping("/test")
+@RequestMapping("/api/wechat")
 public class TestController extends BaseController {
-    private static String WECHAT_TOKEN = "KY56";
+    private static final String WECHAT_TOKEN = "KY56";
 
     @RequestMapping(value = "/getWechatToken")
     public void get(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-//        Enumeration pNames = request.getParameterNames();
-//        while (pNames.hasMoreElements()) {
-//            String name = (String) pNames.nextElement();
-//            String value = request.getParameter(name);
-//            // out.print(name + "=" + value);
-//            log.error("name =" + name + "     value =" + value);
-//        }
-//
-//        String signature = request.getParameter("signature");/// 微信加密签名
-//        String timestamp = request.getParameter("timestamp");/// 时间戳
-//        String nonce = request.getParameter("nonce"); /// 随机数
-//        String echostr = request.getParameter("echostr"); // 随机字符串
-//        PrintWriter out = response.getWriter();
-//
-//        if (SignUtils.checkSignature(signature, timestamp, nonce)) {
-//            out.print(echostr);
-//        }
-//        out.close();
+        Enumeration pNames = request.getParameterNames();
+        while (pNames.hasMoreElements()) {
+            String name = (String) pNames.nextElement();
+            String value = request.getParameter(name);
+            // out.print(name + "=" + value);
+            log.error("name =" + name + "     value =" + value);
+        }
+        String signature = request.getParameter("signature");/// 微信加密签名
+        String timestamp = request.getParameter("timestamp");/// 时间戳
+        String nonce = request.getParameter("nonce"); /// 随机数
+        String echostr = request.getParameter("echostr"); // 随机字符串
+        PrintWriter out = response.getWriter();
+        log.error("signature =" + signature);
+        log.error("timestamp =" + timestamp);
+        log.error("nonce =" + nonce);
+        log.error("echostr =" + echostr);
+
+        if (SignUtils.checkSignature(signature, timestamp, nonce)) {
+            out.print(echostr);
+        }
+        out.close();
     }
 }
