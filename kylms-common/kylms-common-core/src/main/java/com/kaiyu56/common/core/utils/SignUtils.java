@@ -9,7 +9,7 @@ import java.util.Arrays;
  * @date 2021/5/10
  */
 public class SignUtils {
-    private final static String token = "kylms";
+    private final static String token = "KY56";
 
     /**
      * 校验签名
@@ -20,8 +20,8 @@ public class SignUtils {
         // 将token、timestamp、nonce三个参数进行字典序排序
         Arrays.sort(arr);
         StringBuilder content = new StringBuilder();
-        for (int i = 0; i < arr.length; i++) {
-            content.append(arr[i]);
+        for (String s : arr) {
+            content.append(s);
         }
         MessageDigest md = null;
         String tmpStr = null;

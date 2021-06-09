@@ -1,0 +1,15 @@
+wx:
+  mp:
+    useRedis: false
+    redisConfig:
+      host: server.kaiyu.work
+      port: 6379
+    configs:
+      - appId: wxca38bc1cea4117b8 # 第一个公众号的AppId
+        secret: e6a30c81826d7b93ec69327a1a986677 # 公众号的AppSecret
+        token: KY56 # 接口配置里的Token值
+        aesKey: jbzpmJInZrwnTH2a0Gr74rk7XrCl4CeVa9c1r3lAxo6 # 接口配置里的EncodingAESKey值
+      - appId: wxca38bc1cea4117b8 # 第一个公众号的AppId
+        secret: e6a30c81826d7b93ec69327a1a986677 # 公众号的AppSecret
+        token: KY56 # 接口配置里的Token值
+        aesKey: jbzpmJInZrwnTH2a0Gr74rk7XrCl4CeVa9c1r3lAxo6 # 接口配置里的EncodingAESKey值

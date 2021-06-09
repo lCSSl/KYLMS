@@ -4,17 +4,6 @@ server:
 
 # Spring
 spring:
-  redis:
-    host: server.kaiyu.work
-    port: 6370
-    password:
-    lettuce:
-      pool:
-        max-idle: 30
-        max-active: 100
-        min-idle: 10
-        max-wait: 10000
-    timeout:
   application:
     # 应用名称
     name: kylms-gateway

@@ -1,15 +1,20 @@
 package com.kaiyu56.test.controller;
 
-import com.kaiyu56.common.core.utils.SignUtils;
 import com.kaiyu56.common.core.web.controller.BaseController;
+import com.kaiyu56.test.config.WxMpConfiguration;
+import com.kaiyu56.test.config.WxMpProperties;
 import lombok.extern.slf4j.Slf4j;
+import me.chanjar.weixin.common.util.crypto.SHA1;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
-import java.util.Enumeration;
 
 /**
  * 测试Controller
@@ -20,32 +25,35 @@ import java.util.Enumeration;
 @Slf4j
 @RestController
 @RequestMapping("/api/wechat")
-public class TestController extends BaseController {
-    private static final String WECHAT_TOKEN = "KY56";
+public class TestController extends BaseController{
 
-    @RequestMapping(value = "/getWechatToken")
-    public void get(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    private final static String WECHAT_TOKEN = "KY56";
 
-        Enumeration pNames = request.getParameterNames();
-        while (pNames.hasMoreElements()) {
-            String name = (String) pNames.nextElement();
-            String value = request.getParameter(name);
-            // out.print(name + "=" + value);
-            log.error("name =" + name + "     value =" + value);
+    @Autowired
+    private WxMpConfiguration wxMpConfiguration;
+
+    @RequestMapping(value = "/{appId}/checkServer")
+    public void checkServer(@PathVariable("appId")String appId, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String signature = request.getParameter("signature");
+        String timestamp = request.getParameter("timestamp");
+        String nonce = request.getParameter("nonce");
+        String echostr = request.getParameter("echostr");
+        String encryption = "";
+        try {
+            encryption = SHA1.gen(WECHAT_TOKEN, timestamp, nonce);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            log.error(e.getMessage());
         }
-        String signature = request.getParameter("signature");/// 微信加密签名
-        String timestamp = request.getParameter("timestamp");/// 时间戳
-        String nonce = request.getParameter("nonce"); /// 随机数
-        String echostr = request.getParameter("echostr"); // 随机字符串
+        log.info("wxMpConfiguration:{}", wxMpConfiguration);
+        log.info("加密:{}", encryption);
+        log.info("本身:{}", signature);
         PrintWriter out = response.getWriter();
-        log.error("signature =" + signature);
-        log.error("timestamp =" + timestamp);
-        log.error("nonce =" + nonce);
-        log.error("echostr =" + echostr);
-
-        if (SignUtils.checkSignature(signature, timestamp, nonce)) {
-            out.print(echostr);
+        if (!encryption.equals(signature)) {
+            return;
         }
+        out.print(echostr);
         out.close();
     }
+
 }

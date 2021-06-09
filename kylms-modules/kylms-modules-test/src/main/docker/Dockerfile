@@ -1,6 +1,7 @@
 # 指定基础镜像
 # 你的开发环境是jdk8,就使用下面命令
-FROM openjdk:8-jdk-alpine
+#FROM openjdk:8-jdk-alpine
+FROM adoptopenjdk/openjdk11:jdk-11.0.10_9-alpine-slim
 # openjdk9 在18年3月分开始不支持了, 支持从11开始，如果说你使用jdk1.9，则使用jdk14
 #FROM openjdk:14.0-jdk
 
@@ -10,11 +11,11 @@ VOLUME /tmp
 # 环境变量
 # 在创建容器时使用 -e 可改变值，如 -e NACOS_SERVER_ADDR=wsl.kaiyu.work:8848 -e SPRING_PROFILES_ACTIVE=dev
 # nacos服务器地址
-ENV NACOS_SERVER_ADDR=wsl.kaiyu.work:8848
+ENV NACOS_SERVER_ADDR=server.kaiyu.work:8848
 # 项目环境变量
 ENV SPRING_PROFILES_ACTIVE=prod
+ENV PROD_NAMESPACE=c61f6dba-3740-4217-b26e-0b51b576a9d4
 ENV SERVER_PORT=80
-
 # 复制文件
 ADD *.jar app.jar
 
@@ -22,5 +23,7 @@ ADD *.jar app.jar
 ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar", \
     "-Dspring.cloud.nacos.discovery.serverAddr=${NACOS_SERVER_ADDR}", \
     "-Dserver.port=${SERVER_PORT}", \
+    "-Dspring.cloud.nacos.discovery.namespace=${PROD_NAMESPACE}", \
+    "-Dspring.cloud.nacos.config.namespace=${PROD_NAMESPACE}", \
     "-Dspring.cloud.nacos.config.serverAddr=${NACOS_SERVER_ADDR}", \
     "-Dspring.profiles.active=${SPRING_PROFILES_ACTIVE}", "/app.jar"]
