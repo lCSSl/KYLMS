@@ -1,6 +1,6 @@
-package com.kaiyu56.test.handler;
+package com.kaiyu56.wechat.api.handler;
 
-import com.kaiyu56.test.builder.TextBuilder;
+import com.kaiyu56.wechat.api.builder.TextBuilder;
 import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;

@@ -249,6 +249,7 @@ public class ReflectUtils {
     public static void makeAccessible(Method method) {
         if ((!Modifier.isPublic(method.getModifiers()) || !Modifier.isPublic(method.getDeclaringClass().getModifiers()))
                 && !method.canAccess(null)) {
+            //jdk1.8 method.isAccessible()
             method.setAccessible(true);
         }
     }

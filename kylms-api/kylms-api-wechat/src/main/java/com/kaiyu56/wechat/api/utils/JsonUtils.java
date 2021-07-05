@@ -1,4 +1,4 @@
-package com.kaiyu56.test.utils;
+package com.kaiyu56.wechat.api.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

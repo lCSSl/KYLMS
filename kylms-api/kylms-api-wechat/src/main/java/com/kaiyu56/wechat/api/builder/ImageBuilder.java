@@ -1,4 +1,4 @@
-package com.kaiyu56.test.builder;
+package com.kaiyu56.wechat.api.builder;
 
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;

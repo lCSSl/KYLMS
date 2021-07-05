@@ -1,6 +1,5 @@
-package com.kaiyu56.test.handler;
+package com.kaiyu56.wechat.api.handler;
 
-import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
@@ -13,12 +12,13 @@ import java.util.Map;
  * @author Binary Wang(https://github.com/binarywang)
  */
 @Component
-public class ScanHandler extends AbstractHandler {
+public class NullHandler extends AbstractHandler {
 
     @Override
-    public WxMpXmlOutMessage handle(WxMpXmlMessage wxMpXmlMessage, Map<String, Object> map,
-                                    WxMpService wxMpService, WxSessionManager wxSessionManager) throws WxErrorException {
-        // 扫码事件处理
+    public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage,
+                                    Map<String, Object> context, WxMpService wxMpService,
+                                    WxSessionManager sessionManager) {
         return null;
     }
+
 }

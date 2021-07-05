@@ -1,4 +1,4 @@
-package com.kaiyu56.test.error;
+package com.kaiyu56.wechat.api.error;
 
 import org.springframework.boot.web.server.ErrorPage;
 import org.springframework.boot.web.server.ErrorPageRegistrar;

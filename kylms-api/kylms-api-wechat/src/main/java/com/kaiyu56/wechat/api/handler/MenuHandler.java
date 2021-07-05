@@ -1,4 +1,4 @@
-package com.kaiyu56.test.handler;
+package com.kaiyu56.wechat.api.handler;
 
 import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.mp.api.WxMpService;

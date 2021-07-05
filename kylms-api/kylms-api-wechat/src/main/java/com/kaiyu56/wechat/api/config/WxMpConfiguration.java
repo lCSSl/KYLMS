@@ -1,7 +1,8 @@
-package com.kaiyu56.test.config;
+package com.kaiyu56.wechat.api.config;
 
-import com.kaiyu56.test.handler.*;
+import com.kaiyu56.wechat.api.handler.*;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.ToString;
 import me.chanjar.weixin.common.redis.JedisWxRedisOps;
 import me.chanjar.weixin.mp.api.WxMpMessageRouter;

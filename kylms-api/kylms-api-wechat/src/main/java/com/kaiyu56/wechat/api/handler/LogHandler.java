@@ -1,5 +1,6 @@
-package com.kaiyu56.test.handler;
+package com.kaiyu56.wechat.api.handler;
 
+import com.kaiyu56.wechat.api.utils.JsonUtils;
 import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
@@ -12,15 +13,12 @@ import java.util.Map;
  * @author Binary Wang(https://github.com/binarywang)
  */
 @Component
-public class UnsubscribeHandler extends AbstractHandler {
-
+public class LogHandler extends AbstractHandler {
     @Override
     public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage,
                                     Map<String, Object> context, WxMpService wxMpService,
                                     WxSessionManager sessionManager) {
-        String openId = wxMessage.getFromUser();
-        this.logger.info("取消关注用户 OPENID: " + openId);
-        // TODO 可以更新本地数据库为取消关注状态
+        this.logger.info("\n接收到请求消息，内容：{}", JsonUtils.toJson(wxMessage));
         return null;
     }
 

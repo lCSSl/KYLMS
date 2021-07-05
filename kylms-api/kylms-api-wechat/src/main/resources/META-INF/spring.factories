@@ -1,0 +1,12 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.kaiyu56.wechat.api.config.WxMpConfiguration,\
+  com.kaiyu56.wechat.api.handler.KfSessionHandler,\
+  com.kaiyu56.wechat.api.handler.LocationHandler,\
+  com.kaiyu56.wechat.api.handler.LogHandler,\
+  com.kaiyu56.wechat.api.handler.MenuHandler,\
+  com.kaiyu56.wechat.api.handler.MsgHandler,\
+  com.kaiyu56.wechat.api.handler.NullHandler,\
+  com.kaiyu56.wechat.api.handler.ScanHandler,\
+  com.kaiyu56.wechat.api.handler.StoreCheckNotifyHandler,\
+  com.kaiyu56.wechat.api.handler.SubscribeHandler,\
+  com.kaiyu56.wechat.api.handler.UnsubscribeHandler

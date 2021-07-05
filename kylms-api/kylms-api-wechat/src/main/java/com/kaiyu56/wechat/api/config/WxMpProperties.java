@@ -1,9 +1,8 @@
-package com.kaiyu56.test.config;
+package com.kaiyu56.wechat.api.config;
 
-import com.kaiyu56.test.utils.JsonUtils;
+import com.kaiyu56.wechat.api.utils.JsonUtils;
 import lombok.*;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
